@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Illia Ushanau — AI Creative Automation</title>
+<meta name="description" content="Illia Ushanau — AI Creative Automation Engineer. Generative AI pipelines for image and video: ComfyUI, n8n, model APIs.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ef;--bg2:#ebe9e3;--card:#fbfaf7;--ink:#1c1d1b;--muted:#5f645c;--faint:#a3a69d;--line:#dad9d0;--accent:#3d6b55;--accent2:#6f9a83;--accent-soft:#e2eae4;--navbg:rgba(244,243,239,.84);--shadow:0 1px 2px rgba(20,30,20,.05),0 10px 30px rgba(20,40,30,.07);--ht-bg:#f4f3ef;--ht-ink:#1d1f1c;
+  --mono:"JetBrains Mono",Consolas,ui-monospace,monospace;--sans:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--navbg:rgba(17,19,17,.82);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);--ht-bg:#111311;--ht-ink:#e6e8e2;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--navbg:rgba(17,19,17,.82);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);--ht-bg:#111311;--ht-ink:#e6e8e2;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.label{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--accent);font-weight:500}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:var(--navbg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:22px;height:56px}
+.logo{font:500 14px var(--mono);color:var(--ink);text-decoration:none}
+.logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px var(--accent-soft)}
+.nav nav{display:flex;gap:18px;margin-left:auto}
+.nav nav a{color:var(--muted);text-decoration:none;font:13px var(--mono);letter-spacing:.04em}
+.nav nav a:hover{color:var(--ink)}
+.tg{display:flex;gap:4px}
+.tg button{font:12px var(--mono);letter-spacing:.06em;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:5px 9px;cursor:pointer}
+.tg button.on{color:var(--accent);border-color:var(--accent)}
+@media (max-width:760px){.nav nav{display:none}.tg{margin-left:auto}}
+
+/* hero */
+.hero{position:relative;overflow:hidden}
+#dots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-top:64px;padding-bottom:56px}
+@media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr);gap:40px;padding-top:36px}}
+.hero h1{font-size:64px;line-height:1.02;letter-spacing:-.035em;margin:18px 0 0;font-weight:700}
+.hero .say{font-size:27px;line-height:1.28;letter-spacing:-.015em;margin:18px 0 0;font-weight:500;max-width:600px}
+.hero .say em{font-style:normal;color:var(--accent)}
+.hero .sub{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 0}
+.hero .sub span{font:12.5px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 9px;background:var(--card)}
+@media (max-width:600px){.hero h1{font-size:44px}.hero .say{font-size:22px}}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 14.5px var(--sans);text-decoration:none;border-radius:8px;padding:10px 16px;border:1px solid var(--line);color:var(--ink);background:var(--card);cursor:pointer;transition:border-color .2s,background .2s}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.avail{display:inline-flex;align-items:center;gap:8px;font:12.5px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:4px 12px;background:var(--card)}
+.avail i{width:7px;height:7px;border-radius:50%;background:#4caf7d;animation:ping 2.4s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(76,175,125,.55)}70%{box-shadow:0 0 0 8px rgba(76,175,125,0)}100%{box-shadow:0 0 0 0 rgba(76,175,125,0)}}
+.portrait{position:relative;justify-self:center;width:100%;max-width:400px}
+.portrait .frame{position:relative;aspect-ratio:1;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:var(--ht-bg);cursor:crosshair}
+.portrait canvas,.portrait img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.portrait img{filter:grayscale(1) contrast(1.1)}
+.portrait .frame:hover img{filter:none}
+.portrait .cap{display:flex;justify-content:space-between;white-space:nowrap;gap:10px;margin-top:10px;font:11.5px var(--mono);color:var(--muted);letter-spacing:.06em}
+.portrait .corner{position:absolute;width:14px;height:14px;border-color:var(--accent);border-style:solid;pointer-events:none}
+.c1{top:-7px;left:-7px;border-width:1.5px 0 0 1.5px}.c2{top:-7px;right:-7px;border-width:1.5px 1.5px 0 0}.c3{bottom:22px;left:-7px;border-width:0 0 1.5px 1.5px}.c4{bottom:22px;right:-7px;border-width:0 1.5px 1.5px 0}
+.portrait .ruler{position:absolute;left:0;right:0;top:-20px;height:8px;border-left:1px solid var(--faint);border-right:1px solid var(--faint);pointer-events:none}
+.portrait .ruler::before{content:"";position:absolute;left:0;right:0;top:4px;border-top:1px solid var(--faint)}
+.portrait .ruler span{position:absolute;left:50%;top:-6px;transform:translateX(-50%);background:var(--bg);padding:0 6px;font:10px var(--mono);color:var(--muted)}
+
+/* stats + marquee */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats div{padding:20px 16px;border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font-size:28px;letter-spacing:-.02em;font-weight:600;line-height:1.1}
+.stats span{display:block;color:var(--muted);font-size:13px;line-height:1.35;margin-top:6px}
+@media (max-width:900px){.stats{grid-template-columns:repeat(3,1fr)}.stats div:nth-child(3){border-right:0}.stats div:nth-child(-n+3){border-bottom:1px solid var(--line)}}
+@media (max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}.stats div{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)}.stats div:nth-child(2n){border-right:0!important}}
+.marq{overflow:hidden;border-bottom:1px solid var(--line);padding:12px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marq .tr{display:flex;width:max-content;animation:marq 60s linear infinite;font:13px var(--mono);color:var(--muted);letter-spacing:.04em}
+.marq .tr span{padding:0 14px;white-space:nowrap}
+.marq .tr span.s{color:var(--accent);padding:0}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:84px 0 0}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.sh h2{font-size:38px;letter-spacing:-.025em;line-height:1.1;margin:8px 0 0;font-weight:650}
+.sh p{color:var(--muted);margin:0;font:12.5px var(--mono);letter-spacing:.04em}
+@media (max-width:600px){.sh h2{font-size:30px}section{padding-top:64px}}
+
+/* live pipeline */
+.live{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.live .top{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden}
+.live .top .d{display:flex;gap:5px}.live .top .d i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.live .top .sp{margin-left:auto}
+.canvas{position:relative;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:20px 20px;background-color:var(--bg)}
+.stage{position:absolute;left:0;top:0;transform-origin:0 0}
+.stage>svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.wire{fill:none;stroke:var(--faint);stroke-width:1.6;transition:stroke .25s,opacity .25s}
+.wire.loop{stroke-dasharray:5 5}
+.wire.hl{stroke:var(--accent);stroke-width:2.2}
+.pulse{fill:var(--accent)}
+.node{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);font:11px/1.4 var(--mono);user-select:none;-webkit-user-select:none;cursor:grab;transition:border-color .2s,opacity .25s,box-shadow .2s;touch-action:none}
+.node:hover,.node.hl{border-color:var(--accent)}
+.node.drag{cursor:grabbing;box-shadow:0 14px 34px rgba(0,0,0,.16);z-index:5;transition:none}
+.stage.focus .node:not(.hl){opacity:.55}
+.stage.focus .wire:not(.hl){opacity:.3}
+.nh{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px;border-bottom:1px solid var(--line);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;white-space:nowrap;overflow:hidden}
+.nh b{color:var(--ink);font-weight:500}
+.nh svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--accent);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.stage.nar .nh .st{display:none}
+.stage.nar .row{font-size:10px;padding:3px 5px}
+.nh .st{margin-left:auto;font-size:10px;color:var(--faint);text-transform:none;letter-spacing:0}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:none}
+.node.run .dot{background:#d9a441;animation:blink .6s infinite alternate}
+.node.done .dot{background:var(--accent)}
+.node.done .nh .st{color:var(--accent)}
+@keyframes blink{to{opacity:.3}}
+.port{position:absolute;top:10px;width:10px;height:10px;border-radius:50%;background:var(--card);border:1.6px solid var(--accent)}
+.port.i{left:-6px}.port.o{right:-6px}
+.nb{padding:9px 10px}
+.row{display:flex;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:4px;padding:3px 7px;margin:0 0 5px;background:var(--bg);color:var(--muted);white-space:nowrap}
+.row b{color:var(--ink);font-weight:500}
+.bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:7px}
+.bar i{display:block;height:100%;width:0;background:var(--accent)}
+.nimg{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;display:block;pointer-events:none}
+.nfoot{margin-top:7px;color:var(--faint);font-size:10px}
+.wave{display:flex;align-items:center;gap:2px;height:38px}
+.wave span{flex:1;background:var(--accent2);border-radius:1px;opacity:.85}
+.node.run .wave span{animation:wv .5s infinite alternate}
+@keyframes wv{to{transform:scaleY(.35)}}
+.outs{display:flex;gap:10px;align-items:flex-end}
+.fr{position:relative;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:repeating-linear-gradient(135deg,var(--bg) 0 6px,var(--bg2) 6px 12px)}
+.fr .ph{position:absolute;inset:0;background:url(assets/photo.jpg) center/cover;opacity:0;transform:scale(1.12);transition:opacity .6s}
+.fr.f45 .ph{background-position:42% 35%;filter:saturate(1.15) contrast(1.05)}
+.fr.ready .ph{opacity:1;animation:kb 7s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.12)}to{transform:scale(1.22) translate(-3%,2%)}}
+.fr .tag{position:absolute;left:5px;top:5px;font-size:7.5px;background:rgba(0,0,0,.55);color:#fff;border-radius:3px;padding:1px 4px;opacity:0;transition:opacity .4s}
+.fr.ready .tag{opacity:1}
+.fr .lb{position:absolute;left:0;right:0;bottom:0;padding:12px 6px 4px;font-size:9px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .4s}
+.fr.ready .lb{opacity:1}
+.fr .wait{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:var(--faint);transition:opacity .3s}
+.fr.ready .wait{opacity:0}
+.exp{display:flex;justify-content:space-between;align-items:center;margin-top:9px;color:var(--faint);font-size:10px}
+.exp span.b{border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--muted)}
+.node.done .exp span.b{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.insp{display:flex;align-items:center;gap:14px;padding:12px 16px;border-top:1px solid var(--line);min-height:58px}
+.insp .k{font:11px var(--mono);letter-spacing:.1em;color:var(--accent);text-transform:uppercase;flex:none;min-width:96px}
+.insp .v{font-size:14.5px;flex:1}
+.insp .btn{flex:none;padding:7px 14px;font-size:13.5px}
+@media (max-width:600px){.insp{flex-wrap:wrap}.insp .k{min-width:0}}
+
+/* latent band */
+.latent{position:relative;height:190px;margin-top:84px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.latent canvas{position:absolute;inset:0;width:100%;height:100%}
+.latent .l{position:absolute;bottom:10px;font:11px var(--mono);letter-spacing:.12em;color:var(--muted)}
+
+/* cases */
+.case{display:grid;grid-template-columns:.95fr 1.05fr;gap:44px;padding:40px 0;border-top:1px solid var(--line)}
+.case:first-of-type{border-top:0;padding-top:8px}
+@media (max-width:880px){.case{grid-template-columns:minmax(0,1fr);gap:20px}}
+.case>*,.img2>*,.how>*,.hero .wrap>*{min-width:0}
+.case .no{font:12px var(--mono);letter-spacing:.12em;color:var(--accent)}
+.case h3{font-size:28px;line-height:1.15;letter-spacing:-.02em;margin:8px 0 8px;font-weight:650}
+.case .lead{font-size:17px;color:var(--muted);margin:0 0 12px}
+.case ul{margin:0;padding:0;list-style:none}
+.case li{position:relative;padding-left:20px;margin:7px 0}
+.case li::before{content:"";position:absolute;left:2px;top:.66em;width:8px;height:1.5px;background:var(--accent)}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:20px}
+.res div{border-left:2px solid var(--accent);padding:2px 12px}
+.res b{display:block;font-size:22px;line-height:1.2;letter-spacing:-.01em;font-weight:600}
+.res span{color:var(--muted);font-size:13px;line-height:1.35;display:block}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.tags span{border:1px solid var(--line);border-radius:4px;padding:2px 8px;font:11.5px var(--mono);color:var(--muted)}
+.viz{position:sticky;top:76px;align-self:start}
+.mgc{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mgc .top{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--line);font:11px var(--mono);color:var(--muted);letter-spacing:.04em}
+.mgc .top .live-dot{color:var(--accent)}
+.mgc .cv{background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px;background-color:var(--bg);padding:12px 10px}
+.mg{display:block;width:100%;height:auto;overflow:visible}
+@media (max-width:600px){.mgc .cv{overflow-x:auto;-webkit-overflow-scrolling:touch}.mg{min-width:430px}.mgc .top .live-dot{display:none}.mgc .top::after{content:"swipe ↔";color:var(--accent)}}
+.mg .n{cursor:pointer}
+.mg .n rect.b{fill:var(--card);stroke:var(--line);stroke-width:1;transition:stroke .2s}
+.mg .n rect.ib{fill:var(--bg);stroke:var(--line);stroke-width:1;transition:fill .2s,stroke .2s}
+.mg .n .ic{fill:none;stroke:var(--muted);stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.mg .n text.l{font:500 10.5px var(--mono);fill:var(--ink);letter-spacing:.04em}
+.mg .n text.s{font:10.5px var(--sans);fill:var(--muted)}
+.mg .n.hl rect.b{stroke:var(--accent);stroke-width:1.4}
+.mg .n.hl rect.ib{fill:var(--accent-soft);stroke:var(--accent)}
+.mg .n.hl .ic{stroke:var(--accent)}
+.mg .p{fill:var(--card);stroke:var(--faint);stroke-width:1.2}
+.mg .e{fill:none;stroke:var(--faint);stroke-width:1.3;transition:stroke .2s,opacity .2s}
+.mg .e.dash{stroke-dasharray:4 4}
+.mg .e.hl{stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 5;animation:flow .7s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-11}}
+.mg.focus .n:not(.hl){opacity:.55}
+.mg.focus .e:not(.hl){opacity:.35}
+.mg .n,.mg .e{transition:opacity .25s}
+.mgc .ins{display:flex;gap:12px;align-items:baseline;padding:11px 14px;border-top:1px solid var(--line);font-size:14px;min-height:44px}
+.mgc .ins b{font:11px var(--mono);letter-spacing:.1em;color:var(--accent);text-transform:uppercase;font-weight:500;flex:none}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:580px){.cards{grid-template-columns:1fr}}
+.cardx{position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px 16px;transition:border-color .25s}
+.cardx:hover{border-color:var(--accent)}
+.cardx .hd{display:flex;justify-content:space-between;font:11px var(--mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.cardx .hd i{font-style:normal;color:var(--faint)}
+.cardx .ic{height:64px;margin:12px 0 12px;border:1px solid var(--line);border-radius:6px;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:12px 12px;background-color:var(--bg)}
+.cardx .ic svg{display:block;width:100%;height:100%;overflow:visible}
+.cardx .ic *{fill:none;stroke:var(--faint);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s,fill .3s}
+.cardx .ic svg{stroke:none}
+.cardx .ic .f{fill:var(--faint);stroke:none}
+.cardx .ic text{fill:var(--muted);stroke:none;font:7.5px var(--mono);letter-spacing:.06em}
+.cardx:hover .ic *{stroke:var(--accent)}
+.cardx:hover .ic svg{stroke:none}
+.cardx:hover .ic .f{fill:var(--accent)}
+.cardx:hover .ic text{fill:var(--accent);stroke:none}
+.cardx .ic .fl{stroke-dasharray:3 3}
+.cardx:hover .ic .fl{animation:flow .6s linear infinite}
+.cardx .ic .sw{transform-box:view-box;transform-origin:40px 32px}
+.cardx:hover .ic .sw{animation:sweep 2.4s linear infinite}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.cardx:hover .ic .bl{animation:blink .5s infinite alternate}
+.cardx h5{font-size:16.5px;margin:0 0 4px;letter-spacing:-.01em;font-weight:600}
+.cardx p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.cardx a.go{display:inline-block;margin-top:8px;font:12.5px var(--mono)}
+
+/* image */
+.img2{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:start}
+@media (max-width:880px){.img2{grid-template-columns:minmax(0,1fr)}}
+.caps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.caps div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--card)}
+.caps b{display:block;font-size:15px;font-weight:600}
+.caps span{color:var(--muted);font-size:13.5px}
+@media (max-width:480px){.caps{grid-template-columns:1fr}}
+
+/* timeline */
+.tl{position:relative;margin-left:8px;border-left:1px solid var(--line)}
+.tl .it{position:relative;padding:0 0 28px 28px;display:grid;grid-template-columns:250px 1fr;gap:4px 24px}
+@media (max-width:700px){.tl .it{grid-template-columns:1fr}}
+.tl .it::before{content:"";position:absolute;left:-6px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:1.6px solid var(--faint);transition:border-color .25s,background .25s}
+.tl .it:hover::before,.tl .it.now::before{border-color:var(--accent);background:var(--accent)}
+.tl .when{font:12px var(--mono);color:var(--muted);letter-spacing:.04em;padding-top:4px}
+.tl h5{font-size:18px;margin:0;font-weight:600;letter-spacing:-.01em}
+.tl .co{color:var(--accent);font-size:14px}
+.tl p{margin:4px 0 0;color:var(--muted);font-size:15px}
+
+/* code bits */
+.code{font:13px/1.6 var(--mono);color:var(--muted)}
+.code .k,.sig .k{color:var(--accent)}
+.code .s,.sig .s,.json .s{color:#9a6b3a}
+.code .c,.sig .c{color:var(--faint)}
+.code .f,.sig .f{color:var(--ink)}
+:root[data-theme="dark"] .code .s,:root[data-theme="dark"] .sig .s,:root[data-theme="dark"] .json .s{color:#d9b382}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .code .s,:root:not([data-theme="light"]) .sig .s,:root:not([data-theme="light"]) .json .s{color:#d9b382}}
+.hero-code{margin:18px 0 0;padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);display:inline-block;max-width:100%}
+.cur{display:inline-block;width:7px;height:14px;background:var(--accent);vertical-align:-2px;margin-left:4px;animation:blink .55s steps(1) infinite alternate}
+.sig{margin-top:16px;padding:8px 12px;border-left:2px solid var(--line);background:var(--card);font:12.5px/1.6 var(--mono);color:var(--muted);overflow-wrap:anywhere}
+.gitcmd{font:12.5px var(--mono);color:var(--muted);margin:0 0 18px;padding-left:28px}
+.tl .hash{color:var(--accent);margin-right:10px}
+.json{border:1px solid var(--line);border-radius:8px;background:var(--card);overflow:hidden}
+.json .jh{font:11px var(--mono);color:var(--muted);padding:8px 14px;border-bottom:1px solid var(--line);letter-spacing:.04em}
+.json pre{margin:0;padding:14px;font:12.5px/1.75 var(--mono);color:var(--muted);white-space:pre-wrap;word-break:break-word}
+.json .key{color:var(--accent)}
+
+/* how */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+@media (max-width:880px){.how{grid-template-columns:minmax(0,1fr)}}
+.quote{font-size:24px;line-height:1.35;letter-spacing:-.015em;font-weight:500}
+.quote em{font-style:normal;color:var(--accent)}
+.tk{margin:0 0 14px}
+.tk .label{margin-bottom:6px}
+.tk .tags{margin-top:0}
+.tk .tags span{transition:border-color .2s,color .2s}
+.tk .tags span:hover{border-color:var(--accent);color:var(--accent)}
+
+/* contact */
+.contact{margin:96px 0 0;padding:64px 0 40px;border-top:1px solid var(--line)}
+.contact h2{font-size:clamp(40px,7vw,84px);line-height:1;letter-spacing:-.04em;margin:12px 0 26px;font-weight:700}
+.contact h2 em{font-style:normal;color:var(--accent)}
+.cl{display:flex;flex-wrap:wrap;gap:10px}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:56px;font:12px var(--mono);color:var(--muted)}
+
+.rv{opacity:0;transition:opacity .8s ease}
+.rv.in{opacity:1}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;transition:none}.marq .tr,.avail i,.fr.ready .ph,.mg .e.hl,.cardx:hover .ic *{animation:none!important}}
+</style>
+<script>/*hub-theme*/(function(){function a(t){var r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}try{a(localStorage.getItem('hub-theme'))}catch(e){}addEventListener('message',function(e){if(e.data&&typeof e.data==='object'&&'hubTheme' in e.data)a(e.data.hubTheme)})})();</script>
+<script src="assets/photo.js"></script>
+</head>
+<body>
+
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top"><i></i>illia.ushanau</a>
+  <nav><a href="#pipeline" data-t="nPipe"></a><a href="#work" data-t="nWork"></a><a href="#image" data-t="nImage"></a><a href="#path" data-t="nPath"></a><a href="#contact" data-t="nContact"></a></nav>
+  <div class="tg"><button id="b_en">EN</button><button id="b_ru">RU</button><button id="b_th" title="theme">◐</button></div>
+</div></header>
+
+<div class="hero" id="top">
+  <canvas id="dots"></canvas>
+  <div class="wrap">
+    <div class="rv">
+      <span class="avail"><i></i><span data-t="avail"></span></span>
+      <h1>Illia Ushanau</h1>
+      <div class="say" data-t="say" data-html></div>
+      <div class="code hero-code"><span class="c">// <span data-t="since"></span></span><br><span class="k">const</span> stack = [<span class="s">"ComfyUI"</span>, <span class="s">"n8n"</span>, <span class="s">"image &amp; video"</span>, <span class="s">"model APIs"</span>];<i class="cur"></i></div>
+      <div class="cta"><a class="btn pri" href="#work" data-t="ctaWork"></a><a class="btn" href="#pipeline" data-t="ctaPipe"></a><a class="btn" href="#contact" data-t="ctaContact"></a></div>
+    </div>
+    <div class="portrait rv">
+      <div class="ruler"><span>640 px</span></div>
+      <div class="frame" id="pframe"><img id="pimg" src="assets/photo.jpg" alt="Illia Ushanau"><canvas id="pcv"></canvas></div>
+      <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+      <div class="cap"><span>HALFTONE · illia.jpg</span><span data-t="hover"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap"><div class="stats rv" id="stats"></div></div>
+<div class="marq"><div class="tr" id="marq"></div></div>
+
+<section id="pipeline"><div class="wrap">
+  <div class="sh rv"><div><div class="label"><b>01</b> / <span data-t="pipeL"></span></div><h2 data-t="pipeH"></h2></div><p data-t="pipeP"></p></div>
+  <div class="live rv">
+    <div class="top"><span class="d"><i></i><i></i><i></i></span><span>video-ad.json</span><span class="sp" id="runstate">idle</span></div>
+    <div class="canvas" id="canvas"><div class="stage" id="stage"><svg id="wires"></svg></div></div>
+    <div class="insp"><span class="k" id="ik">inspector</span><span class="v" id="iv"></span><button class="btn pri" id="runbtn">▶ Run</button></div>
+  </div>
+</div></section>
+
+<div class="latent" id="latent"><canvas id="lcv"></canvas><span class="l" style="left:16px">LATENT SPACE</span><span class="l" style="right:16px">→ VISUAL FORM</span></div>
+
+<section id="work"><div class="wrap">
+  <div class="sh rv"><div><div class="label"><b>02</b> / <span data-t="workL"></span></div><h2 data-t="workH"></h2></div><p data-t="workP"></p></div>
+  <div id="cases"></div>
+</div></section>
+
+<section id="rnd"><div class="wrap">
+  <div class="sh rv"><div><div class="label"><b>03</b> / R&amp;D</div><h2 data-t="rndH"></h2></div></div>
+  <div class="cards" id="rndcards"></div>
+</div></section>
+
+<section id="image"><div class="wrap">
+  <div class="sh rv"><div><div class="label"><b>04</b> / <span data-t="imgL"></span></div><h2 data-t="imgH"></h2></div><p data-t="imgP"></p></div>
+  <div class="img2">
+    <div class="viz rv" style="position:static" id="imgviz"></div>
+    <div class="caps rv" id="caps"></div>
+  </div>
+</div></section>
+
+<section id="path"><div class="wrap">
+  <div class="sh rv"><div><div class="label"><b>05</b> / <span data-t="pathL"></span></div><h2 data-t="pathH"></h2></div></div>
+  <div class="tl rv" id="tl"></div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="sh rv"><div><div class="label"><b>06</b> / <span data-t="howL"></span></div></div></div>
+  <div class="how">
+    <div class="quote rv" data-t="howQ" data-html></div>
+    <div class="rv" id="toolkit"></div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="contact rv" id="contact">
+  <div class="label"><b>07</b> / <span data-t="conL"></span></div>
+  <h2 data-t="conH" data-html></h2>
+  <div class="cl">
+    <a class="btn pri" href="https://t.me/Illia_U">Telegram ↗</a>
+    <a class="btn" href="mailto:dex530000@gmail.com">dex530000@gmail.com</a>
+    <a class="btn" href="https://www.linkedin.com/in/illia-ushanau/">LinkedIn ↗</a>
+  </div>
+  <div class="foot"><span data-t="foot"></span><span>© 2026 Illia Ushanau</span></div>
+</div></div>
+
+<script>
+/* ============ ICONS (16×16, stroke) ============ */
+const IC = {
+  form:'M3 1.5h10v13H3z M5.5 5h5 M5.5 8h5 M5.5 11h3',
+  chip:'M4 4h8v8H4z M6.5 1.5v2.5 M9.5 1.5v2.5 M6.5 12v2.5 M9.5 12v2.5 M1.5 6.5H4 M1.5 9.5H4 M12 6.5h2.5 M12 9.5h2.5',
+  spark:'M8 1.5l1.5 4.6 4.6 1.5-4.6 1.5L8 13.7 6.5 9.1 1.9 7.6l4.6-1.5z',
+  film:'M2 3h12v10H2z M2 6h12 M2 10h12 M5.5 3v3 M10.5 3v3 M5.5 10v3 M10.5 10v3',
+  globe:'M8 1.5a6.5 6.5 0 1 0 .01 0z M1.5 8h13 M8 1.5c-2.6 3.2-2.6 9.8 0 13 M8 1.5c2.6 3.2 2.6 9.8 0 13',
+  down:'M8 2v8.5 M4.5 7L8 10.5 11.5 7 M2.5 12v2h11v-2',
+  list:'M2 4h12 M2 8h12 M2 12h8',
+  coin:'M8 1.5a6.5 6.5 0 1 0 .01 0z M10 5.5c-.4-.7-1.1-1-2-1-1.2 0-2 .6-2 1.5 0 2 4 1.1 4 3.1 0 .9-.8 1.5-2 1.5-1 0-1.7-.4-2-1.1 M8 3.5v1 M8 11.5v1',
+  check:'M2 2h12v12H2z M5 8l2 2 4-4',
+  pulse:'M1 8h3l2-5 3 10 2-5h4',
+  eye:'M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z M8 6a2 2 0 1 0 .01 0z',
+  grid:'M2 2h5v5H2z M9 2h5v5H9z M2 9h5v5H2z M9 9h5v5H9z',
+  shield:'M8 1.5l5.5 2v4c0 3.5-2.5 6-5.5 7-3-1-5.5-3.5-5.5-7v-4z M5.5 8l1.8 1.8 3.2-3.3',
+  play:'M4.5 2.5v11l9-5.5z',
+  redo:'M13 2.5v4h-4 M12.7 6.5A5 5 0 1 0 13 10',
+  doc:'M3 1.5h7l3 3v10H3z M10 1.5v3h3 M5.5 8h5 M5.5 11h5',
+  scale:'M8 2v12 M4 14h8 M2.5 4.5h11 M2.5 4.5L1 9h3z M13.5 4.5L12 9h3z',
+  bars:'M2 14h12 M4 14V9 M7 14V5 M10 14V7 M13 14V3',
+  ae:'M3 1.5h7l3 3v10H3z M10 1.5v3h3 M5.5 12.5l1.5-5 1.5 5 M6 11h2',
+  layers:'M8 2l6 3-6 3-6-3z M2 8l6 3 6-3 M2 11l6 3 6-3',
+  gear:'M8 5.5a2.5 2.5 0 1 0 .01 0z M8 1v2.5 M8 12.5V15 M1 8h2.5 M12.5 8H15 M3 3l1.8 1.8 M11.2 11.2L13 13 M3 13l1.8-1.8 M11.2 4.8L13 3',
+  server:'M2 2.5h12v4.5H2z M2 9h12v4.5H2z M4.5 4.7h1 M4.5 11.2h1',
+  term:'M2 2.5h12v11H2z M4.5 6l2 2-2 2 M8 10.5h3.5',
+  cmp:'M2 2h8v8H2z M6 6h8v8H6z',
+  stack:'M4.5 1.5h9.5v9.5 M2 4h9.5v10H2z',
+  tag:'M1.5 8.5V2h6.5l6.5 6.5-6.5 6.5z M5 5h.1',
+  plan:'M2 4h4 M7.5 4H14 M2 8h7 M10.5 8H14 M2 12h2 M5.5 12H14',
+  note:'M6 12.5V3l7-1.5v9.5 M4 10.5a2 2 0 1 0 .01 0z M11 9a2 2 0 1 0 .01 0z',
+  wave:'M2 6.5v3 M5 3.5v9 M8 5.5v5 M11 2v12 M14 6.5v3',
+  layout:'M2 2h12v12H2z M2 6h12 M6.5 6v8',
+  ok:'M8 1.5a6.5 6.5 0 1 0 .01 0z M5 8l2 2 4-4',
+  box:'M8 1.5l6 3v7l-6 3-6-3v-7z M2 4.5l6 3 6-3 M8 7.5v7',
+  mask:'M2 5V2h3 M11 2h3v3 M14 11v3h-3 M5 14H2v-3 M8 4.5a2 2 0 1 0 .01 0z M4.5 12c.5-2 1.8-3 3.5-3s3 1 3.5 3',
+  slid:'M3 2v12 M8 2v12 M13 2v12 M1.5 5h3 M6.5 10h3 M11.5 6.5h3',
+  img:'M2 2.5h12v11H2z M2 11l4-4 3 3 2-2 3 3 M10.5 5.5h.1',
+  sun:'M8 5a3 3 0 1 0 .01 0z M8 1v1.5 M8 13.5V15 M1 8h1.5 M13.5 8H15 M3 3l1 1 M12 12l1 1 M3 13l1-1 M12 4l1-1',
+  expand:'M9.5 2H14v4.5 M14 2L9 7 M6.5 14H2V9.5 M2 14l5-5',
+};
+const ico = k => `<svg viewBox="0 0 16 16"><path d="${IC[k]}"/></svg>`;
+
+/* ============ CONTENT ============ */
+const UI = {
+  nPipe:{en:'pipeline',ru:'пайплайн'}, nWork:{en:'work',ru:'работы'}, nImage:{en:'image',ru:'картинки'}, nPath:{en:'path',ru:'путь'}, nContact:{en:'contact',ru:'контакты'},
+  avail:{en:'Open to remote & relocation · from late Nov 2026',ru:'Удалёнка или переезд · с конца ноября 2026'},
+  say:{en:'I build <em>generative AI pipelines</em> for creative teams.',ru:'Строю <em>AI-пайплайны</em> для креативных команд.'},
+  since:{en:'ComfyUI since 2023',ru:'ComfyUI с 2023'},
+  ctaWork:{en:'Work ↓',ru:'Работы ↓'}, ctaPipe:{en:'Run the pipeline',ru:'Запустить пайплайн'}, ctaContact:{en:'Contact',ru:'Связаться'},
+  hover:{en:'hover → original',ru:'наведи → оригинал'}, hoverT:{en:'touch → original',ru:'коснись → оригинал'},
+  pipeL:{en:'Live pipeline',ru:'Живой пайплайн'}, pipeH:{en:'Photo + track → finished ad',ru:'Фото + трек → готовый ролик'},
+  pipeP:{en:'drag · hover · run',ru:'двигай · наводи · запускай'}, pipePT:{en:'tap a node · run',ru:'нажми на ноду · запусти'},
+  workL:{en:'Selected work',ru:'Работы'}, workH:{en:'Built from zero, used every day',ru:'С нуля — до ежедневной работы'},
+  workP:{en:'2026 · mobile apps · the only person in the role',ru:'2026 · мобильные приложения · один на роли'},
+  rndH:{en:'Prototypes and tools',ru:'Прототипы и инструменты'},
+  imgL:{en:'Image work',ru:'Картинки'}, imgH:{en:'ComfyUI since 2023',ru:'ComfyUI с 2023 года'},
+  imgP:{en:'product → new scene, with light that fits',ru:'товар → новая сцена, со светом, который сходится'},
+  pathL:{en:'Path',ru:'Путь'}, pathH:{en:'From drawings to pipelines',ru:'От чертежей к пайплайнам'},
+  sideL:{en:'Personal',ru:'Личное'}, sideH:{en:'Things I build for myself',ru:'Что делаю для себя'},
+  howL:{en:'How I work',ru:'Как я работаю'},
+  howQ:{en:'I design the system. <em>AI coding agents</em> help me build it — Claude Code, Codex. I read, test and own the code.',ru:'Систему проектирую я. Собирать помогают <em>AI-агенты</em> — Claude Code, Codex. Код читаю, тестирую и отвечаю за него.'},
+  conL:{en:'Contact',ru:'Контакты'}, conH:{en:'Let’s build<br><em>your pipeline.</em>',ru:'Построим<br><em>ваш пайплайн.</em>'},
+  foot:{en:'Minsk · remote or relocation · EN (written) / RU',ru:'Минск · удалённо или переезд · RU / EN (письменный)'},
+};
+const STATS = [
+  {to:10,pre:'~',suf:{en:' min',ru:' мин'},t:{en:'photo + track → finished ad',ru:'фото + трек → готовый ролик'}},
+  {to:2500,pre:'~',t:{en:'runs in six months',ru:'запусков за полгода'}},
+  {txt:'97–98%',t:{en:'runs without failures',ru:'запусков без сбоев'}},
+  {txt:'$1–4',t:{en:'per finished video',ru:'за готовый ролик'}},
+  {txt:'3–8×',t:{en:'faster editing',ru:'быстрее монтаж'}},
+  {txt:'4 × 4',t:{en:'apps × languages',ru:'приложения × языки'}},
+];
+const TOOLS = ['ComfyUI','n8n','FLUX','Kontext','Qwen-Image','SDXL','Nano Banana','GPT-image','Seedream','Kling','Seedance','Wan','Veo','Runway','Hailuo','OmniHuman','ElevenLabs','ACE-Step','Whisper','Demucs','FFmpeg','After Effects','Nexrender','fal.ai','Gemini','Kubernetes','FastAPI','Next.js','Claude Code','Codex','Photoshop','3ds Max'];
+
+const HN = {
+  img:{w:[200,160],ic:'img',head:['01','LOAD IMAGE'],info:{en:'Any photo from the editor.',ru:'Любое фото от монтажёра.'}},
+  aud:{w:[200,160],ic:'note',head:['02','LOAD AUDIO'],info:{en:'Track or voice — sets the timing.',ru:'Трек или голос — задаёт тайминг.'}},
+  mdl:{w:[200,160],ic:'chip',head:['03','MODEL'],info:{en:'A dozen models behind one layer. Swap without rebuilding.',ru:'Десяток моделей за одним слоем. Меняются без переделки.'}},
+  gen:{w:[200,170],ic:'spark',head:['04','GENERATE'],info:{en:'Queues and parallel slots. Cost of each run logged.',ru:'Очереди и параллельные слоты. Цена каждого запуска записана.'}},
+  ren:{w:[200,160],ic:'film',head:['05','RENDER'],info:{en:'FFmpeg or After Effects. 9:16 and 4:5.',ru:'FFmpeg или After Effects. 9:16 и 4:5.'}},
+  qa:{w:[200,160],ic:'shield',head:['06','QA / RETRY'],info:{en:'Broken or missing version → rebuilt automatically.',ru:'Сломанная или потерянная версия → пересборка сама.'}},
+  out:{w:[290,330],ic:'down',head:['07','OUTPUT'],info:{en:'Finished ads, about 10 minutes after the form.',ru:'Готовые ролики примерно через 10 минут.'}},
+};
+const HLAY = {
+  wide:{w:1088,h:430,pos:{img:[24,20],aud:[24,312],mdl:[262,28],gen:[262,200],ren:[520,108],qa:[520,290],out:[776,40]}},
+  narrow:{w:360,h:880,pos:{img:[10,14],aud:[10,236],mdl:[190,14],gen:[180,170],ren:[190,330],qa:[190,470],out:[14,620]}},
+};
+const HE = [['img','gen'],['mdl','gen'],['gen','ren'],['aud','gen'],['ren','qa'],['qa','out'],['qa','gen','loop']];
+
+/* graph nodes: [id, col, row, icon, LABEL, sub, info] */
+const CASES = [
+ {no:{en:'01 · production',ru:'01 · продакшн'},
+  title:{en:'Video ad factory',ru:'Фабрика рекламных роликов'},
+  lead:{en:'Photos and a track in — finished ads in two formats about 10 minutes later.',ru:'Фото и трек на входе — готовые ролики в двух форматах примерно через 10 минут.'},
+  b:{"en": ["10+ production pipelines, one per ad format: singing photo clips, talking avatars with karaoke captions, dance and photo-animation formats", "One layer over a dozen image, video and audio models. I compared providers by price, so a model can be swapped without rebuilding anything", "Localization built in: 4 apps × 4 languages, re-voicing with the same timing, and the \"AI generated\" label ad platforms require", "Editors get a preview, both formats and an archive — they never need to know which models ran inside"], "ru": ["10+ рабочих пайплайнов, по одному на формат: поющие фото-клипы, говорящие аватары с караоке-субтитрами, танцы и оживление фото", "Один слой над десятком моделей картинок, видео и звука. Сравнил провайдеров по цене — модель меняется без переделки", "Локализация встроена: 4 приложения × 4 языка, переозвучка с тем же таймингом и плашка «AI generated» по требованиям площадок", "Монтажёр получает превью, оба формата и архив — ему не нужно знать, какие модели работали внутри"]},
+  sig:"<span class=\"f\">factory</span>.run({ photos, track, lang: <span class=\"s\">\"es\"</span> })  <span class=\"c\">// → 9:16 + 4:5 · ~10 min</span>",
+  res:[['~10 min',{en:'per ad',ru:'на ролик'}],['$1–4',{en:'per video',ru:'за ролик'}],['~2,500',{en:'runs',ru:'запусков'}]],
+  tags:['n8n','ComfyUI','fal.ai','Kling','Seedance','Gemini','ElevenLabs','FFmpeg'],
+  g:{file:'ad-factory.json',rows:3,n:[
+   ['form',0,0,'form','FORM',{en:'photos + track',ru:'фото + трек'},{en:'Photos, track, format, language.',ru:'Фото, трек, формат, язык.'}],
+   ['mdl',0,1,'chip','MODELS',{en:'a dozen, one API',ru:'десяток, один API'},{en:'Image, video, lip-sync, music, voice.',ru:'Картинка, видео, липсинк, музыка, голос.'}],
+   ['gen',1,0,'spark','GENERATE',{en:'image · video',ru:'картинка · видео'},{en:'Models run in sequence and in parallel.',ru:'Модели работают последовательно и параллельно.'}],
+   ['edit',2,0,'film','EDIT','FFmpeg / AE',{en:'Edit to the beat, app screens, end card.',ru:'Монтаж в бит, экраны приложения, заставка.'}],
+   ['loc',2,1,'globe','LOCALIZE',{en:'4 languages',ru:'4 языка'},{en:'Translation and re-voicing with the same timing.',ru:'Перевод и переозвучка с тем же таймингом.'}],
+   ['out',1,2,'down','DELIVER','9:16 · 4:5',{en:'Preview, both formats, archive.',ru:'Превью, оба формата, архив.'}],
+  ],e:[['form','gen'],['mdl','gen'],['gen','edit'],['edit','loc'],['loc','out']]}},
+ {no:{en:'02 · production',ru:'02 · продакшн'},
+  title:{en:'Automations in the company’s web platform',ru:'Автоматизации на сайте компании'},
+  lead:{en:'Moved the pipelines from a chat into the company’s creative platform, so the whole team can run them. The platform was built by another developer; I built its Automations section.',ru:'Перенёс пайплайны из чата на креативную платформу компании, чтобы ими пользовалась вся команда. Платформу делал другой разработчик, я сделал в ней раздел «Автоматизации».'},
+  b:{"en": ["A catalog of 6 pipelines with launch forms: only the fields that matter, languages as flags, styles as picture tiles, uploads up to 400 MB", "The price is shown before the run — calculated from the form and checked against real billing", "Every stage reports back live: progress, versions, costs, errors. Each version can be accepted, regenerated, edited or skipped", "A watchdog stops stuck runs, \"Retry\" redoes only failed versions, \"Download all\" gives one zip. Plus a frame editor and a sandbox for safe tests"], "ru": ["Каталог из 6 пайплайнов с формами запуска: только нужные поля, языки флагами, стили плитками с картинками, загрузка до 400 МБ", "Цена видна до запуска — считается по форме и сверена с реальными счетами", "Каждый этап приходит на сайт вживую: прогресс, версии, расходы, ошибки. Любую версию можно принять, перегенерировать, поправить или пропустить", "Сторож останавливает зависшие прогоны, «Повторить» переделывает только упавшие версии, «Скачать всё» — один архив. Плюс редактор кадра и песочница для тестов"]},
+  sig:"<span class=\"k\">POST</span> /automations/run → queue → events → <span class=\"f\">approve</span>(version)",
+  res:[['6',{en:'pipelines on the site',ru:'пайплайнов на сайте'}],[{en:'price',ru:'цена'},{en:'before every run',ru:'до запуска'}],[{en:'1 click',ru:'1 клик'},{en:'to redo a version',ru:'переделать версию'}]],
+  tags:['Next.js','FastAPI','n8n','PostgreSQL','webhooks'],
+  g:{file:'web-automations.json',rows:3,n:[
+   ['form',0,0,'form','LAUNCH FORM',{en:'fields · files',ru:'поля · файлы'},{en:'One form per pipeline, checked on page and server.',ru:'Форма на пайплайн, проверка на странице и сервере.'}],
+   ['price',0,1,'coin','PRICE',{en:'before the run',ru:'до запуска'},{en:'Estimated from the form and model prices.',ru:'Считается по форме и ценам моделей.'}],
+   ['q',1,0,'list','QUEUE',{en:'runs in order',ru:'по очереди'},{en:'Browser notification when your run is done.',ru:'Уведомление в браузере, когда готово.'}],
+   ['bot',2,0,'gear','PIPELINE','n8n',{en:'The same production pipelines.',ru:'Те же рабочие пайплайны.'}],
+   ['ev',2,1,'pulse','EVENTS',{en:'stage · cost · error',ru:'этап · цена · ошибка'},{en:'Every stage reported back to the site.',ru:'Каждый этап возвращается на сайт.'}],
+   ['ok',1,1,'check','APPROVE',{en:'accept · redo',ru:'принять · заново'},{en:'Accept, regenerate, edit the prompt or skip.',ru:'Принять, перегенерировать, поправить промпт, пропустить.'}],
+   ['res',1,2,'grid','RESULTS',{en:'previews · zip',ru:'превью · архив'},{en:'Version cards, view all, download all.',ru:'Карточки версий, смотреть всё, скачать всё.'}],
+   ['wd',2,2,'eye','WATCHDOG',{en:'stuck → stop',ru:'завис → стоп'},{en:'Too long without news — the run stops.',ru:'Долго нет вестей — прогон останавливается.'}],
+  ],e:[['form','price'],['price','q'],['q','bot'],['bot','ev'],['ev','ok'],['ok','res'],['ev','wd'],['ok','q','dash']]}},
+ {no:{en:'03 · production',ru:'03 · продакшн'},
+  title:{en:'Reliability and cost control',ru:'Надёжность и расходы'},
+  lead:{en:'A system that repairs itself and knows what every video costs.',ru:'Система, которая чинит себя сама и знает цену каждого ролика.'},
+  b:{"en": ["Rendering runs in a separate background service. If a version never arrives, it is noticed and rebuilt automatically", "Every run’s cost is logged and checked against the provider’s bill every hour; no run starts without enough balance", "Load tests with parallel runs caught duplicated jobs before users did", "A daily report in the team chat, a cost dashboard, and written notes on every serious incident"], "ru": ["Рендер идёт в отдельном фоновом сервисе. Если версия не пришла, это замечается и она пересобирается сама", "Цена каждого запуска записывается и раз в час сверяется со счётом провайдера; без достаточного баланса запуск не стартует", "Нагрузочные тесты с параллельными запусками нашли дубли задач раньше пользователей", "Ежедневный отчёт в рабочем чате, дашборд расходов и письменный разбор каждого серьёзного сбоя"]},
+  sig:"<span class=\"k\">if</span> (!delivered(v)) <span class=\"f\">rebuild</span>(v)  <span class=\"c\">// no human needed</span>",
+  res:[['97–98%',{en:'without failures',ru:'без сбоев'}],[{en:'minutes',ru:'минуты'},{en:'to self-repair',ru:'на самопочинку'}],[{en:'= bill',ru:'= счёт'},{en:'cost tracking',ru:'учёт расходов'}]],
+  tags:['n8n queue mode','Kubernetes','Google Cloud','load testing'],
+  g:{file:'reliability.json',rows:3,n:[
+   ['gate',0,0,'shield','BALANCE',{en:'checked first',ru:'проверка'},{en:'Not enough balance — no run, alert sent.',ru:'Мало баланса — запуска нет, алерт.'}],
+   ['run',1,0,'play','RUN',{en:'queue · slots',ru:'очередь · слоты'},{en:'Own queue and parallel slots per pipeline.',ru:'Своя очередь и слоты у каждого пайплайна.'}],
+   ['wd',2,0,'eye','WATCHDOG',{en:'version missing?',ru:'нет версии?'},{en:'Looks for versions that never arrived.',ru:'Ищет версии, которые не дошли.'}],
+   ['rb',2,1,'redo','REBUILD',{en:'automatic',ru:'автоматически'},{en:'Rebuilt within minutes, no human.',ru:'Пересборка за минуты, без человека.'}],
+   ['log',0,1,'doc','COST LOG',{en:'every run',ru:'каждый запуск'},{en:'Cost by model and pipeline.',ru:'Цена по моделям и пайплайнам.'}],
+   ['rec',0,2,'scale','RECONCILE',{en:'vs. real bill',ru:'со счётом'},{en:'Hourly check against provider billing.',ru:'Раз в час сверка со счётом провайдера.'}],
+   ['rep',1,2,'bars','REPORT',{en:'daily',ru:'ежедневно'},{en:'Daily stats and a cost dashboard.',ru:'Статистика за день и дашборд расходов.'}],
+  ],e:[['gate','run'],['run','wd'],['wd','rb'],['rb','run','dash'],['run','log'],['log','rec'],['rec','rep']]}},
+ {no:{en:'04 · production',ru:'04 · продакшн'},
+  title:{en:'After Effects → automatic editing',ru:'After Effects → автомонтаж'},
+  lead:{en:'A designer makes a template once — the pipeline renders any number of versions.',ru:'Дизайнер делает шаблон один раз — пайплайн собирает сколько угодно версий.'},
+  b:{"en": ["Two paths: After Effects itself on a server when every detail matters, or a fast FFmpeg version when speed does", "A toolkit that reads the designer’s AE file, sorts its layers and generates an editing step for the pipeline", "Every result is compared with the original — picture and sound — automatically", "Editing reworked so each video is encoded once instead of three times"], "ru": ["Два пути: сам After Effects на сервере, когда важна каждая деталь, или быстрая версия на FFmpeg, когда важна скорость", "Набор инструментов читает AE-файл дизайнера, разбирает слои и генерирует шаг монтажа для пайплайна", "Каждый результат автоматически сравнивается с оригиналом — и картинка, и звук", "Монтаж переделан так, что ролик кодируется один раз вместо трёх"]},
+  sig:"<span class=\"f\">ae2pipeline</span>(<span class=\"s\">\"template.aep\"</span>).render(n)  <span class=\"c\">// any n</span>",
+  res:[['3–8×',{en:'faster editing',ru:'быстрее монтаж'}],[{en:'< 1 min',ru:'< 1 мин'},{en:'per version',ru:'на версию'}],['1 : 1',{en:'with the design',ru:'с дизайном'}]],
+  tags:['After Effects','ExtendScript','Nexrender','FFmpeg','Python'],
+  g:{file:'ae-to-pipeline.json',rows:3,n:[
+   ['aep',0,0,'ae','AE FILE',{en:'from designer',ru:'от дизайнера'},{en:'The designer works as usual.',ru:'Дизайнер работает как обычно.'}],
+   ['lay',1,0,'layers','LAYERS','ExtendScript',{en:'What changes per version, what stays.',ru:'Что меняется в версии, а что нет.'}],
+   ['eng',2,0,'gear','ENGINE',{en:'generated',ru:'генерируется'},{en:'An editing step generated from the template.',ru:'Шаг монтажа генерируется из шаблона.'}],
+   ['nex',1,1,'server','NEXRENDER',{en:'AE on server',ru:'AE на сервере'},{en:'When every detail matters.',ru:'Когда важна каждая деталь.'}],
+   ['ff',2,1,'term','FFMPEG',{en:'fast path',ru:'быстрый путь'},{en:'When speed matters.',ru:'Когда важна скорость.'}],
+   ['cmp',1,2,'cmp','COMPARE',{en:'vs. original',ru:'с оригиналом'},{en:'Picture and sound checked automatically.',ru:'Картинка и звук проверяются сами.'}],
+   ['ver',2,2,'stack','VERSIONS',{en:'any number',ru:'сколько нужно'},{en:'Any number from one template.',ru:'Сколько угодно из одного шаблона.'}],
+  ],e:[['aep','lay'],['lay','eng'],['lay','nex'],['eng','ff'],['nex','cmp'],['ff','cmp'],['cmp','ver']]}},
+ {no:{en:'05 · prototype',ru:'05 · прототип'},
+  title:{en:'Auto-editing with computer vision',ru:'Автомонтаж на компьютерном зрении'},
+  lead:{en:'Raw clips in — beat-synced ads out. No generation cost.',ru:'Сырые клипы на входе — ролики под музыку на выходе. Без затрат на генерацию.'},
+  b:{"en": ["CLIP labels every frame by the stage of the drawing — blank page, sketch, AR, finished — without any training", "Shot lengths and structure come from analysing ~900 real ads", "Cuts land on the beat; if the quality check finds jump cuts or black frames, the edit is re-planned", "A kit for editors with installers for Windows and Mac"], "ru": ["CLIP размечает каждый кадр по стадии рисунка — пустой лист, скетч, AR, финал — без всякого обучения", "Длины шотов и структура выведены из разбора ~900 реальных роликов", "Склейки попадают в бит; если проверка находит джамп-каты или чёрные кадры, монтаж перепланируется", "Набор для монтажёров с установщиками под Windows и Mac"]},
+  sig:"<span class=\"f\">plan</span>(clip.label(frames), beats(track))  <span class=\"c\">// $0 generation</span>",
+  res:[[{en:'< 1 min',ru:'< 1 мин'},{en:'per batch',ru:'на пачку'}],['$0',{en:'generation',ru:'генерация'}],['~900',{en:'ads analysed',ru:'роликов в основе'}]],
+  tags:['Python','CLIP','OpenCV','librosa','FFmpeg'],
+  g:{file:'auto-edit.json',rows:3,n:[
+   ['clips',0,0,'film','RAW CLIPS',{en:'hands · AR',ru:'руки · AR'},{en:'Unedited footage of the drawing.',ru:'Сырая запись рисования.'}],
+   ['clip',1,0,'tag','CLIP',{en:'drawing stage',ru:'стадия рисунка'},{en:'Blank page, sketch, AR, finished.',ru:'Пустой лист, скетч, AR, финал.'}],
+   ['plan',2,0,'plan','EDIT PLAN',{en:'cuts on beat',ru:'склейки в бит'},{en:'Picks shots, cuts on the beat.',ru:'Выбирает шоты, режет в бит.'}],
+   ['mus',0,1,'note','MUSIC',{en:'any track',ru:'любой трек'},{en:'A track from the library.',ru:'Трек из библиотеки.'}],
+   ['beat',1,1,'wave','BEATS','librosa',{en:'Beats and accents.',ru:'Биты и акценты.'}],
+   ['tpl',0,2,'layout','TEMPLATE',{en:'~900 real ads',ru:'~900 роликов'},{en:'Shot lengths and structure.',ru:'Длины шотов и структура.'}],
+   ['ren',2,1,'play','RENDER','FFmpeg',{en:'Both formats.',ru:'Оба формата.'}],
+   ['qa',2,2,'ok','QA',{en:'re-plan if off',ru:'перепланировать'},{en:'Jump cuts, black frames, loudness.',ru:'Джамп-каты, чёрные кадры, громкость.'}],
+  ],e:[['clips','clip'],['clip','plan'],['mus','beat'],['beat','plan'],['tpl','plan'],['plan','ren'],['ren','qa']]}},
+];
+const IMGG = {file:'product-scene.json',rows:3,n:[
+  ['prod',0,0,'box','PRODUCT',{en:'real photo',ru:'реальное фото'},{en:'The product itself is never generated.',ru:'Сам товар не генерируется.'}],
+  ['sam',1,0,'mask','SAM MASK',{en:'cut out',ru:'вырезать'},{en:'Precise product mask.',ru:'Точная маска товара.'}],
+  ['comp',2,0,'layers','COMPOSITE',{en:'into scene',ru:'в сцену'},{en:'Product placed into the scene.',ru:'Товар ставится в сцену.'}],
+  ['lora',0,1,'slid','LORA',{en:'style · product',ru:'стиль · товар'},{en:'Own LoRAs keep a series consistent.',ru:'Свои LoRA держат серию в одном стиле.'}],
+  ['scene',1,1,'img','NEW SCENE','FLUX · Kontext',{en:'Themed background around the product.',ru:'Тематический фон вокруг товара.'}],
+  ['light',2,1,'sun','RELIGHT',{en:'light · shadows',ru:'свет · тени'},{en:'Light and shadows matched.',ru:'Свет и тени подогнаны.'}],
+  ['up',2,2,'expand','UPSCALE',{en:'detail',ru:'детали'},{en:'Final detail and size.',ru:'Финальная детализация и размер.'}],
+  ['out',1,2,'grid','SERIES',{en:'variations',ru:'вариации'},{en:'A consistent batch for ads or a marketplace.',ru:'Согласованная пачка для рекламы или маркетплейса.'}],
+],e:[['prod','sam'],['sam','comp'],['lora','scene'],['scene','comp'],['comp','light'],['light','up'],['up','out']]};
+const CAPS = [
+  [{en:'Product visuals',ru:'Предметка'},{en:'packshots, backgrounds, cards',ru:'пэкшоты, фоны, карточки'}],
+  [{en:'Consistency',ru:'Единый стиль'},{en:'one product or character, many frames',ru:'один товар или персонаж — много кадров'}],
+  [{en:'10+ LoRAs',ru:'10+ LoRA'},{en:'styles and products',ru:'стили и товары'}],
+  [{en:'20+ workflows',ru:'20+ процессов'},{en:'single edits to batch API runs',ru:'от правок до пакетных запусков'}],
+  [{en:'Toolbox',ru:'Инструменты'},{en:'inpaint, ControlNet, IPAdapter, relight',ru:'inpaint, ControlNet, IPAdapter, relight'}],
+  [{en:'Archviz · characters',ru:'Архвиз · персонажи'},{en:'interiors, exteriors, stylized',ru:'интерьеры, экстерьеры, стилизация'}],
+];
+
+/* card schematics 200×64 — on hover only colour, dashes and in-place rotation change; nothing shifts */
+const SCH = {
+  graph:'<svg viewBox="0 0 200 64"><rect x="12" y="23" width="40" height="18" rx="3"/><text x="20" y="35">IN</text><rect x="80" y="8" width="40" height="18" rx="3"/><text x="88" y="20">GEN</text><rect x="80" y="38" width="40" height="18" rx="3"/><text x="88" y="50">FX</text><rect x="148" y="23" width="40" height="18" rx="3"/><text x="156" y="35">OUT</text><path class="fl" d="M52 32C66 32 66 17 80 17"/><path class="fl" d="M52 32C66 32 66 47 80 47"/><path class="fl" d="M120 17C134 17 134 32 148 32"/><path class="fl" d="M120 47C134 47 134 32 148 32"/><circle class="f" cx="52" cy="32" r="2"/><circle class="f" cx="148" cy="32" r="2"/></svg>',
+  chat:'<svg viewBox="0 0 200 64"><rect x="12" y="8" width="62" height="40" rx="3"/><path d="M37 20v16l13-8z"/><text x="14" y="58">AD.MP4</text><path class="fl" d="M78 28h34"/><path d="M116 8h72v30h-46l-10 9v-9h-16z"/><path d="M126 18h52 M126 27h34"/><text x="150" y="58">GEMINI</text></svg>',
+  cards:'<svg viewBox="0 0 200 64"><rect x="12" y="8" width="30" height="40" rx="3"/><circle cx="27" cy="28" r="8"/><rect x="48" y="8" width="30" height="40" rx="3"/><path d="M52 44l22-32 M56 44l18-26 M52 36l14-20"/><rect x="84" y="8" width="30" height="40" rx="3"/><path d="M88 28c4-8 8 8 12 0s8 8 10 0"/><rect x="120" y="8" width="30" height="40" rx="3"/><path d="M124 18h22 M124 28h22 M124 38h22 M135 12v32"/><rect x="156" y="8" width="30" height="40" rx="3"/><path d="M162 42l8-24 8 24z"/><text x="12" y="58">STYLE 01 … 15</text></svg>',
+  radar:'<svg viewBox="0 0 200 64"><circle cx="40" cy="32" r="24"/><circle cx="40" cy="32" r="14"/><path d="M16 32h48 M40 8v48"/><path class="sw" d="M40 32L57 15"/><circle class="f bl" cx="51" cy="24" r="2.2"/><circle class="f" cx="28" cy="42" r="1.6"/><path d="M84 16h70 M84 32h52 M84 48h34"/><text x="160" y="19">#1</text><text x="142" y="35">#2</text><text x="124" y="51">#3</text></svg>',
+  music:'<svg viewBox="0 0 200 64"><path class="fl" d="M12 30c6-18 10-18 16 0s10 18 16 0 10-18 16 0 10 18 16 0 10-18 16 0 10 18 16 0 10-18 16 0 10 18 16 0 10-18 16 0 10 18 16 0 10-18 16 0"/><path d="M12 30h176"/><text x="12" y="60">LOCAL · NO API</text></svg>',
+  anim:'<svg viewBox="0 0 200 64"><rect x="12" y="10" width="46" height="40" rx="3"/><path d="M14 44l12-12 8 8 8-6 14 12"/><circle cx="26" cy="20" r="4"/><path class="fl" d="M62 30h24"/><rect x="92" y="14" width="28" height="32" rx="2"/><rect x="126" y="14" width="28" height="32" rx="2"/><rect x="160" y="14" width="28" height="32" rx="2"/><text x="100" y="58">t0</text><text x="134" y="58">t1</text><text x="168" y="58">t2</text><text x="12" y="60">CPU</text></svg>',
+  film:'<svg viewBox="0 0 200 64"><rect class="fl" x="12" y="10" width="176" height="36" rx="3"/><path d="M12 28h176"/><path d="M12 22v12 M56 24v8 M100 22v12 M144 24v8 M188 22v12"/><circle class="f bl" cx="100" cy="28" r="2.5"/><text x="12" y="59">00:00:00</text><text x="150" y="59">08:00:00</text></svg>',
+  voice:'<svg viewBox="0 0 200 64"><path d="M14 30h4 M22 20v20 M28 12v36 M34 22v16 M40 16v28 M46 24v12 M52 18v24 M58 26v8"/><text x="28" y="60">RU</text><path class="fl" d="M70 30h56"/><text x="84" y="24">CLONE</text><path d="M138 30h4 M146 18v24 M152 10v40 M158 20v20 M164 14v32 M170 24v12 M176 18v24 M182 26v8"/><text x="156" y="60">EN</text></svg>',
+  web:'<svg viewBox="0 0 200 64"><rect x="12" y="6" width="176" height="52" rx="4"/><path d="M12 16h176"/><circle class="f" cx="19" cy="11" r="1.5"/><circle class="f" cx="25" cy="11" r="1.5"/><rect x="22" y="24" width="44" height="26" rx="2"/><rect x="78" y="24" width="44" height="26" rx="2"/><rect x="134" y="24" width="44" height="26" rx="2"/><path class="fl" d="M26 46l8-8 6 5 6-4 16 9"/></svg>',
+  book:'<svg viewBox="0 0 200 64"><rect x="12" y="10" width="60" height="40" rx="4"/><text x="28" y="34" style="font-size:11px">ciao</text><path class="fl" d="M76 30h40"/><rect x="120" y="10" width="68" height="40" rx="4"/><path d="M130 22h28 M130 30h40 M130 38h20"/><circle class="f" cx="16" cy="58" r="1.5"/><circle class="f" cx="22" cy="58" r="1.5"/><circle cx="28" cy="58" r="1.5"/></svg>',
+  draw:'<svg viewBox="0 0 200 64"><text x="34" y="10">Ø 50</text><path d="M20 46C26 16 64 16 70 46"/><path d="M14 46h62"/><path class="fl" d="M76 24h40 M76 46h40"/><path d="M120 24h56v22h-56z M120 35h56"/><path d="M20 56h50 M20 53v6 M70 53v6"/></svg>',
+  chart:'<svg viewBox="0 0 200 64"><path class="fl" d="M12 20h150"/><path d="M24 30v18 M44 26v20 M64 34v16 M84 22v22 M104 28v14 M124 16v24 M144 20v22 M164 12v20"/><rect x="21" y="34" width="6" height="8"/><rect x="41" y="30" width="6" height="10"/><rect x="61" y="38" width="6" height="7"/><rect x="81" y="26" width="6" height="12"/><rect x="101" y="31" width="6" height="7"/><rect x="121" y="20" width="6" height="12"/><rect x="141" y="24" width="6" height="10"/><rect x="161" y="15" width="6" height="10"/><circle class="f bl" cx="164" cy="12" r="2.5"/><text x="172" y="15">ALERT</text></svg>',
+};
+const RND = [
+  ['graph','R&D-01',{en:'prototype',ru:'прототип'},{en:'Node pipeline builder',ru:'Нодовый конструктор'},{en:"A visual editor where AI steps connect like nodes, with its own execution engine and cache. A free emulation mode lets you test a pipeline without spending money.",ru:"Визуальный редактор, где шаги с нейросетями соединяются как ноды, со своим движком выполнения и кэшем. Бесплатный режим эмуляции — проверить пайплайн, не тратя денег."}],
+  ['chat','R&D-02',{en:'tool',ru:'инструмент'},{en:'Creative review bot',ru:'Бот-ревьюер креативов'},{en:"Send a video ad to the team chat — Gemini watches it and replies with concrete notes on what to fix. Quick feedback before an ad goes out.",ru:"Отправляешь ролик в рабочий чат — Gemini смотрит его и отвечает конкретными правками. Быстрый фидбек до публикации."}],
+  ['cards','R&D-03',{en:'image',ru:'картинки'},{en:'Style cards',ru:'Карточки стилей'},{en:"15 visual styles, all on one fictional artist, generated in local ComfyUI. Editors pick a style by picture instead of by name.",ru:"15 визуальных стилей на одном вымышленном артисте, сгенерированы в локальном ComfyUI. Монтажёр выбирает стиль по картинке, а не по названию."}],
+  ['radar','R&D-04',{en:'prototype',ru:'прототип'},{en:'Event radar',ru:'Радар инфоповодов'},{en:"Collects upcoming events from open sources and ranks them by public interest. Ideas for ads, ahead of time.",ru:"Собирает будущие события из открытых источников и ранжирует по интересу публики. Идеи для рекламы заранее."}],
+  ['music','R&D-05',{en:'R&D',ru:'R&D'},{en:'Local AI music',ru:'Локальная AI-музыка'},{en:"Tested voice conversion and music generation running locally. No paid APIs and no cost per run.",ru:"Тестировал конверсию голоса и генерацию музыки локально. Без платных API и без цены за запуск."}],
+  ['anim','R&D-06',{en:'R&D',ru:'R&D'},{en:'Photo animation on CPU',ru:'Оживление фото на CPU'},{en:"Four ways to bring a still photo to life without a GPU or an API — parallax and more. Cheap motion for simple formats.",ru:"Четыре способа оживить фото без видеокарты и API — параллакс и другие. Дешёвое движение для простых форматов."}],
+];
+const SIDE = [
+  ['film','P-01',{en:'automation',ru:'автоматизация'},{en:'8-hour ambient videos',ru:'8-часовые фоновые видео'},{en:'Visuals and music generated locally, assembled by one command.',ru:'Картинка и музыка генерируются локально, собираются одной командой.'}],
+  ['voice','P-02',{en:'audio · video',ru:'звук · видео'},{en:'Dubbing in your own voice',ru:'Дубляж своим голосом'},{en:'Translate a video and re-voice it in the speaker’s own voice.',ru:'Перевести видео и переозвучить голосом самого спикера.'}],
+  ['web','P-03',{en:'web',ru:'сайт'},{en:'Artist web shop',ru:'Сайт художницы'},{en:'Catalog, prints, jewellery, two languages.',ru:'Каталог, принты, украшения, два языка.'},'https://iushanau-ui.github.io/fursova-art/'],
+  ['book','P-04',{en:'web app',ru:'веб-приложение'},{en:'Italian trainer',ru:'Тренажёр итальянского'},{en:'Spaced repetition, 1,200+ words, grammar as trees.',ru:'Интервальное повторение, 1 200+ слов, грамматика деревьями.'}],
+  ['draw','P-05',{en:'image',ru:'картинки'},{en:'Picture → drawing',ru:'Картина → чертёж'},{en:'Turns an image into an engineering-drawing artwork.',ru:'Превращает изображение в картину-чертёж.'}],
+  ['chart','P-06',{en:'automation',ru:'автоматизация'},{en:'Alert bot on an old phone',ru:'Бот на старом телефоне'},{en:'Telegram bot running 24/7 on Android, updates itself.',ru:'Telegram-бот круглосуточно на Android, обновляется сам.'}],
+];
+const PATH = [
+  {now:1,when:{en:'Feb 2026 — now',ru:'фев 2026 — сейчас'},t:'AI Graphic Engineer',co:'Bitlica · remote',p:{en:'First and only person in the role. Built the AI creative function from zero: production pipelines, the automations section of the company’s web platform, reliability and cost control, guides and training for the team.',ru:'Первый и единственный на роли. Построил направление AI-креативов с нуля: рабочие пайплайны, раздел автоматизаций на сайте компании, надёжность и контроль расходов, инструкции и обучение команды.'}},
+  {when:{en:'Jun 2023 — Jun 2025',ru:'июн 2023 — июн 2025'},t:{en:'Designer · 3D & generative AI',ru:'Дизайнер · 3D и генеративный AI'},co:'X-Labs Inc. · US · remote',p:{en:'3D models of buildings, districts and cities for US and EU projects; renders, video walkthroughs and VR. With the lead architect — a football academy in Brazil that reached construction. Brought Stable Diffusion, SDXL and Flux in ComfyUI into the visualization workflow.',ru:'3D-модели зданий, кварталов и городов для проектов в США и Европе; рендеры, видеопрогулки и VR. С главным архитектором — футбольная академия в Бразилии, дошедшая до стройки. Внедрил Stable Diffusion, SDXL и Flux в ComfyUI в работу визуализации.'}},
+  {when:{en:'2024',ru:'2024'},t:{en:'Interior & spatial design',ru:'Дизайн интерьера и среды'},co:{en:'Institute of Modern Knowledge, Minsk',ru:'Институт современных знаний, Минск'}},
+  {when:{en:'Sep 2022 — Jun 2023',ru:'сен 2022 — июн 2023'},t:'Design Engineer',co:'FERICO',p:{en:'Production drawings and cutting layouts in AutoCAD — where the habit of precise, buildable systems started.',ru:'Производственные чертежи и раскрой в AutoCAD — отсюда привычка к точным системам, которые можно собрать.'}},
+];
+const KIT = [
+  [{en:'Image',ru:'Картинки'},['ComfyUI','FLUX','Kontext','Qwen-Image','SDXL','Nano Banana','GPT-image','Seedream','Midjourney','LoRA']],
+  [{en:'Video · audio',ru:'Видео · звук'},['Kling','Seedance','Wan','Veo','Runway','Hailuo','LTX','OmniHuman','ElevenLabs','ACE-Step','Whisper','Demucs']],
+  [{en:'Automation · web',ru:'Автоматизация · веб'},['n8n','fal.ai','APIs','FFmpeg','Nexrender','Python','FastAPI','Next.js','Kubernetes','Google Cloud']],
+  [{en:'Design · 3D',ru:'Дизайн · 3D'},['Photoshop · 9 yrs','Illustrator','After Effects','3ds Max','Corona','V-Ray','SketchUp','AutoCAD']],
+  [{en:'Agents',ru:'Агенты'},['Claude Code','Codex']],
+];
+
+/* ============ ENGINE ============ */
+let LANG = 'en';
+const TOUCH = matchMedia('(hover: none)').matches;
+const T = o => o == null ? '' : (typeof o === 'string' ? o : (o[LANG] ?? o.en));
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* mini graph */
+const CW = 136, CH = 46, CX = 150, CY = 64;
+function mgHTML(g) {
+  const W = 8 + 2 * CX + CW + 8, H = 10 + (g.rows - 1) * CY + CH + 10;
+  const P = {}; g.n.forEach(n => P[n[0]] = {x: 8 + n[1] * CX, y: 10 + n[2] * CY});
+  const route = (a, b) => {
+    const A = P[a], B = P[b];
+    if (B.x >= A.x + CW) { const x1 = A.x + CW, y1 = A.y + CH / 2, x2 = B.x, y2 = B.y + CH / 2, d = Math.max(7, (x2 - x1) / 2); return [x1, y1, x2, y2, `M${x1} ${y1} C${x1 + d} ${y1} ${x2 - d} ${y2} ${x2} ${y2}`]; }
+    if (A.x >= B.x + CW && A.y === B.y) { const x1 = A.x, y1 = A.y + CH / 2, x2 = B.x + CW, y2 = B.y + CH / 2; return [x1, y1, x2, y2, `M${x1} ${y1} L${x2} ${y2}`]; }
+    if (B.y > A.y) { const x1 = A.x + CW / 2, y1 = A.y + CH, x2 = B.x + CW / 2, y2 = B.y, d = (y2 - y1) / 2; return [x1, y1, x2, y2, `M${x1} ${y1} C${x1} ${y1 + d} ${x2} ${y2 - d} ${x2} ${y2}`]; }
+    const x1 = A.x + CW / 2 + 14, y1 = A.y, x2 = B.x + CW / 2 + 14, y2 = B.y + CH, d = (y1 - y2) / 2; return [x1, y1, x2, y2, `M${x1} ${y1} C${x1} ${y1 - d} ${x2} ${y2 + d} ${x2} ${y2}`];
+  };
+  let s = `<svg class="mg" viewBox="0 0 ${W} ${H}" role="img">`, ports = '';
+  g.e.forEach(e => { const r = route(e[0], e[1]); s += `<path class="e${e[2] ? ' dash' : ''}" data-a="${e[0]}" data-b="${e[1]}" d="${r[4]}"/>`; ports += `<circle class="p" cx="${r[0]}" cy="${r[1]}" r="2.6"/><circle class="p" cx="${r[2]}" cy="${r[3]}" r="2.6"/>`; });
+  g.n.forEach(n => { const p = P[n[0]];
+    s += `<g class="n" data-id="${n[0]}" transform="translate(${p.x},${p.y})"><rect class="b" width="${CW}" height="${CH}" rx="6"/><rect class="ib" x="8" y="10" width="26" height="26" rx="5"/>`
+      + `<g transform="translate(13,15)"><path class="ic" d="${IC[n[3]]}"/></g><text class="l" x="42" y="20">${esc(n[4])}</text><text class="s" x="42" y="35">${esc(T(n[5]))}</text></g>`; });
+  return s + ports + '</svg>';
+}
+function mgMount(box, g) {
+  box.innerHTML = `<div class="mgc"><div class="top"><span>${esc(g.file)}</span><span class="live-dot">${g.n.length} nodes · ${g.e.length} edges</span></div><div class="cv">${mgHTML(g)}</div><div class="ins"><b></b><span></span></div></div>`;
+  const svg = box.querySelector('svg'), ib = box.querySelector('.ins b'), is = box.querySelector('.ins span');
+  const ids = g.n.map(n => n[0]); let i = 0, hov = false, timer = null;
+  const show = id => {
+    const n = g.n.find(x => x[0] === id); svg.classList.add('focus');
+    svg.querySelectorAll('.n').forEach(el => el.classList.toggle('hl', el.dataset.id === id || g.e.some(e => (e[0] === id && e[1] === el.dataset.id) || (e[1] === id && e[0] === el.dataset.id))));
+    svg.querySelectorAll('.e').forEach(el => el.classList.toggle('hl', el.dataset.a === id || el.dataset.b === id));
+    ib.textContent = n[4]; is.textContent = T(n[6]); i = ids.indexOf(id);
+  };
+  svg.querySelectorAll('.n').forEach(el => { el.addEventListener('mouseenter', () => { hov = true; show(el.dataset.id); }); el.addEventListener('click', () => { hov = true; show(el.dataset.id); }); });
+  svg.addEventListener('mouseleave', () => { hov = false; });
+  show(ids[0]);
+  if (!RM) { const io = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting && !timer) timer = setInterval(() => { if (!hov) show(ids[(i + 1) % ids.length]); }, 2600);
+      if (!en.isIntersecting && timer) { clearInterval(timer); timer = null; } }));
+    io.observe(box); box._io = io; box._stop = () => { clearInterval(timer); timer = null; }; }
+}
+
+/* render */
+const fmt = n => n >= 1000 ? n.toLocaleString(LANG === 'ru' ? 'ru-RU' : 'en-US') : String(n);
+function render() {
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-t]').forEach(el => { const key = (TOUCH && UI[el.dataset.t + 'T']) ? el.dataset.t + 'T' : el.dataset.t; const v = T(UI[key]); if (el.hasAttribute('data-html')) el.innerHTML = v; else el.textContent = v; });
+  $('#b_en').classList.toggle('on', LANG === 'en'); $('#b_ru').classList.toggle('on', LANG === 'ru');
+  $('#stats').innerHTML = STATS.map(s => `<div><b ${s.to ? `data-to="${s.to}" data-pre="${s.pre || ''}" data-suf="${esc(T(s.suf) || '')}"` : ''}>${s.to ? (s.pre || '') + fmt(s.to) + T(s.suf || '') : s.txt}</b><span>${esc(T(s.t))}</span></div>`).join('');
+  const m = TOOLS.map(x => `<span>${x}</span><span class="s">✦</span>`).join(''); $('#marq').innerHTML = m + m;
+  document.querySelectorAll('.viz').forEach(v => { v._io && v._io.disconnect(); v._stop && v._stop(); });
+  $('#cases').innerHTML = CASES.map((c, k) => `<article class="case"><div class="rv"><div class="no">${esc(T(c.no))}</div><h3>${esc(T(c.title))}</h3><p class="lead">${esc(T(c.lead))}</p>`
+    + `<ul>${T(c.b).map(b => `<li>${esc(b)}</li>`).join('')}</ul><div class="sig">${c.sig}</div>`
+    + `<div class="res">${c.res.map(r => `<div><b>${esc(T(r[0]))}</b><span>${esc(T(r[1]))}</span></div>`).join('')}</div><div class="tags">${c.tags.map(t => `<span>${t}</span>`).join('')}</div></div>`
+    + `<div class="viz rv" data-case="${k}"></div></article>`).join('');
+  document.querySelectorAll('#cases .viz').forEach(v => mgMount(v, CASES[+v.dataset.case].g));
+  mgMount($('#imgviz'), IMGG);
+  $('#caps').innerHTML = CAPS.map(c => `<div><b>${esc(T(c[0]))}</b><span>${esc(T(c[1]))}</span></div>`).join('');
+  const card = c => `<div class="cardx rv"><div class="hd"><span>${esc(T(c[2]))}</span><i>${c[1]}</i></div><div class="ic">${SCH[c[0]]}</div><h5>${esc(T(c[3]))}</h5><p>${esc(T(c[4]))}</p>${c[5] ? `<a class="go" href="${c[5]}">${LANG === 'ru' ? 'открыть' : 'open'} ↗</a>` : ''}</div>`;
+  $('#rndcards').innerHTML = RND.map(card).join('');
+  const HS = ['a3f9c1e', '7d02b4a', '4e81c07', '19bf6d2'];
+  $('#tl').innerHTML = `<div class="gitcmd">$ git log --career</div>` + PATH.map((p, i) => `<div class="it${p.now ? ' now' : ''}"><div class="when"><span class="hash">${HS[i]}</span>${esc(T(p.when))}</div><div><h5>${esc(T(p.t))}</h5><div class="co">${esc(T(p.co))}</div>${p.p ? `<p>${esc(T(p.p))}</p>` : ''}</div></div>`).join('');
+  $('#toolkit').innerHTML = `<div class="json"><div class="jh">toolkit.json</div><pre>{\n` + KIT.map((k, i) => `  <span class="key">"${k[0].en.toLowerCase().replace(/ · /g, '_').replace(/ /g, '_')}"</span>: [${k[1].map(t => `<span class="s">"${esc(t)}"</span>`).join(', ')}]${i < KIT.length - 1 ? ',' : ''}`).join('\n') + `\n}</pre></div>`;
+  heroTexts(); observe();
+}
+
+/* reveal + count-up */
+let RIO;
+function observe() {
+  if (RIO) RIO.disconnect();
+  RIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); RIO.unobserve(e.target); if (e.target.id === 'stats') countUp(); } }), {threshold: .1});
+  document.querySelectorAll('.rv:not(.in)').forEach(el => RIO.observe(el));
+}
+function countUp() {
+  if (RM) return;
+  document.querySelectorAll('#stats [data-to]').forEach(el => {
+    const to = +el.dataset.to, pre = el.dataset.pre, suf = el.dataset.suf, t0 = performance.now();
+    const step = now => { const k = Math.min(1, (now - t0) / 1400), v = Math.round(to * (1 - Math.pow(1 - k, 3))); el.textContent = pre + fmt(v) + suf; if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+
+/* hero dot field */
+(function dots() {
+  const cv = $('#dots'), hero = $('.hero'), ctx = cv.getContext('2d'); let mx = -999, my = -999, W = 0, H = 0, dpr = 1, raf = 0;
+  const size = () => { dpr = Math.min(2, devicePixelRatio || 1); W = hero.clientWidth; H = hero.clientHeight; cv.width = W * dpr; cv.height = H * dpr; draw(); };
+  function draw() {
+    raf = 0; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    const c1 = css('--line'), c2 = css('--accent'), G = 22;
+    for (let y = G / 2; y < H; y += G) for (let x = G / 2; x < W; x += G) {
+      const d = Math.hypot(x - mx, y - my), k = Math.max(0, 1 - d / 150);
+      ctx.fillStyle = k > .05 ? c2 : c1; ctx.globalAlpha = k > .05 ? .25 + .75 * k : 1;
+      ctx.beginPath(); ctx.arc(x, y, 1 + 1.3 * k, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  hero.addEventListener('mousemove', e => { const r = hero.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; if (!raf) raf = requestAnimationFrame(draw); });
+  hero.addEventListener('mouseleave', () => { mx = my = -999; if (!raf) raf = requestAnimationFrame(draw); });
+  addEventListener('resize', size); window._redrawDots = draw; size();
+})();
+
+/* halftone portrait (WebGL): b&w dots everywhere, original colour under the cursor */
+(function portrait() {
+  const cv = $('#pcv'), fr = $('#pframe');
+  const gl = cv.getContext('webgl', {premultipliedAlpha: false});
+  if (!gl || !window.PHOTO) { cv.remove(); return; }
+  const vs = 'attribute vec2 p;varying vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}';
+  const fs = `precision mediump float;varying vec2 uv;uniform sampler2D img;uniform vec2 res;uniform vec2 mouse;uniform float rad;uniform float cell;uniform vec3 bg;uniform vec3 ink;uniform float inv;
+  void main(){vec2 px=uv*res;vec2 c=floor(px/cell)*cell+cell*.5;vec2 cu=c/res;vec3 s=texture2D(img,cu).rgb;float l=dot(s,vec3(.299,.587,.114));
+  vec2 q=(cu-vec2(.45,.53))/vec2(.31,.47);float subj=1.-smoothstep(.75,1.05,length(q));
+  l=smoothstep(.03,.97,l);l=mix(pow(l,1.55),pow(l,.85),inv);float v=mix(1.-l,l,inv);v=mix(v*.45,.08+.92*v,subj);
+  float r=v*cell*.62;float d=length(px-c);float m=1.-smoothstep(r-.7,r+.7,d);vec3 ht=mix(bg,ink,m);
+  float md=length(px-mouse);float k=1.-smoothstep(rad*.62,rad,md);vec3 o=texture2D(img,uv).rgb;
+  float ring=smoothstep(rad-1.2,rad,md)*(1.-smoothstep(rad,rad+1.2,md))*step(1.,rad);
+  gl_FragColor=vec4(mix(mix(ht,o,k),ink,ring*.5),1.);}`;
+  const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return o; };
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { cv.remove(); return; }
+  gl.useProgram(pr);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const pl = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(pl); gl.vertexAttribPointer(pl, 2, gl.FLOAT, false, 0, 0);
+  const U = n => gl.getUniformLocation(pr, n);
+  const hex = h => { h = h.replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16) / 255); };
+  let mx = -1e4, my = -1e4, tx = -1e4, ty = -1e4, rad = 0, trad = 0, ready = false, raf = 0, W = 0, H = 0;
+  const img = new Image();
+  img.onload = () => {
+    const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+    [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(p => gl.texParameteri(gl.TEXTURE_2D, p, gl.LINEAR));
+    [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(p => gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE));
+    ready = true; size(); $('#pimg').style.visibility = 'hidden';
+  };
+  img.src = window.PHOTO;
+  function size() { const d = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth * d; H = cv.clientHeight * d; cv.width = W; cv.height = H; gl.viewport(0, 0, W, H); frame(); }
+  function frame() {
+    raf = 0; if (!ready) return;
+    mx += (tx - mx) * .2; my += (ty - my) * .2; rad += (trad - rad) * .14;
+    const d = W / cv.clientWidth, r = document.documentElement, dark = r.getAttribute('data-theme') === 'dark' || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    gl.uniform2f(U('res'), W, H); gl.uniform2f(U('mouse'), mx, my); gl.uniform1f(U('rad'), rad); gl.uniform1f(U('cell'), 4.4 * d);
+    gl.uniform3fv(U('bg'), hex(css('--ht-bg'))); gl.uniform3fv(U('ink'), hex(css('--ht-ink'))); gl.uniform1f(U('inv'), dark ? 1 : 0);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (Math.abs(tx - mx) > .5 || Math.abs(ty - my) > .5 || Math.abs(trad - rad) > .5) raf = requestAnimationFrame(frame);
+  }
+  const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
+  fr.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(), d = W / r.width; tx = (e.clientX - r.left) * d; ty = (r.bottom - e.clientY) * d; if (mx < -1e3) { mx = tx; my = ty; } trad = 120 * d; kick(); });
+  fr.addEventListener('pointerleave', () => { trad = 0; kick(); });
+  fr.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse') return; const r = cv.getBoundingClientRect(), d = W / r.width; tx = mx = (e.clientX - r.left) * d; ty = my = (r.bottom - e.clientY) * d; trad = 110 * d; kick(); });
+  fr.addEventListener('pointerup', e => { if (e.pointerType === 'mouse') return; setTimeout(() => { trad = 0; kick(); }, 900); });
+  addEventListener('resize', size); window._redrawPortrait = () => frame();
+})();
+
+/* live pipeline */
+const H = {lay: null, pos: {}, els: {}, scale: 1};
+function nodeBody(id) {
+  const ph = 'assets/photo.jpg', nar = H.lay === 'narrow';
+  if (id === 'img') return `<img class="nimg" src="${ph}" alt=""><div class="nfoot">illia.jpg · 640×640</div>`;
+  if (id === 'aud') { let w = ''; for (let i = 0; i < 26; i++) { const h = 20 + Math.round(80 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * .45))); w += `<span style="height:${h}%;animation-delay:${(i % 7) * .07}s"></span>`; } return `<div class="wave">${w}</div><div class="nfoot">track.wav · 0:15</div>`; }
+  if (id === 'mdl') return `<div class="row">image <b>flux · gemini</b></div><div class="row">video <b>kling · seedance</b></div><div class="row" style="margin:0">voice <b>elevenlabs</b></div>`;
+  if (id === 'gen') return `<div class="row">seed <b>017</b></div><div class="row">slots <b>4 parallel</b></div><div class="bar"><i></i></div>`;
+  if (id === 'ren') return `<div class="row">engine <b>ffmpeg / ae</b></div><div class="row" style="margin:0">formats <b>9:16 · 4:5</b></div><div class="bar"><i></i></div>`;
+  if (id === 'qa') return `<div class="row">frames · audio <b class="qs">—</b></div><div class="row" style="margin:0">retry <b>auto</b></div>`;
+  if (id === 'out') { const h = nar ? 174 : 156, w1 = nar ? 98 : 88, w2 = nar ? 139 : 125;
+    return `<div class="outs"><div class="fr f916" style="width:${w1}px;height:${h}px"><div class="ph"></div><span class="tag">AI GENERATED</span><span class="wait">waiting…</span><span class="lb">9:16 · 1080×1920</span></div>`
+    + `<div class="fr f45" style="width:${w2}px;height:${h}px"><div class="ph"></div><span class="tag">AI GENERATED</span><span class="wait">waiting…</span><span class="lb">4:5 · 1080×1350</span></div></div><div class="exp"><span class="cnt">0 assets</span><span class="b">Export ↗</span></div>`; }
+  return '';
+}
+function heroBuild() {
+  const c = $('#canvas'), lay = c.clientWidth < 700 ? 'narrow' : 'wide';
+  if (lay !== H.lay) {
+    H.lay = lay; const L = HLAY[lay], st = $('#stage'); st.classList.toggle('nar', lay === 'narrow'); st.style.width = L.w + 'px'; st.style.height = L.h + 'px';
+    st.querySelectorAll('.node').forEach(n => n.remove()); H.els = {};
+    Object.keys(HN).forEach(id => {
+      const n = document.createElement('div'); n.className = 'node'; n.dataset.id = id; n.style.width = HN[id].w[lay === 'wide' ? 0 : 1] + 'px';
+      n.innerHTML = `<div class="nh"><span class="dot"></span>${ico(HN[id].ic)}${HN[id].head[0]} · <b>${HN[id].head[1]}</b><span class="st">idle</span></div><div class="nb">${nodeBody(id)}</div>` + (['img', 'aud', 'mdl'].includes(id) ? '' : '<i class="port i"></i>') + (id !== 'out' && id !== 'mdl' ? '<i class="port o"></i>' : '');
+      st.appendChild(n); H.els[id] = n; H.pos[id] = L.pos[id].slice(); place(id); drag(n);
+      n.addEventListener('mouseenter', () => focusNode(id)); n.addEventListener('mouseleave', () => { if (!n.classList.contains('drag')) focusNode(null); });
+    });
+    const sv = $('#wires'); sv.setAttribute('width', L.w); sv.setAttribute('height', L.h);
+    sv.innerHTML = HE.map((e, i) => `<path class="wire${e[2] === 'loop' ? ' loop' : ''}" data-i="${i}"/>`).join('') + HE.map((e, i) => `<circle class="pulse" r="3" data-i="${i}"/>`).join('');
+    H.done = false;
+  }
+  H.scale = Math.min(1, c.clientWidth / HLAY[lay].w); $('#stage').style.transform = `scale(${H.scale})`; c.style.height = HLAY[lay].h * H.scale + 'px';
+  wires();
+}
+function place(id) { const n = H.els[id]; n.style.left = H.pos[id][0] + 'px'; n.style.top = H.pos[id][1] + 'px'; }
+function box(id) { const n = H.els[id]; return {x: H.pos[id][0], y: H.pos[id][1], w: n.offsetWidth, h: n.offsetHeight}; }
+function hits(id, x, y) {
+  const a = H.els[id], w = a.offsetWidth, h = a.offsetHeight, G = 14;
+  return Object.keys(H.els).some(k => { if (k === id) return false; const b = box(k); return x < b.x + b.w + G && x + w + G > b.x && y < b.y + b.h + G && y + h + G > b.y; });
+}
+function wires() {
+  const ps = document.querySelectorAll('#wires path'), nar = H.lay === 'narrow';
+  HE.forEach((e, i) => {
+    const a = box(e[0]), b = box(e[1]); let d;
+    if (e[2] === 'loop' && nar) { const x1 = a.x, y1 = a.y + a.h / 2, x2 = b.x, y2 = b.y + b.h / 2; d = `M${x1} ${y1} C${x1 - 70} ${y1} ${x2 - 70} ${y2} ${x2} ${y2}`; }
+    else if (e[2] === 'loop') { const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y + b.h, dy = Math.max(y1, y2) + 46; d = `M${x1} ${y1} C${x1} ${dy} ${x2} ${dy} ${x2} ${y2}`; }
+    else if (b.x >= a.x + a.w) { const x1 = a.x + a.w, y1 = a.y + 15, x2 = b.x, y2 = b.y + 15, dx = Math.max(30, Math.abs(x2 - x1) * .5); d = `M${x1} ${y1} C${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}`; }
+    else { const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y, dy = Math.max(16, (y2 - y1) / 2); d = `M${x1} ${y1} C${x1} ${y1 + dy} ${x2} ${y2 - dy} ${x2} ${y2}`; }
+    ps[i].setAttribute('d', d);
+  });
+}
+function focusNode(id) {
+  $('#stage').classList.toggle('focus', !!id);
+  Object.keys(H.els).forEach(k => H.els[k].classList.toggle('hl', !!id && (k === id || HE.some(e => (e[0] === id && e[1] === k) || (e[1] === id && e[0] === k)))));
+  document.querySelectorAll('#wires path').forEach((p, i) => p.classList.toggle('hl', !!id && (HE[i][0] === id || HE[i][1] === id)));
+  H.focus = id; heroTexts();
+}
+function heroTexts() {
+  const id = H.focus; $('#ik').textContent = id ? HN[id].head[1] : (LANG === 'ru' ? 'инспектор' : 'inspector');
+  $('#iv').textContent = id ? T(HN[id].info) : (LANG === 'ru' ? (TOUCH ? 'Нажми на ноду или Run.' : 'Наведи на ноду или нажми Run.') : (TOUCH ? 'Tap a node or press Run.' : 'Hover a node or press Run.'));
+  $('#runbtn').textContent = H.running ? (LANG === 'ru' ? '… идёт' : '… running') : (H.done ? (LANG === 'ru' ? '↻ Ещё раз' : '↻ Run again') : '▶ Run');
+}
+/* drag with collision: nodes never overlap */
+function drag(n) {
+  if (TOUCH) { n.style.touchAction = 'auto'; n.style.cursor = 'pointer'; n.addEventListener('click', () => focusNode(H.focus === n.dataset.id ? null : n.dataset.id)); return; }
+  let sx, sy, ox, oy, on = false;
+  n.addEventListener('pointerdown', e => { on = true; n.setPointerCapture(e.pointerId); n.classList.add('drag'); sx = e.clientX; sy = e.clientY; [ox, oy] = H.pos[n.dataset.id]; focusNode(n.dataset.id); });
+  n.addEventListener('pointermove', e => {
+    if (!on) return; const L = HLAY[H.lay], id = n.dataset.id, [cx, cy] = H.pos[id];
+    const nx = Math.max(0, Math.min(L.w - n.offsetWidth, ox + (e.clientX - sx) / H.scale)), ny = Math.max(0, Math.min(L.h - n.offsetHeight, oy + (e.clientY - sy) / H.scale));
+    if (!hits(id, nx, ny)) H.pos[id] = [nx, ny]; else if (!hits(id, nx, cy)) H.pos[id] = [nx, cy]; else if (!hits(id, cx, ny)) H.pos[id] = [cx, ny]; else return;
+    place(id); wires();
+  });
+  const up = () => { on = false; n.classList.remove('drag'); };
+  n.addEventListener('pointerup', up); n.addEventListener('pointercancel', up);
+}
+(function pulses() {
+  if (RM) return; let vis = false;
+  new IntersectionObserver(es => vis = es[0].isIntersecting).observe($('#canvas'));
+  const tick = now => {
+    if (vis) { const ps = document.querySelectorAll('#wires path'), cs = document.querySelectorAll('#wires circle');
+      ps.forEach((p, i) => { const L = p.getTotalLength(); if (!L) return; const hl = p.classList.contains('hl') || (H.running && H.activeEdge === i);
+        const k = ((now * (hl ? .25 : .1) / Math.max(L, 200)) + i * .37) % 1, pt = p.getPointAtLength(k * L);
+        cs[i].setAttribute('cx', pt.x); cs[i].setAttribute('cy', pt.y); cs[i].setAttribute('r', hl ? 3.4 : 2.3); cs[i].style.opacity = H.focus && !p.classList.contains('hl') ? .15 : (hl ? 1 : .5); }); }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+})();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function run() {
+  if (H.running) return; H.running = true; H.done = false; heroTexts(); $('#runstate').textContent = 'running';
+  Object.values(H.els).forEach(n => { n.classList.remove('run', 'done'); n.querySelector('.st').textContent = 'queued'; n.querySelectorAll('.bar i').forEach(b => { b.style.transition = 'none'; b.style.width = '0'; }); });
+  H.els.out.querySelectorAll('.fr').forEach(f => f.classList.remove('ready')); H.els.out.querySelector('.cnt').textContent = '0 assets'; H.els.qa.querySelector('.qs').textContent = '—';
+  const step = async (id, ms, edge) => {
+    const n = H.els[id]; n.classList.add('run'); n.querySelector('.st').textContent = 'running'; if (edge != null) H.activeEdge = edge;
+    n.querySelectorAll('.bar i').forEach(b => { void b.offsetWidth; b.style.transition = `width ${ms}ms linear`; b.style.width = '100%'; });
+    await sleep(RM ? 60 : ms); n.classList.remove('run'); n.classList.add('done'); n.querySelector('.st').textContent = '✓ done';
+  };
+  await Promise.all([step('img', 500), step('aud', 650), step('mdl', 450)]);
+  await step('gen', 1700, 0); await step('ren', 1300, 2);
+  H.els.qa.querySelector('.qs').textContent = 'passed'; await step('qa', 700, 4);
+  const o = H.els.out; o.classList.add('run'); o.querySelector('.st').textContent = 'exporting'; H.activeEdge = 5;
+  const fs = o.querySelectorAll('.fr'); await sleep(350); fs[0].classList.add('ready'); o.querySelector('.cnt').textContent = '1 asset ready'; await sleep(450); fs[1].classList.add('ready');
+  o.querySelector('.cnt').textContent = '2 assets ready'; o.classList.remove('run'); o.classList.add('done'); o.querySelector('.st').textContent = '✓ ready';
+  H.running = false; H.done = true; H.activeEdge = null; $('#runstate').textContent = H.lay === 'narrow' ? 'done' : 'done · ~10 min in real life'; heroTexts();
+}
+$('#runbtn').addEventListener('click', run);
+
+/* latent band */
+(function latent() {
+  const cv = $('#lcv'), bx = $('#latent'), ctx = cv.getContext('2d'); let W, Hh, dpr, mx = .5, tmx = .5, amp = 1, tamp = 1, vis = false;
+  const size = () => { dpr = Math.min(2, devicePixelRatio || 1); W = bx.clientWidth; Hh = bx.clientHeight; cv.width = W * dpr; cv.height = Hh * dpr; };
+  bx.addEventListener('mousemove', e => { const r = bx.getBoundingClientRect(); tmx = (e.clientX - r.left) / r.width; tamp = 1.35; });
+  bx.addEventListener('mouseleave', () => { tmx = .5; tamp = 1; });
+  new IntersectionObserver(es => vis = es[0].isIntersecting).observe(bx);
+  addEventListener('resize', size); size();
+  const N = 34;
+  const draw = now => {
+    requestAnimationFrame(draw); if (!vis) return;
+    mx += (tmx - mx) * .06; amp += (tamp - amp) * .05; const t = RM ? 0 : now * .00035;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, Hh); ctx.strokeStyle = css('--accent'); ctx.lineWidth = 1;
+    const cy = Hh / 2, A = Hh * .36;
+    for (let i = 0; i < N; i++) {
+      const f = i / (N - 1) * 2 - 1; ctx.globalAlpha = .12 + .38 * (1 - Math.abs(f)); ctx.beginPath();
+      for (let x = 0; x <= W; x += 6) {
+        const u = x / W, env = Math.pow(Math.sin(Math.PI * u), 1.4), g = Math.exp(-Math.pow((u - mx) / .16, 2));
+        const y = cy + A * env * (f * .95 * Math.sin(u * 9.4 + t * 2 + f * .6) + .3 * Math.sin(u * 4.7 - t + i * .03)) * (1 + (amp - 1) * g * 2.2);
+        x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  };
+  requestAnimationFrame(draw);
+})();
+
+/* lang + theme */
+function setLang(l) { LANG = l; try { localStorage.setItem('pf-lang', l); } catch (e) {} render(); }
+$('#b_en').onclick = () => setLang('en'); $('#b_ru').onclick = () => setLang('ru');
+$('#b_th').onclick = () => { const r = document.documentElement, cur = r.getAttribute('data-theme'), dark = cur ? cur === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  r.setAttribute('data-theme', dark ? 'light' : 'dark'); try { localStorage.setItem('pf-theme', dark ? 'light' : 'dark'); } catch (e) {} retheme(); };
+function retheme() { window._redrawDots && window._redrawDots(); window._redrawPortrait && window._redrawPortrait(); }
+addEventListener('message', e => { if (e.data && typeof e.data === 'object' && 'hubTheme' in e.data) setTimeout(retheme, 30); });
+try { const th = localStorage.getItem('pf-theme'); if (th && !localStorage.getItem('hub-theme')) document.documentElement.setAttribute('data-theme', th); } catch (e) {}
+let q = location.hash === '#ru' ? 'ru' : null; try { q = q || localStorage.getItem('pf-lang'); } catch (e) {}
+LANG = q === 'ru' ? 'ru' : 'en';
+render(); heroBuild(); retheme();
+addEventListener('resize', () => { clearTimeout(window._rz); window._rz = setTimeout(heroBuild, 120); });
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); setTimeout(run, 700); } }, {threshold: .45}).observe($('#canvas'));
+</script>
+</body>
+</html>
