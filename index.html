@@ -371,6 +371,9 @@ section{padding:84px 0 0}
 <script>
 /* ============ ICONS (16×16, stroke) ============ */
 const IC = {
+  mic:'M6 2.5a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0z M3.5 7a4.5 4.5 0 0 0 9 0 M8 11.5v3 M5.5 14.5h5',
+  spk:'M2 6h3l4-3.5v11L5 10H2z M11.5 5.5a3.5 3.5 0 0 1 0 5 M13 3.5a6 6 0 0 1 0 9',
+  plug:'M1.5 8h3 M4.5 5h4v6h-4z M8.5 6.5h3 M8.5 9.5h3 M11.5 6.5v3 M11.5 8h3',
   form:'M3 1.5h10v13H3z M5.5 5h5 M5.5 8h5 M5.5 11h3',
   chip:'M4 4h8v8H4z M6.5 1.5v2.5 M9.5 1.5v2.5 M6.5 12v2.5 M9.5 12v2.5 M1.5 6.5H4 M1.5 9.5H4 M12 6.5h2.5 M12 9.5h2.5',
   spark:'M8 1.5l1.5 4.6 4.6 1.5-4.6 1.5L8 13.7 6.5 9.1 1.9 7.6l4.6-1.5z',
@@ -541,6 +544,23 @@ const CASES = [
    ['ren',2,1,'play','RENDER','FFmpeg',{en:'Both formats.',ru:'Оба формата.'}],
    ['qa',2,2,'ok','QA',{en:'re-plan if off',ru:'перепланировать'},{en:'Jump cuts, black frames, loudness.',ru:'Джамп-каты, чёрные кадры, громкость.'}],
   ],e:[['clips','clip'],['clip','plan'],['mus','beat'],['beat','plan'],['tpl','plan'],['plan','ren'],['ren','qa']]}},
+ {no:{en:'06 · personal project',ru:'06 · личный проект'},
+  title:{en:'Real-time call translator in my own voice',ru:'Синхронный переводчик созвонов моим голосом'},
+  lead:{en:'I speak Russian — about a second later the other side hears English in my own voice. Built it to work with international teams while my spoken English catches up.',ru:'Говорю по-русски — примерно через секунду собеседник слышит английский моим голосом. Сделал, чтобы работать с иностранными командами, пока подтягиваю разговорный английский.'},
+  b:{"en": ["Everything runs offline on one GPU: no cloud APIs, no cost per minute, nothing leaves the computer", "Speech is cut into phrases on pauses, recognised by Whisper and translated by a local LLM that keeps terms, names and numbers intact", "A clone of my voice (Chatterbox) speaks the translation sentence by sentence, so the first words play while the rest is still generating", "A virtual audio cable turns it into an ordinary microphone for Meet, Zoom, Teams and Telegram. The other direction is live Russian subtitles in a small window"], "ru": ["Всё работает локально на одной видеокарте: без облачных API, без оплаты за минуту, ничего не уходит с компьютера", "Речь режется на фразы по паузам, распознаётся Whisper и переводится локальной LLM, которая сохраняет термины, имена и цифры", "Перевод озвучивает клон моего голоса (Chatterbox) по предложениям — первые слова звучат, пока остальное ещё генерируется", "Виртуальный аудиокабель делает из этого обычный микрофон для Meet, Zoom, Teams и Telegram. В обратную сторону — русские субтитры собеседника в маленьком окне"]},
+  sig:"<span class=\"f\">speak</span>(myVoice, <span class=\"f\">translate</span>(<span class=\"f\">whisper</span>(mic)))  <span class=\"c\">// ~1 s · offline</span>",
+  res:[['~1 s',{en:'phrase → voice',ru:'фраза → голос'}],['100%',{en:'local, one GPU',ru:'локально, одна видеокарта'}],['4',{en:'call apps',ru:'приложения для звонков'}]],
+  tags:['Python','faster-whisper','Silero VAD','Ollama · Qwen','Chatterbox','VB-CABLE','CUDA'],
+  g:{file:'call-translator.json',rows:3,n:[
+   ['mic',0,0,'mic','MIC',{en:'Russian speech',ru:'русская речь'},{en:'My usual microphone.',ru:'Мой обычный микрофон.'}],
+   ['vad',0,1,'wave','PHRASES','Silero VAD',{en:'Cuts speech into phrases on pauses.',ru:'Режет речь на фразы по паузам.'}],
+   ['asr',1,0,'doc','WHISPER',{en:'speech → text',ru:'речь → текст'},{en:'Recognition on the GPU in ~0.2 s.',ru:'Распознавание на видеокарте за ~0,2 с.'}],
+   ['llm',1,1,'chip','TRANSLATE',{en:'local LLM',ru:'локальная LLM'},{en:'Keeps terms, names and numbers.',ru:'Сохраняет термины, имена и цифры.'}],
+   ['tts',2,0,'spk','MY VOICE','Chatterbox',{en:'Voice clone, sentence by sentence.',ru:'Клон голоса, по предложениям.'}],
+   ['cab',2,1,'plug','VIRTUAL MIC','VB-CABLE',{en:'Call apps see it as a microphone.',ru:'Звонилки видят его как микрофон.'}],
+   ['call',2,2,'globe','CALL',{en:'Meet · Zoom · Teams',ru:'Meet · Zoom · Teams'},{en:'The other side hears English.',ru:'Собеседник слышит английский.'}],
+   ['sub',1,2,'list','SUBTITLES',{en:'EN → RU',ru:'EN → RU'},{en:'Their speech, shown in Russian.',ru:'Их речь — русским текстом.'}],
+  ],e:[['mic','vad'],['vad','asr'],['asr','llm'],['llm','tts'],['tts','cab'],['cab','call'],['call','sub','dash']]}},
 ];
 const IMGG = {file:'product-scene.json',rows:3,n:[
   ['prod',0,0,'box','PRODUCT',{en:'real photo',ru:'реальное фото'},{en:'The product itself is never generated.',ru:'Сам товар не генерируется.'}],
@@ -593,7 +613,7 @@ const SIDE = [
   ['chart','P-06',{en:'automation',ru:'автоматизация'},{en:'Alert bot on an old phone',ru:'Бот на старом телефоне'},{en:'Telegram bot running 24/7 on Android, updates itself.',ru:'Telegram-бот круглосуточно на Android, обновляется сам.'}],
 ];
 const PATH = [
-  {now:1,when:{en:'Feb 2026 — now',ru:'фев 2026 — сейчас'},t:'AI Graphic Engineer',co:'Bitlica · remote',p:{en:'First and only person in the role. Built the AI creative function from zero: production pipelines, the automations section of the company’s web platform, reliability and cost control, guides and training for the team.',ru:'Первый и единственный на роли. Построил направление AI-креативов с нуля: рабочие пайплайны, раздел автоматизаций на сайте компании, надёжность и контроль расходов, инструкции и обучение команды.'}},
+  {now:1,when:{en:'Feb 2026 — now',ru:'фев 2026 — сейчас'},t:'AI Graphic Engineer',co:'Bitlica · remote',p:{en:'Built the AI creative function from zero: production pipelines, the automations section of the company’s web platform, reliability and cost control, guides and training for the team.',ru:'Построил направление AI-креативов с нуля: рабочие пайплайны, раздел автоматизаций на сайте компании, надёжность и контроль расходов, инструкции и обучение команды.'}},
   {when:{en:'Jun 2023 — Jun 2025',ru:'июн 2023 — июн 2025'},t:{en:'Designer · 3D & generative AI',ru:'Дизайнер · 3D и генеративный AI'},co:'X-Labs Inc. · US · remote',p:{en:'3D models of buildings, districts and cities for US and EU projects; renders, video walkthroughs and VR. With the lead architect — a football academy in Brazil that reached construction. Brought Stable Diffusion, SDXL and Flux in ComfyUI into the visualization workflow.',ru:'3D-модели зданий, кварталов и городов для проектов в США и Европе; рендеры, видеопрогулки и VR. С главным архитектором — футбольная академия в Бразилии, дошедшая до стройки. Внедрил Stable Diffusion, SDXL и Flux в ComfyUI в работу визуализации.'}},
   {when:{en:'2024',ru:'2024'},t:{en:'Interior & spatial design',ru:'Дизайн интерьера и среды'},co:{en:'Institute of Modern Knowledge, Minsk',ru:'Институт современных знаний, Минск'}},
   {when:{en:'Sep 2022 — Jun 2023',ru:'сен 2022 — июн 2023'},t:'Design Engineer',co:'FERICO',p:{en:'Production drawings and cutting layouts in AutoCAD — where the habit of precise, buildable systems started.',ru:'Производственные чертежи и раскрой в AutoCAD — отсюда привычка к точным системам, которые можно собрать.'}},
