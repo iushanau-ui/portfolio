@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AI-ролик от брифа до монтажа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ef;--bg2:#ebe9e3;--card:#fbfaf7;--ink:#1c1d1b;--muted:#5f645c;--faint:#a3a69d;--line:#dad9d0;--accent:#3d6b55;--accent2:#6f9a83;--accent-soft:#e2eae4;
+  --canvas:#e9e8e2;--grid:rgba(60,70,60,.07);--node:#fbfaf7;--wire:#8fa898;--run:#c98a2b;--bad:#b0563f;--shadow:0 1px 2px rgba(20,30,20,.05),0 10px 30px rgba(20,40,30,.08);
+  --mono:"JetBrains Mono",Consolas,ui-monospace,monospace;--sans:Inter,"Segoe UI",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--canvas:#0d0f0d;--grid:rgba(200,220,200,.05);--node:#1a1d1a;--wire:#4f6b5c;--run:#e0a54a;--bad:#e08a6f;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--canvas:#0d0f0d;--grid:rgba(200,220,200,.05);--node:#1a1d1a;--wire:#4f6b5c;--run:#e0a54a;--bad:#e08a6f;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans)}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.bar .wrap{display:flex;align-items:center;gap:16px;height:56px}
+.brand{font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap}
+.brand b{color:var(--ink);font-weight:500}
+.tabs{display:flex;gap:4px;margin-left:auto;background:var(--bg2);border-radius:10px;padding:3px}
+.tabs button,.lang button{border:0;background:transparent;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--muted)}
+.tabs button.on,.lang button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.lang{display:flex;gap:2px;font-family:var(--mono)}
+.lang button{padding:6px 8px;font-size:12px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:36px;align-items:center;padding:44px 0 30px}
+.hero.vertical{grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr)}
+.kicker{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+h1{font-size:40px;line-height:1.1;margin:10px 0 14px;letter-spacing:-.02em}
+.lead{color:var(--muted);font-size:16.5px;margin:0 0 18px}
+.stats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 16px}
+.stats div{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.stats b{display:block;font-family:var(--sans);font-size:20px;color:var(--ink);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted);background:var(--card)}
+.player{border-radius:14px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
+.player video{display:block;width:100%;height:auto}
+.vertical .player{max-width:360px;margin-left:auto}
+h2{font-size:22px;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 14px;font-size:14.5px}
+section.block{padding:26px 0}
+/* граф */
+.gpanel{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--canvas);box-shadow:var(--shadow)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--card)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:6px 12px;cursor:pointer;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0d120f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#0d120f}}
+.btn[disabled]{opacity:.55;cursor:default}
+.status{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto;text-align:right}
+.status b{color:var(--ink);font-weight:500}
+.viewport{position:relative;height:700px;overflow:hidden;cursor:grab;touch-action:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.viewport.drag{cursor:grabbing}
+.world{position:absolute;left:0;top:0;transform-origin:0 0}
+svg.wires{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+svg.wires path{fill:none;stroke:var(--wire);stroke-width:2}
+svg.wires path.live{stroke:var(--run);stroke-dasharray:6 6;animation:flow .6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-12}}
+.node{position:absolute;width:258px;background:var(--node);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);user-select:none;transition:border-color .2s,box-shadow .2s}
+.node:hover{border-color:var(--accent2)}
+.node.sel{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent),var(--shadow)}
+.node.run{border-color:var(--run)}
+.nh{display:flex;align-items:center;gap:8px;padding:9px 11px 7px;cursor:grab}
+.num{width:20px;height:20px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font:600 11px/20px var(--mono);text-align:center;flex:none}
+.nt{font-weight:600;font-size:13.5px;line-height:1.2}
+.nm{font-family:var(--mono);font-size:10.5px;color:var(--muted);padding:0 11px 7px;line-height:1.35}
+.port{position:absolute;top:22px;width:10px;height:10px;border-radius:50%;background:var(--node);border:2px solid var(--wire)}
+.port.in{left:-6px}.port.out{right:-6px}
+.nb{padding:0 9px 9px;position:relative}
+.pv{position:relative;border-radius:8px;overflow:hidden;background:var(--bg2);aspect-ratio:16/9}
+.pv.tall{aspect-ratio:9/16;width:62%;margin:0 auto}
+.pv img,.pv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pv .grid3{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.pv .grid3 img,.pv .grid3 video{position:static;width:100%;height:100%;object-fit:cover}
+.pv .grid4{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.pv .grid4 img{position:static;width:100%;height:100%;object-fit:cover}
+.pv .empty{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--faint)}
+.bar2{position:absolute;left:0;bottom:0;height:3px;background:var(--run);width:0}
+.auds{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.aud{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:4px 8px;cursor:pointer;background:var(--card)}
+.aud:hover{border-color:var(--accent2);color:var(--ink)}
+.aud .ic{width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:9px;flex:none}
+.aud.on .ic{background:var(--run)}
+.textbody{font-size:12.5px;color:var(--muted);line-height:1.45}
+.textbody q{display:block;color:var(--ink);font-style:italic;margin:3px 0;quotes:none}
+.params{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.params span{font-family:var(--mono);font-size:10.5px;background:var(--bg2);border-radius:5px;padding:2px 6px;color:var(--muted)}
+.vsel{display:flex;align-items:center;gap:6px;margin-top:7px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.vsel select{flex:1;min-width:0;font:inherit;font-size:11px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:3px 4px}
+.verdict{font-size:11.5px;margin-top:5px;line-height:1.35}
+.ok{color:var(--accent)}.no{color:var(--bad)}
+.tag{position:absolute;top:6px;right:6px;font-family:var(--mono);font-size:10px;background:rgba(0,0,0,.6);color:#fff;border-radius:5px;padding:1px 6px}
+.zoom{position:absolute;right:12px;bottom:12px;display:flex;flex-direction:column;gap:4px;z-index:5}
+.zoom button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--card);cursor:pointer}
+.hint{position:absolute;left:12px;bottom:12px;font-family:var(--mono);font-size:11px;color:var(--faint);z-index:5;pointer-events:none}
+/* инспектор */
+aside.insp{position:absolute;top:53px;right:0;bottom:0;width:min(440px,100%);background:var(--card);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .25s;z-index:10;overflow:auto;padding:18px 18px 30px}
+aside.insp.open{transform:none}
+.insp .x{position:absolute;top:10px;right:10px;border:0;background:transparent;font-size:20px;cursor:pointer;color:var(--muted)}
+.insp h3{margin:0 0 2px;font-size:18px}
+.insp .model{font-family:var(--mono);font-size:12px;color:var(--accent);margin:0 0 12px}
+.insp h4{font-size:12px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 6px}
+.insp p{margin:0 0 8px;font-size:14px}
+.insp .media{display:grid;gap:8px}
+.insp .media img,.insp .media video{width:100%;border-radius:8px;display:block;background:#000}
+.insp .media audio{width:100%}
+.insp .cap{font-size:12px;color:var(--muted);margin-top:-3px}
+.iters{display:grid;gap:10px}
+.iter{border:1px solid var(--line);border-radius:10px;padding:8px}
+.iter .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:4px}
+.iter img,.iter video{width:100%;border-radius:6px;display:block}
+.cmp{position:relative;border-radius:8px;overflow:hidden;user-select:none;touch-action:none;cursor:ew-resize}
+.cmp img{display:block;width:100%}
+.cmp .top{position:absolute;inset:0;clip-path:inset(0 0 0 50%)}
+.cmp .ln{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.5)}
+.cmp .lb{position:absolute;bottom:8px;font-family:var(--mono);font-size:10.5px;background:rgba(0,0,0,.6);color:#fff;padding:2px 6px;border-radius:5px}
+/* микшер */
+.mixer{max-width:900px}
+.tl{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px;position:relative;cursor:pointer}
+.tl .shots{display:flex;gap:2px;height:46px;margin-left:122px}
+.trk{width:114px;margin-right:8px;flex:none;display:flex;align-items:center;gap:7px;height:26px;padding:0 8px;border:1px solid var(--line);border-radius:7px;background:var(--bg2);cursor:pointer;font:500 11.5px var(--mono);color:var(--ink);text-align:left}
+.trk i{width:8px;height:8px;border-radius:50%;flex:none}
+.trk small{margin-left:auto;font-size:9.5px;color:var(--muted)}
+.trk.off{color:var(--faint);background:transparent}
+.trk.off i{background:transparent!important;box-shadow:inset 0 0 0 1.5px var(--faint)}
+@media (max-width:600px){.trk{width:86px;padding:0 6px}.trk small{display:none}.tl .shots{margin-left:94px}}
+.tl .shots div{position:relative;overflow:hidden;border-radius:4px;background-size:cover;background-position:center}
+.tl .shots span{position:absolute;left:4px;bottom:2px;font-size:10px;color:#fff;text-shadow:0 1px 2px #000;font-family:var(--mono)}
+.tl .row{display:flex;align-items:center;height:30px;margin-top:3px}
+.tl canvas{flex:1;height:30px;width:100%}
+.tl .ph{position:absolute;top:6px;bottom:6px;width:2px;background:var(--run);pointer-events:none}
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.note{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px}
+.note b{display:block;margin-bottom:4px}
+.note p{margin:0;color:var(--muted);font-size:14px}
+footer{padding:30px 0 50px;color:var(--faint);font-family:var(--mono);font-size:12px}
+@media (max-width:900px){.hero,.hero.vertical,.mixer,.notes{grid-template-columns:1fr}.vertical .player{margin:0 auto}h1{font-size:31px}.viewport{height:540px}.brand{display:none}.tabs{margin-left:0}}
+</style>
+<script>/*hub-theme*/(function(){function a(t){var r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}try{a(localStorage.getItem('hub-theme'))}catch(e){}addEventListener('message',function(e){if(e.data&&typeof e.data==='object'&&'hubTheme' in e.data)a(e.data.hubTheme)})})();</script>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../" style="text-decoration:none"><b>Illia Ushanau</b> · case</a>
+  <div class="tabs" id="tabs"></div>
+  <div class="lang" id="lang"><button data-l="ru">RU</button><button data-l="en">EN</button></div>
+</div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap" id="foot"></footer>
+<script src="media/t2/env.js"></script>
+<script>
+const M='media/';
+const VOL=.55;   // общая громкость страницы: все плееры стартуют тише
+document.addEventListener('play',e=>{const m=e.target;if(m.dataset&&!m.dataset.vol){m.dataset.vol=1;m.volume=VOL}},true);
+const L=(ru,en)=>({ru,en});
+let lang='ru';try{lang=localStorage.getItem('case-lang')||(location.hash==='#en'?'en':'ru')}catch(e){}
+const T=x=>x&&typeof x==='object'&&'ru' in x?x[lang]:x;
+
+const UI={
+  run:L('▶ Run','▶ Run'),again:L('▶ Run ещё раз','▶ Run again'),clear:L('Очистить кеш','Clear cache'),fit:L('По размеру','Fit'),
+  idle:L('Нажми Run - граф посчитает этапы по порядку','Press Run - the graph computes stages in order'),
+  running:L('Считается','Computing'),done:L('Готово','Done'),cache:L('с диска','from disk'),
+  gpu:L('на RTX 5070 с нуля','on an RTX 5070 from scratch'),gpuCache:L('повторный запуск: этапы взяты с диска','re-run: stages loaded from disk'),
+  hint:L('тяни фон - двигать · клик по ноде - подробности','drag the canvas · click a node for details'),
+  what:L('Что делает','What it does'),why:L('Почему так','Why this way'),out:L('Результат','Output'),iters:L('Итерации','Iterations'),
+  params:L('Настройки','Settings'),chosen:L('выбрано','chosen'),variant:L('вариант','variant'),
+  before:L('до','before'),after:L('после','after'),
+  mixer:L('Микшер: монтаж по дорожкам','Mixer: the edit, track by track'),
+  mixerSub:L('Звук собран в графе из отдельных дорожек. Включай и выключай их на таймлайне прямо во время просмотра.','The sound is assembled in the graph from separate tracks. Toggle them on the timeline while the video plays.'),
+  toggle:L('Включить или выключить дорожку','Mute or unmute the track'),
+  graph:L('Пайплайн в ComfyUI','The ComfyUI pipeline'),
+  graphSub:L('Это упрощённая карта настоящего графа: каждый блок - этап со своими моделями, внутри - сохранённые результаты и пробы. Нажми Run, чтобы увидеть порядок расчёта.','A simplified map of the real graph: each block is a stage with its models, results and trials. Press Run to watch the order of computation.'),
+  how:L('Как устроено','How it is built'),
+};
+
+/* ---------- данные: семейная сцена ---------- */
+const DIAL=[['Mom','Hey, have you finished your homework?'],['Son','I will, if you beat me in this game.'],['Dad','Seriously? Then let’s see what you can do.']];
+const G2={
+ key:'t2', tab:L('Семейная сцена','Family scene'),
+ kicker:L('AI-ролик · ComfyUI · open-source','AI video · ComfyUI · open-source'),
+ title:L('Семейная сцена: от брифа до монтажа','Family scene: from brief to final cut'),
+ lead:L('Пять шотов, три героя с диалогом и финал, где вся семья играет на диване. Голоса, кадры, липсинк, анимация, музыка, звуки и монтаж собраны в одном графе ComfyUI на открытых моделях.','Five shots, three characters with dialogue and a finale where the whole family plays together on the sofa. Voices, frames, lip-sync, animation, music, sound effects and the edit all live in one ComfyUI graph built on open models.'),
+ stats:[['15.7 s',L('ролик','video')],['5',L('шотов','shots')],['1280×720 · 60 fps','']],
+ chips:['Qwen3-TTS','Krea 2','Qwen-Image-Edit','InfiniteTalk','Wan 2.2','RIFE','ESRGAN','ACE-Step','Stable Audio','ChatterBox'],
+ hero:{t:'vid',src:'t2/final.mp4',poster:'t2/final.jpg'},
+ total:L('≈ 55 мин','≈ 55 min'),
+ nodes:[
+  {id:'brief',x:0,y:250,n:'0',title:L('Бриф','Brief'),model:L('сюжет и диалог','story and dialogue'),gpu:0,
+   text:true,
+   what:L('Сын играет на телефоне на диване, мама на кухне за столом, папа работает за ноутбуком. Финал: вся семья вместе на диване, у каждого свой телефон. Реплики должны звучать живо: у сына - весёлый дружеский вызов, у папы - хитрый отеческий азарт.','The son plays on his phone on the sofa, mom is at the kitchen table, dad works on a laptop. Finale: the whole family on the sofa, each with a phone. Lines must sound natural: a playful challenge from the son, a sly fatherly spark from dad.')},
+  {id:'voices',x:330,y:20,n:'1',title:L('Голоса','Voices'),model:'Qwen3-TTS VoiceDesign',gpu:1.5,
+   out:[{t:'aud',src:'t2/voice_mom.m4a',cap:'Mom'},{t:'aud',src:'t2/voice_son.m4a',cap:'Son'},{t:'aud',src:'t2/voice_dad.m4a',cap:'Dad'}],
+   params:['seed 102','3 / 9 takes'],
+   what:L('Голос не клонируется с записи, а описывается словами: возраст, тембр, настроение и подача. Так голос подбирается под характер героя.','The voice is not cloned from a recording but described in words: age, timbre, mood and delivery. This way each voice fits the character.'),
+   why:L('Из девяти дублей оставил три, где интонация ближе всего к брифу: мама заботливая с подколкой, сын с азартом, папа с хитрой улыбкой в голосе.','Out of nine takes I kept the three closest to the brief: a caring, teasing mom, an excited son, a dad with a sly smile in his voice.')},
+  {id:'open',x:330,y:430,n:'2',title:L('Общий план','Opening shot'),model:'Krea 2 Turbo',gpu:0.5,
+   out:[{t:'img',src:'t2/open.jpg'}],params:['1920×1088','seed 811','8 steps'],
+   what:L('Вся сцена одним промптом: комната и семья сразу - папа в кресле с ноутбуком, мама на кухне, сын на диване с телефоном.','The whole scene from one prompt: room and family at once - dad in the armchair with a laptop, mom in the kitchen, the son on the sofa with his phone.'),
+   why:L('Это мастер-кадр: дальше все кадры получаются из него правкой или вырезкой, поэтому герои и комната везде одинаковые. Сборка сцены из отдельных листов героев давала разный фон, масштаб и свет.','This is the master frame: every later frame is an edit or a crop of it, so the characters and the room stay identical. Building the scene from separate character sheets gave mismatched backgrounds, scale and light.')},
+  {id:'final',x:660,y:560,n:'3',title:L('Финальный кадр','Final frame'),model:'Qwen-Image-Edit 2511',gpu:1,
+   out:[{t:'img',src:'t2/final.jpg'}],params:['1664×944','seed 971','4 steps'],
+   what:L('Правка того же общего плана по тексту: папа и мама пересаживаются на диван к сыну, у каждого свой телефон.','A text edit of the same wide shot: mom and dad move to the sofa next to the son, each with a phone.'),
+   why:L('Лица, одежда, комната и свет остаются прежними: это правка мастер-кадра, а не новая картинка.','Faces, clothes, room and light stay the same: it is an edit of the master frame, not a new picture.')},
+  {id:'crops',x:660,y:150,n:'4',title:L('Кадры реплик','Dialogue shots'),model:'Crop · ESRGAN ×2 · Qwen-Edit',gpu:1.5,
+   out:[{t:'img3',src:['t2/crop_mom.jpg','t2/crop_son.jpg','t2/crop_dad.jpg']},{t:'cmp',a:'t2/crop_mom_before.jpg',b:'t2/crop_mom.jpg',cap:L('Мама: голова сына убрана по маске','Mom: the son’s head removed inside a mask')}],
+   params:['1280×720','x2 upscale'],
+   what:L('Крупные планы вырезаются из общего плана и увеличиваются ESRGAN, поэтому герои и комната совпадают с ним идеально.','Close-ups are cropped from the wide shot and upscaled with ESRGAN, so characters and room match it perfectly.'),
+   why:L('В кадр мамы попадала голова сына. Qwen-Edit убрал её, но вклеена правка только внутри маски - лицо мамы осталось исходным, без перерисовки.','The son’s head was in mom’s shot. Qwen-Edit removed it, but only the area inside a mask is pasted back - mom’s face stays original, not redrawn.')},
+  {id:'lips',x:990,y:20,n:'5',title:L('Липсинк','Lip-sync'),model:'InfiniteTalk · Wan 2.1 I2V 14B',gpu:27,
+   out:[{t:'vid3',src:['t2/talk_mom.mp4','t2/talk_son.mp4','t2/talk_dad.mp4']},{t:'vids',src:['t2/talk_mom.mp4','t2/talk_son.mp4','t2/talk_dad.mp4'],cap:['Mom','Son','Dad']},{t:'img',src:'t2/son_masks.jpg',cap:L('Кто говорит: зелёный - сын, синий - мама молчит','Who speaks: green - the son, blue - mom stays silent'),only:'insp'}],
+   params:['848×480','25 fps','4 steps'],
+   what:L('Голос превращается в движения губ, мимику, повороты головы и плеч. Промпт задаёт эмоцию и действие героя.','The voice becomes lip, face, head and shoulder motion. The prompt sets the emotion and action.'),
+   why:L('У сына на фоне сидит мама. Чтобы она не «говорила» вместе с ним, для неё отдельная маска и тишина вместо голоса.','Mom sits behind the son. So she does not “speak” along with him, she gets her own mask and silence instead of a voice.')},
+  {id:'anim',x:990,y:520,n:'6',title:L('Анимация','Animation'),model:'Wan 2.2 I2V A14B + lightx2v',gpu:13,
+   out:[{t:'vid',src:'t2/anim_open.mp4'},{t:'vids',src:['t2/anim_open.mp4','t2/anim_final.mp4'],cap:['Opening','Final']}],params:['1280×720','16 fps','3 + 3 steps'],
+   what:L('Шоты без реплик оживают: дыхание, жесты, игра на телефонах. Камера стоит на месте, а на финале добавлен лёгкий наезд.','Shots without lines come alive: breathing, gestures, playing on phones. The camera is locked, with a gentle push-in on the finale.'),
+   why:L('Общий план и финал - это те же мастер-кадры, поэтому анимация не меняет героев.','The wide shot and the finale are the master frames, so the animation keeps the characters intact.')},
+  {id:'finish',x:1320,y:250,n:'7',title:L('Доводка 60 fps','Finish 60 fps'),model:'RealESRGAN ×2 · RIFE',gpu:5,
+   out:[{t:'vid',src:'t2/hd_son.mp4'}],params:['1280×720','60 fps'],
+   what:L('Все шоты доводятся до одного формата: ESRGAN увеличивает, RIFE дорисовывает промежуточные кадры до 60 fps.','All shots are brought to one format: ESRGAN upscales, RIFE interpolates frames up to 60 fps.'),
+   why:L('Пробовал SeedVR2 - он делал кожу слишком гладкой. Оставил ESRGAN: картинка честнее.','I tried SeedVR2 - it smoothed the skin too much. Kept ESRGAN: the image stays honest.')},
+  {id:'sound',x:1320,y:690,n:'8',title:L('Звук','Sound'),model:'ACE-Step 1.5 · Stable Audio 3 · ChatterBox',gpu:3,
+   out:[{t:'aud',src:'t2/music_102.m4a',cap:L('Музыка','Music')},{t:'aud',src:'t2/game_marimba.m4a',cap:L('Звуки игры','Game sounds')},{t:'aud',src:'t2/whoosh.m4a',cap:'Whoosh'},{t:'aud',src:'t2/son_shouts.m4a',cap:L('Восклицания сына','Son’s shouts')}],
+   params:['seed 102','seed 401'],
+   what:L('Тёплая семейная музыка, мягкие звуки мобильной игры и whoosh на проводке камеры. Восклицания сына на общем плане - клон его голоса.','Warm family music, soft mobile-game sounds and a whoosh on the camera whip. The son’s shouts on the wide shot are a clone of his own voice.'),
+   why:L('Wan сам открыл сыну рот на общем плане - восклицания поставлены ровно на эти кадры, и кадр стал живым, а не ошибкой.','Wan opened the son’s mouth on the wide shot by itself - the shouts are placed exactly on those frames, so the moment feels alive instead of broken.')},
+  {id:'edit',x:1650,y:430,n:'9',title:L('Монтаж и сведение','Edit & mix'),model:L('ComfyUI · свои ноды','ComfyUI · custom nodes'),gpu:1,
+   out:[{t:'img5',src:['t2/shot_1.jpg','t2/shot_2.jpg','t2/shot_3.jpg','t2/shot_4.jpg','t2/shot_5.jpg']},{t:'aud',src:'t2/stem_mix.m4a',cap:L('Итоговый микс','Final mix')}],
+   params:['5 shots','whip pan','ducking'],
+   what:L('Монтаж тоже в графе: склейка пяти шотов, проводка камеры от сына к папе с whoosh, голоса под длину шотов, музыка тише под голосами, звуки игры со своей громкостью и панорамой в каждом шоте.','The edit lives in the graph too: five shots joined, a camera whip from son to dad with a whoosh, voices fitted to the shots, music ducked under voices, game sounds with their own level and pan in each shot.'),
+   why:L('Тайминги считаются из реальной длины шотов: поменялся шот - звук и whoosh сдвинутся сами.','Timings come from the real shot lengths: change a shot and the sound and whoosh move by themselves.')},
+  {id:'result',x:1980,y:430,n:'✓',title:L('Итоговый ролик','Final video'),model:'1280×720 · 60 fps · 15.7 s',gpu:0,
+   out:[{t:'vid',src:'t2/final.mp4',sound:1}],
+   what:L('Готовый ролик: пять шотов, три реплики и финал.','The finished video: five shots, three lines and the finale.')}
+ ],
+ edges:[['brief','voices'],['brief','open'],['open','final'],['open','crops'],['voices','lips'],['crops','lips'],['open','anim'],['final','anim'],['lips','finish'],['anim','finish'],['voices','sound'],['finish','edit'],['sound','edit'],['edit','result']],
+ order:['brief','voices','open','final','crops','lips','anim','finish','sound','edit','result'],
+ mixer:true,
+ notes:[[L('Один мастер-кадр','One master frame'),L('Все кадры - правка или вырезка из общего плана. Модель ни разу не рисует героя заново, поэтому консистентность держится без LoRA.','Every frame is an edit or a crop of the wide shot. The model never redraws a character from scratch, so consistency holds without LoRAs.')],
+   [L('Этапы с памятью','Stages with memory'),L('Каждый этап сохраняет результат. Поменял настройку - пересчитывается только этот этап и всё после него, остальное берётся с диска.','Each stage saves its result. Change a setting and only that stage and everything after it recompute; the rest loads from disk.')],
+   [L('Свои ноды','Custom nodes'),L('Где готовых нод не хватало, написал свои: голос по описанию, RIFE до 60 fps по парам кадров, проводка и наезд камеры, звук под длину шотов.','Where stock nodes were missing I wrote my own: voice from a description, pairwise RIFE to 60 fps, camera whip and push-in, sound fitted to shot lengths.')]]
+};
+
+/* ---------- данные: idle-петля ---------- */
+const G1={
+ key:'t1', tab:L('Idle-петля','Idle loop'),
+ kicker:L('AI-анимация · ComfyUI · open-source','AI animation · ComfyUI · open-source'),
+ title:L('Idle-петля персонажа на хромакее','Character idle loop on chroma key'),
+ lead:L('Мультяшный персонаж в полный рост стоит и «живёт» на месте. Видео крутится по кругу без шва, фон ровный зелёный - персонажа можно сразу вставлять в любую сцену.','A full-body cartoon character stands and “lives” in place. The video loops without a seam, the background is a flat green - ready to composite anywhere.'),
+ stats:[['5.3 s',L('цикл','loop')],['1080×1920','32 fps'],['#00B140','chroma key']],
+ chips:['Krea 2','Wan 2.2','RIFE','ESRGAN',L('своя нода хромакея','custom chroma key node')],
+ hero:{t:'vid',src:'t1/final_x3.mp4',poster:'t1/character.jpg',tall:1},vertical:true,
+ total:L('≈ 13 мин','≈ 13 min'),
+ nodes:[
+  {id:'char',x:0,y:120,n:'1',title:L('Персонаж','Character'),model:'Krea 2 Turbo',gpu:0.5,
+   out:[{t:'img',src:'t1/character.jpg',tall:1}],params:['1088×1920','seed 1102'],
+   what:L('Персонаж в полный рост, руки опущены, лицом к камере, на зелёном фоне.','A full-body character, arms down, facing the camera, on a green background.'),
+   why:L('Из спокойной позы легче всего сделать движение, которое возвращается в начало. Из шести вариантов выбран самый чистый силуэт.','A calm pose is the easiest to animate into a motion that returns to the start. Out of six options I chose the cleanest silhouette.')},
+  {id:'key',x:330,y:120,n:'2',title:L('Ровный фон','Flat background'),model:L('своя нода Chroma Key','custom Chroma Key node'),gpu:0.1,
+   out:[{t:'img',src:'t1/start.jpg',tall:1}],params:['720×1280','#00B140'],
+   what:L('Нода проверяет каждую точку: ярко-зелёная - фон, не зелёная - персонаж, чуть зелёная - мягкий край. Заодно убирает зелёную кайму.','The node checks every pixel: bright green is background, not green is the character, slightly green is a soft edge. It also removes the green fringe.'),
+   why:L('Видеомодель повторяет фон, который видит: ровный на входе - ровный во всём видео, и ключ получается чистым.','A video model repeats the background it sees: flat at the input means flat in every frame, so the key stays clean.')},
+  {id:'loop',x:660,y:60,n:'3',title:L('Петля','Loop'),model:'Wan 2.2 I2V A14B · First-Last Frame',gpu:10,
+   out:[{t:'vid',src:'t1/loop_v2.mp4',tall:1}],params:['480×848','16 fps','seed 21'],
+   what:L('Один и тот же кадр ставится первым и последним, и модель сама придумывает движение так, чтобы персонаж вернулся в исходную позу.','The same frame is set as the first and the last, and the model invents a motion that returns the character to the starting pose.'),
+   why:L('Первые шаги считаются полной моделью без ускорителя - она даёт живое движение. Детали дорисовывает быстрая версия. Дрейф яркости за 5 секунд убирается подгонкой цвета.','The first steps run on the full model without the speed-up LoRA - it gives lively motion. The fast version adds the detail. Brightness drift over 5 seconds is removed by colour matching.')},
+  {id:'fin',x:990,y:120,n:'4',title:L('Финиш','Finish'),model:'RIFE · RealESRGAN ×2 · Chroma Key',gpu:2,
+   out:[{t:'vid',src:'t1/final_x3.mp4',tall:1}],params:['1080×1920','32 fps','MP4 + ProRes'],
+   what:L('RIFE удваивает частоту кадров и строит мост из промежуточных кадров через стык петли, ESRGAN увеличивает до 1080×1920, в конце снова ключ.','RIFE doubles the frame rate and builds a bridge of in-between frames across the loop seam, ESRGAN upscales to 1080×1920, then the key runs again.'),
+   why:L('Стык закрыт настоящими промежуточными кадрами, поэтому при повторе он выглядит как обычное движение. Превью повторяет петлю три раза.','The seam is covered by real in-between frames, so on repeat it looks like ordinary motion. The preview plays the loop three times.')}
+ ],
+ edges:[['char','key'],['key','loop'],['loop','fin']],
+ order:['char','key','loop','fin'],
+ notes:[[L('Петля из одного кадра','A loop from one frame'),L('Первый кадр равен последнему - модель сама возвращает персонажа в исходную позу, шов закрывает RIFE.','The first frame equals the last - the model returns the character to the start pose, RIFE closes the seam.')],
+   [L('Ключ до анимации','Key before animation'),L('Фон выравнивается ещё на картинке, поэтому в видео он остаётся ровным и персонаж чисто вырезается.','The background is flattened on the still image, so it stays flat in the video and the character keys cleanly.')],
+   [L('Пробы, а не случайность','Trials, not luck'),L('Пять вариантов движения рядом, у каждого понятная причина, почему оставлен или отклонён.','Five motion options side by side, each with a clear reason for being kept or rejected.')]]
+};
+const GRAPHS={t2:G2,t1:G1};
+let cur='t2';try{cur=localStorage.getItem('case-tab')||'t2'}catch(e){}
+if(!GRAPHS[cur])cur='t2';
+
+/* ---------- отрисовка ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
+let state={},cached=false,running=false,view={x:0,y:0,s:1},vsel={},runId=0;
+const playing={a:null};
+
+function media(o,big){
+  if(o.t==='img')return `<img src="${M+o.src}" alt="" loading="lazy">`;
+  if(o.t==='vid')return `<video src="${M+o.src}" muted loop playsinline autoplay preload="metadata"></video>`;
+  return '';
+}
+function preview(nd){
+  const vs=nd.variants&&vsel[nd.id]!=null?nd.variants[vsel[nd.id]]:null;
+  const outs=(vs?vs.out:nd.out||[]).filter(o=>o.only!=='insp');
+  if(nd.text){return `<div class="textbody">${DIAL.map(d=>`<q>${d[0]}: “${d[1]}”</q>`).join('')}</div>`}
+  let h='',auds=outs.filter(o=>o.t==='aud');const vis=outs.find(o=>o.t!=='aud'&&o.t!=='vids');
+  if(vis){
+    const tall=vis.tall?' tall':'';
+    let inner='';
+    if(vis.t==='img'||vis.t==='vid')inner=media(vis);
+    else if(vis.t==='img3'||vis.t==='vid3')inner=`<div class="grid3">${vis.src.map(s=>vis.t==='img3'?`<img src="${M+s}" alt="">`:`<video src="${M+s}" muted loop playsinline autoplay preload="metadata"></video>`).join('')}</div>`;
+    else if(vis.t==='img4')inner=`<div class="grid4">${vis.src.map(s=>`<img src="${M+s}" alt="">`).join('')}</div>`;
+    else if(vis.t==='img5')inner=`<div class="grid3" style="grid-template-columns:repeat(5,1fr)">${vis.src.map(s=>`<img src="${M+s}" alt="">`).join('')}</div>`;
+    else if(vis.t==='cmp')inner=`<img src="${M+vis.b}" alt="">`;
+    h+=`<div class="pv${tall}">${inner}<div class="empty" hidden></div><div class="bar2"></div></div>`;
+  }else if(!auds.length){h+=`<div class="pv"><div class="bar2"></div></div>`}
+  if(auds.length)h+=`<div class="auds">${auds.map(a=>`<div class="aud" data-src="${M+a.src}"><span class="ic">▶</span>${T(a.cap)||''}</div>`).join('')}</div>`;
+  if(!vis&&auds.length)h=`<div class="pv" style="aspect-ratio:auto;height:0;background:none"><div class="bar2"></div></div>`+h;
+  return h;
+}
+function nodeHTML(nd){
+  let h=`<div class="port in"></div><div class="port out"></div><div class="nh"><span class="num">${nd.n}</span><span class="nt">${T(nd.title)}</span></div><div class="nm">${T(nd.model)}</div><div class="nb">${preview(nd)}`;
+  if(nd.params)h+=`<div class="params">${nd.params.map(p=>`<span>${p}</span>`).join('')}</div>`;
+  if(nd.variants){
+    const i=vsel[nd.id]??nd.variants.findIndex(v=>v.ok);
+    const v=nd.variants[i];
+    h+=`<div class="vsel">${T(UI.variant)}<select data-id="${nd.id}">${nd.variants.map((x,j)=>`<option value="${j}"${j===i?' selected':''}>${x.ok?'✓ ':'✗ '}${T(x.l)}</option>`).join('')}</select></div><div class="verdict ${v.ok?'ok':'no'}">${T(v.v)}</div>`;
+  }
+  return h+`</div>`;
+}
+function build(){
+  runId++;running=false;
+  const G=GRAPHS[cur];
+  document.title=T(G.title);
+  $('#tabs').innerHTML=Object.values(GRAPHS).map(g=>`<button data-tab="${g.key}" class="${g.key===cur?'on':''}">${T(g.tab)}</button>`).join('');
+  document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
+  document.documentElement.lang=lang;
+  const heroMedia=G.hero.t==='vid'?`<video src="${M+G.hero.src}" poster="${M+G.hero.poster}" controls playsinline preload="metadata" ${G.hero.tall?'loop muted autoplay':''}></video>`:'';
+  const app=$('#app');
+  app.innerHTML=`<section class="hero${G.vertical?' vertical':''}"><div><div class="kicker">${T(G.kicker)}</div><h1>${T(G.title)}</h1><p class="lead">${T(G.lead)}</p>
+    <div class="stats">${G.stats.map(s=>`<div><b>${s[0]}</b>${T(s[1])}</div>`).join('')}</div><div class="chips">${G.chips.map(c=>`<span>${T(c)}</span>`).join('')}</div></div>
+    <div class="player">${heroMedia}</div></section>
+    <section class="block"><h2>${T(UI.graph)}</h2><p class="sub">${T(UI.graphSub)}</p>
+    <div class="gpanel"><div class="toolbar"><button class="btn primary" id="run">${T(UI.run)}</button><button class="btn" id="clear">${T(UI.clear)}</button><button class="btn" id="fit">${T(UI.fit)}</button><div class="status" id="status"></div></div>
+    <div class="viewport" id="vp"><div class="world" id="world"><svg class="wires" id="wires"></svg></div><div class="zoom"><button id="zin">+</button><button id="zout">−</button></div><div class="hint">${T(UI.hint)}</div></div>
+    <aside class="insp" id="insp"></aside></div></section>
+    ${G.mixer?mixerHTML():''}
+    <section class="block"><h2>${T(UI.how)}</h2><div class="notes">${G.notes.map(n=>`<div class="note"><b>${T(n[0])}</b><p>${T(n[1])}</p></div>`).join('')}</div></section>`;
+  $('#foot').innerHTML=`Illia Ushanau · ComfyUI · ${G.chips.map(T).join(' · ')}`;
+  const world=$('#world');
+  G.nodes.forEach(nd=>{const d=el('div','node');d.dataset.id=nd.id;d.style.left=nd.x+'px';d.style.top=nd.y+'px';d.innerHTML=nodeHTML(nd);world.appendChild(d);state[nd.id]=state[nd.id]||'done'});
+  bindGraph();setStatus();
+  requestAnimationFrame(()=>{fit();wires();});
+  setTimeout(wires,400);
+  if(G.mixer)initMixer();
+}
+function wires(){
+  const G=GRAPHS[cur],svg=$('#wires');if(!svg)return;
+  const live=new Set(G.edges.filter(e=>state[e[1]]==='run').map(e=>e.join('>')));
+  let h='';
+  G.edges.forEach(([a,b])=>{
+    const A=$(`.node[data-id="${a}"]`),B=$(`.node[data-id="${b}"]`);if(!A||!B)return;
+    const x1=A.offsetLeft+A.offsetWidth,y1=A.offsetTop+27,x2=B.offsetLeft,y2=B.offsetTop+27,dx=Math.max(50,(x2-x1)/2);
+    h+=`<path class="${live.has(a+'>'+b)?'live':''}" d="M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}"/>`;
+  });
+  svg.innerHTML=h;
+}
+function apply(){$('#world').style.transform=`translate(${view.x}px,${view.y}px) scale(${view.s})`}
+function fit(){
+  const vp=$('#vp'),ns=[...document.querySelectorAll('.node')];if(!ns.length)return;
+  const x1=Math.max(...ns.map(n=>n.offsetLeft+n.offsetWidth)),y1=Math.max(...ns.map(n=>n.offsetTop+n.offsetHeight));
+  const s=Math.min((vp.clientWidth-40)/x1,(vp.clientHeight-40)/y1,1);
+  view={s,x:(vp.clientWidth-x1*s)/2,y:Math.max(16,(vp.clientHeight-y1*s)/2)};apply();
+}
+function bindGraph(){
+  const vp=$('#vp');let drag=null;
+  vp.addEventListener('pointerdown',e=>{
+    if(e.target.closest('select,.aud,.zoom'))return;
+    const nh=e.target.closest('.nh'),nd=e.target.closest('.node');
+    drag={x:e.clientX,y:e.clientY,vx:view.x,vy:view.y,node:nh?nd:null,nx:nd?nd.offsetLeft:0,ny:nd?nd.offsetTop:0,moved:false,target:nd};
+    vp.setPointerCapture(e.pointerId);if(!nh)vp.classList.add('drag');
+  });
+  vp.addEventListener('pointermove',e=>{
+    if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+    if(Math.abs(dx)+Math.abs(dy)>4)drag.moved=true;
+    if(drag.node){drag.node.style.left=drag.nx+dx/view.s+'px';drag.node.style.top=drag.ny+dy/view.s+'px';wires()}
+    else{view.x=drag.vx+dx;view.y=drag.vy+dy;apply()}
+  });
+  vp.addEventListener('pointerup',e=>{
+    if(drag&&!drag.moved&&drag.target)openInsp(drag.target.dataset.id);
+    else if(drag&&!drag.moved&&!drag.target)closeInsp();
+    drag=null;vp.classList.remove('drag');
+  });
+  vp.addEventListener('wheel',e=>{if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();zoomAt(e.deltaY<0?1.12:1/1.12,e)},{passive:false});
+  $('#zin').onclick=()=>zoomAt(1.2);$('#zout').onclick=()=>zoomAt(1/1.2);$('#fit').onclick=fit;
+  $('#run').onclick=run;$('#clear').onclick=()=>{cached=false;setStatus()};
+  vp.addEventListener('change',e=>{const s=e.target.closest('select');if(!s)return;vsel[s.dataset.id]=+s.value;rerender(s.dataset.id)});
+  vp.addEventListener('click',e=>{const a=e.target.closest('.aud');if(a)playAud(a)});
+  $('#insp').addEventListener('click',e=>{const a=e.target.closest('.aud');if(a)playAud(a);if(e.target.closest('.x'))closeInsp()});
+}
+function zoomAt(k,e){
+  const vp=$('#vp'),r=vp.getBoundingClientRect(),cx=e&&e.clientX?e.clientX-r.left:vp.clientWidth/2,cy=e&&e.clientY?e.clientY-r.top:vp.clientHeight/2;
+  const s=Math.min(1.6,Math.max(.25,view.s*k));view.x=cx-(cx-view.x)*s/view.s;view.y=cy-(cy-view.y)*s/view.s;view.s=s;apply();
+}
+function rerender(id){
+  const nd=GRAPHS[cur].nodes.find(n=>n.id===id),d=$(`.node[data-id="${id}"]`);d.innerHTML=nodeHTML(nd);setNodeState(id,state[id]);wires();
+  if($('#insp').classList.contains('open')&&$('#insp').dataset.id===id)openInsp(id);
+}
+function playAud(a){
+  if(playing.a&&playing.el===a){playing.a.pause();a.classList.remove('on');a.querySelector('.ic').textContent='▶';playing.a=null;return}
+  if(playing.a){playing.a.pause();playing.el.classList.remove('on');playing.el.querySelector('.ic').textContent='▶'}
+  const au=new Audio(a.dataset.src);au.volume=VOL;au.play();a.classList.add('on');a.querySelector('.ic').textContent='❚❚';playing.a=au;playing.el=a;
+  au.onended=()=>{a.classList.remove('on');a.querySelector('.ic').textContent='▶';playing.a=null};
+}
+/* инспектор */
+function bigMedia(o){
+  const cap=o.cap&&typeof o.cap!=='object'||o.cap&&'ru' in o.cap?`<div class="cap">${T(o.cap)}</div>`:'';
+  if(o.t==='img')return `<img src="${M+o.src}" alt="">${cap}`;
+  if(o.t==='vid')return `<video src="${M+o.src}" controls playsinline loop preload="metadata" ${o.tall?'style="max-width:260px;margin:0 auto"':''}></video>${cap}`;
+  if(o.t==='aud')return `<div class="aud" data-src="${M+o.src}"><span class="ic">▶</span>${T(o.cap)||''}</div>`;
+  if(o.t==='img3'||o.t==='img4'||o.t==='img5')return `<div class="iter"><div class="row">${o.src.map(s=>`<img src="${M+s}" alt="">`).join('')}</div></div>`;
+  if(o.t==='vids')return o.src.map((s,i)=>`<video src="${M+s}" controls playsinline preload="metadata"></video><div class="cap">${o.cap[i]}</div>`).join('');
+  if(o.t==='cmp')return `<div class="cmp" data-cmp><img src="${M+o.a}" alt=""><div class="top"><img src="${M+o.b}" alt=""></div><div class="ln"></div><span class="lb" style="left:8px">${T(UI.before)}</span><span class="lb" style="right:8px">${T(UI.after)}</span></div><div class="cap">${T(o.cap)}</div>`;
+  return '';
+}
+function openInsp(id){
+  const nd=GRAPHS[cur].nodes.find(n=>n.id===id),I=$('#insp');
+  document.querySelectorAll('.node').forEach(n=>n.classList.toggle('sel',n.dataset.id===id));
+  let h=`<button class="x" aria-label="close">×</button><h3>${T(nd.title)}</h3><div class="model">${T(nd.model)}</div>`;
+  if(nd.text)h+=`<div class="textbody" style="font-size:14px">${DIAL.map(d=>`<q>${d[0]}: “${d[1]}”</q>`).join('')}</div>`;
+  h+=`<h4>${T(UI.what)}</h4><p>${T(nd.what)}</p>`;
+  if(nd.why)h+=`<h4>${T(UI.why)}</h4><p>${T(nd.why)}</p>`;
+  if(nd.params)h+=`<h4>${T(UI.params)}</h4><div class="params">${nd.params.map(p=>`<span>${p}</span>`).join('')}</div>`;
+  const outs=(nd.out||[]).filter(o=>o.t!=='vid3');
+  if(outs.length)h+=`<h4>${T(UI.out)}</h4><div class="media">${outs.map(bigMedia).join('')}</div>`;
+  if(nd.variants)h+=`<h4>${T(UI.iters)}</h4><div class="iters">${nd.variants.map(v=>`<div class="iter"><div class="verdict ${v.ok?'ok':'no'}" style="margin:0 0 6px"><b>${v.ok?'✓':'✗'} ${T(v.l)}</b> - ${T(v.v)}</div><div class="media">${v.out.map(bigMedia).join('')}</div></div>`).join('')}</div>`;
+  I.innerHTML=h;I.dataset.id=id;I.classList.add('open');I.scrollTop=0;
+  I.querySelectorAll('[data-cmp]').forEach(c=>{const f=e=>{const r=c.getBoundingClientRect(),p=Math.min(100,Math.max(0,(e.clientX-r.left)/r.width*100));c.querySelector('.top').style.clipPath=`inset(0 0 0 ${p}%)`;c.querySelector('.ln').style.left=p+'%'};
+    c.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='mouse')f(e)});c.addEventListener('pointerdown',f)});
+}
+function closeInsp(){$('#insp').classList.remove('open');document.querySelectorAll('.node').forEach(n=>n.classList.remove('sel'))}
+/* запуск */
+function setNodeState(id,s){
+  state[id]=s;const d=$(`.node[data-id="${id}"]`);if(!d)return;
+  d.classList.toggle('run',s==='run');
+  const pv=d.querySelector('.pv');if(!pv)return;
+  [...pv.children].forEach(c=>{if(!c.classList.contains('bar2')&&!c.classList.contains('empty'))c.style.visibility=s==='queued'?'hidden':''});
+  const emp=pv.querySelector('.empty');if(emp){emp.hidden=s!=='queued';emp.textContent='· · ·'}
+  d.querySelectorAll('.auds').forEach(a=>a.style.visibility=s==='queued'?'hidden':'');
+  const tg=d.querySelector('.tag');if(tg)tg.remove();
+  if(s==='done'&&d.dataset.from){const t=el('span','tag',d.dataset.from);pv.appendChild(t)}
+}
+function setStatus(txt){
+  const G=GRAPHS[cur],s=$('#status');if(!s)return;
+  s.innerHTML=txt||(cached?`<b>${T(UI.done)}</b> · ${T(UI.gpuCache)}`:`${T(UI.idle)} · <b>${T(G.total)}</b> ${T(UI.gpu)}`);
+}
+async function run(){
+  if(running)return;running=true;closeInsp();const my=++runId;
+  const G=GRAPHS[cur],btn=$('#run');btn.disabled=true;
+  const fromCache=cached;
+  G.order.forEach(id=>{const d=$(`.node[data-id="${id}"]`);delete d.dataset.from;setNodeState(id,'queued')});wires();
+  for(const id of G.order){
+    const nd=G.nodes.find(n=>n.id===id),d=$(`.node[data-id="${id}"]`),bar=d.querySelector('.bar2');
+    setNodeState(id,'run');wires();
+    setStatus(`<b>${T(UI.running)}:</b> ${T(nd.title)} · ${T(nd.model)}${fromCache?' · '+T(UI.cache):(nd.gpu?` · ≈ ${nd.gpu<1?'<1':Math.round(nd.gpu)} ${lang==='ru'?'мин':'min'}`:'')}`);
+    const dur=fromCache?180:(nd.gpu?600+Math.sqrt(nd.gpu)*450:300);
+    if(bar){bar.style.transition='none';bar.style.width='0';bar.offsetWidth;bar.style.transition=`width ${dur}ms linear`;bar.style.width='100%'}
+    await new Promise(r=>setTimeout(r,dur));
+    if(my!==runId)return;
+    if(bar){bar.style.transition='none';bar.style.width='0'}
+    if(fromCache&&nd.gpu)d.dataset.from=T(UI.cache);
+    setNodeState(id,'done');wires();
+  }
+  cached=true;running=false;btn.disabled=false;btn.textContent=T(UI.again);setStatus();
+}
+/* микшер */
+const MIX_COL={voices:'#5aa58e',music:'#c46a9c',sfx:'#9aae4a'};
+function mixerHTML(){
+  const tr=[['voices',L('Голоса','Voices'),'TTS'],['music',L('Музыка','Music'),'ACE'],['sfx',L('Звуки','SFX'),'SA3']];
+  return `<section class="block"><h2>${T(UI.mixer)}</h2><p class="sub">${T(UI.mixerSub)}</p><div class="mixer">
+   <div class="player"><video id="mv" src="${M}t2/final.mp4" poster="${M}t2/final.jpg" muted playsinline controls preload="metadata"></video></div>
+   <div class="tl" id="tl">
+   <div class="shots">${[['Opening',3.0167],['Mom',2.6167],['Son',3.1333],['Dad',2.8833],['Final',4.0167]].map((s,i)=>`<div style="flex:${s[1]};background-image:url(${M}t2/shot_${i+1}.jpg)"><span>${s[0]}</span></div>`).join('')}</div>
+   ${tr.map(t=>`<div class="row"><button class="trk" data-tr="${t[0]}" title="${T(UI.toggle)}"><i style="background:${MIX_COL[t[0]]}"></i>${T(t[1])}<small>${t[2]}</small></button><canvas data-env="${t[0]}"></canvas></div>`).join('')}<div class="ph" id="ph"></div></div>
+  </div></section>`;
+}
+function initMixer(){
+  const v=$('#mv'),names=['voices','music','sfx'];
+  const A={};names.forEach(n=>{A[n]=new Audio(`${M}t2/stem_${n}.m4a`);A[n].preload='auto'});
+  const mute={};names.forEach(n=>{mute[n]=false});
+  const gain=()=>{names.forEach(n=>A[n].volume=mute[n]?0:VOL)};
+  const sync=(force)=>{Object.values(A).forEach(a=>{if(force||Math.abs(a.currentTime-v.currentTime)>.08)a.currentTime=v.currentTime})};
+  v.addEventListener('play',()=>{sync(true);gain();Object.values(A).forEach(a=>a.play().catch(()=>{}))});
+  v.addEventListener('pause',()=>Object.values(A).forEach(a=>a.pause()));
+  v.addEventListener('seeked',()=>sync(true));
+  v.addEventListener('ended',()=>Object.values(A).forEach(a=>{a.pause();a.currentTime=0}));
+  v.addEventListener('timeupdate',()=>{if(!v.paused)sync(false);ph()});
+  const tl=$('#tl'),phE=$('#ph');
+  tl.querySelectorAll('.trk').forEach(m=>{const n=m.dataset.tr;
+    m.onclick=()=>{mute[n]=!mute[n];m.classList.toggle('off',mute[n]);gain();drawEnv()}});
+  function ph(){const c=tl.querySelector('canvas');const r=c.getBoundingClientRect(),t=tl.getBoundingClientRect();phE.style.left=(r.left-t.left+(v.currentTime/(v.duration||15.67))*r.width)+'px'}
+  tl.addEventListener('click',e=>{if(e.target.closest('button'))return;const c=tl.querySelector('canvas').getBoundingClientRect();const p=(e.clientX-c.left)/c.width;if(p>=0&&p<=1){v.currentTime=p*(v.duration||15.67);ph()}});
+  function drawEnv(){
+    tl.querySelectorAll('canvas').forEach(c=>{const n=c.dataset.env,e=(window.ENV||{})[n]||[];const w=c.clientWidth,h=c.clientHeight;c.width=w*2;c.height=h*2;const x=c.getContext('2d');x.scale(2,2);x.clearRect(0,0,w,h);
+      const k=mute[n]?.15:1;x.fillStyle=MIX_COL[n];x.globalAlpha=.25+.75*k;const pk=Math.max(...e,.25);
+      e.forEach((a,i)=>{const hh=Math.max(1,a/pk*(h/2-2)*Math.max(k,.15));x.fillRect(i/e.length*w,h/2-hh,Math.max(1,w/e.length-.3),hh*2)})});
+  }
+  drawEnv();ph();v.addEventListener('loadedmetadata',ph);addEventListener('resize',()=>{drawEnv();ph()});
+  v.addEventListener('volumechange',()=>{if(!v.muted)v.muted=true});   // звук идёт дорожками микшера, у самого видео - выключен
+  window._drawEnv=drawEnv;
+}
+/* вкладки и язык */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-tab]');if(t){cur=t.dataset.tab;try{localStorage.setItem('case-tab',cur)}catch(err){}state={};cached=false;vsel={};build();scrollTo({top:0});return}
+  const l=e.target.closest('[data-l]');if(l){lang=l.dataset.l;try{localStorage.setItem('case-lang',lang)}catch(err){}const s={...state};build();state=s;return}
+});
+addEventListener('resize',()=>{fit();wires()});
+build();
+</script>
+</body>
+</html>
