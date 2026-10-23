@@ -14,54 +14,61 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--canvas:#0d0f0d;--grid:rgba(200,220,200,.05);--node:#1a1d1a;--wire:#4f6b5c;--run:#e0a54a;--bad:#e08a6f;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--canvas:#0d0f0d;--grid:rgba(200,220,200,.05);--node:#1a1d1a;--wire:#4f6b5c;--run:#e0a54a;--bad:#e08a6f;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans)}
-a{color:var(--accent)}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
 button{font:inherit;color:inherit}
-.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
 header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header.bar .wrap{display:flex;align-items:center;gap:16px;height:56px}
+header.bar .wrap{display:flex;align-items:center;gap:22px;height:56px}
 .brand{font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap}
 .brand b{color:var(--ink);font-weight:500}
-.tabs{display:flex;gap:4px;margin-left:auto;background:var(--bg2);border-radius:10px;padding:3px}
-.tabs button,.lang button{border:0;background:transparent;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--muted)}
-.tabs button.on,.lang button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
-.lang{display:flex;gap:2px;font-family:var(--mono)}
-.lang button{padding:6px 8px;font-size:12px}
-.home{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;white-space:nowrap}
-.home b{color:var(--ink);font-weight:600}.home i{font-style:normal}
-.home:hover{border-color:var(--accent2);color:var(--ink)}
-.thm{border:1px solid var(--line);background:transparent;border-radius:8px;width:32px;height:30px;cursor:pointer;color:var(--ink);font-size:14px;flex:none}
-.thm:hover{border-color:var(--accent2)}
-@media (max-width:640px){.home span{display:none}header.bar .wrap{gap:6px}.tabs button{padding:6px 7px;font-size:12.5px;white-space:nowrap}.lang button{padding:6px 5px}}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:36px;align-items:center;padding:44px 0 30px}
+.logo{font:500 14px var(--mono);color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px var(--accent-soft)}
+.navl{color:var(--muted);text-decoration:none;font:13px var(--mono);letter-spacing:.04em;white-space:nowrap}
+.navl:hover{color:var(--ink)}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tabs button,.lang button,.thm{font:12px var(--mono);letter-spacing:.06em;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:5px 9px;cursor:pointer;white-space:nowrap}
+.tabs button.on,.lang button.on{color:var(--accent);border-color:var(--accent)}
+.tabs button:hover,.lang button:hover,.thm:hover{color:var(--ink)}
+.lang{display:flex;gap:4px}
+.thm{flex:none}
+@media (max-width:860px){.navl{display:none}}
+@media (max-width:640px){.logo span{display:none}.logo i{margin-right:0}header.bar .wrap{gap:8px}.tabs button,.lang button,.thm{padding:5px 6px;font-size:11.5px}}
+.herowrap{position:relative;overflow:hidden;margin:0 calc(50% - 50vw);padding:0 calc(50vw - 50%)}
+#dots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:48px;align-items:center;padding:64px 0 56px}
 .hero.vertical{grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr)}
-.kicker{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
-h1{font-size:40px;line-height:1.1;margin:10px 0 14px;letter-spacing:-.02em}
+.kicker{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:50px;line-height:1.04;margin:12px 0 16px;letter-spacing:-.035em;font-weight:700}
 .lead{color:var(--muted);font-size:16.5px;margin:0 0 18px}
 .stats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 16px}
 .stats div{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.stats b{display:block;font-family:var(--sans);font-size:20px;color:var(--ink);font-weight:600}
+.stats b{display:block;font-family:var(--sans);font-size:22px;color:var(--ink);font-weight:600;letter-spacing:-.015em}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chips span{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted);background:var(--card)}
-.player{border-radius:14px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
+.chips span{font:12.5px var(--mono);border:1px solid var(--line);border-radius:5px;padding:3px 9px;color:var(--muted);background:var(--card)}
+.player{border-radius:12px;border:1px solid var(--line);overflow:hidden;background:#000;box-shadow:var(--shadow)}
 .player video{display:block;width:100%;height:auto}
 .vertical .player{max-width:360px;margin-left:auto}
-h2{font-size:22px;margin:0 0 4px;letter-spacing:-.01em}
-.sub{color:var(--muted);margin:0 0 14px;font-size:14.5px}
-section.block{padding:26px 0}
+.label{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--accent);font-weight:500}
+h2{font-size:38px;letter-spacing:-.025em;line-height:1.1;margin:8px 0 0;font-weight:650}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.sub{color:var(--muted);margin:0;font:12.5px var(--mono);letter-spacing:.04em;max-width:520px}
+section.block{padding:84px 0 0}
+@media (max-width:600px){h2{font-size:30px}section.block{padding-top:64px}h1{font-size:36px}}
 /* граф */
-.gpanel{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--canvas);box-shadow:var(--shadow)}
+.gpanel{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}
+.toolbar .d{display:flex;gap:5px;margin-right:6px}.toolbar .d i{width:9px;height:9px;border-radius:50%;background:var(--line)}
 .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--card)}
-.btn{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:6px 12px;cursor:pointer;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
-.btn:hover{border-color:var(--accent2)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-:root[data-theme="dark"] .btn.primary{color:#0d120f}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#0d120f}}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;font:500 13.5px var(--sans);display:inline-flex;align-items:center;gap:6px;transition:border-color .2s,background .2s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
 .btn[disabled]{opacity:.55;cursor:default}
 .status{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto;text-align:right}
 .status b{color:var(--ink);font-weight:500}
 .viewport{position:relative;height:700px;overflow:hidden;cursor:grab;touch-action:none;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+  background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:20px 20px;background-color:var(--bg)}
 .viewport.drag{cursor:grabbing}
 .world{position:absolute;left:0;top:0;transform-origin:0 0}
 svg.wires{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
@@ -145,17 +152,18 @@ aside.insp.open{transform:none}
 .note{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px}
 .note b{display:block;margin-bottom:4px}
 .note p{margin:0;color:var(--muted);font-size:14px}
-footer{padding:30px 0 50px;color:var(--faint);font-family:var(--mono);font-size:12px}
+footer.wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:96px;padding-top:28px;padding-bottom:40px;border-top:1px solid var(--line);color:var(--muted);font:12px var(--mono)}
 @media (max-width:900px){.hero,.hero.vertical,.mixer,.notes{grid-template-columns:1fr}.vertical .player{margin:0 auto}h1{font-size:31px}.viewport{height:540px}.brand{display:none}.tabs{margin-left:0}}
 </style>
 <script>/*hub-theme*/(function(){function a(t){var r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}try{a(localStorage.getItem('hub-theme'))}catch(e){}addEventListener('message',function(e){if(e.data&&typeof e.data==='object'&&'hubTheme' in e.data)a(e.data.hubTheme)})})();</script>
 </head>
 <body>
 <header class="bar"><div class="wrap">
-  <a class="home" id="home" href="https://iushanau-ui.github.io/portfolio/">← <span><b>Illia Ushanau</b> · <i id="homeTxt">портфолио</i></span></a>
+  <a class="logo" id="home" href="https://iushanau-ui.github.io/portfolio/"><i></i><span>illia.ushanau</span></a>
+  <a class="navl" id="homeTxt" href="https://iushanau-ui.github.io/portfolio/">← портфолио</a>
   <div class="tabs" id="tabs"></div>
   <div class="lang" id="lang"><button data-l="ru">RU</button><button data-l="en">EN</button></div>
-  <button class="thm" id="thm" aria-label="Theme"></button>
+  <button class="thm" id="thm" title="theme">◐</button>
 </div></header>
 <main class="wrap" id="app"></main>
 <footer class="wrap" id="foot"></footer>
@@ -168,7 +176,7 @@ const L=(ru,en)=>({ru,en});
 let lang='ru';try{lang=localStorage.getItem('case-lang')||(location.hash==='#en'?'en':location.hash==='#ru'?'ru':localStorage.getItem('pf-lang'))||'ru'}catch(e){}
 /* тема: общая с основным сайтом (pf-theme) */
 const themeIsDark=()=>{const r=document.documentElement.getAttribute('data-theme');return r?r==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
-const themeIcon=()=>{const b=document.getElementById('thm');if(b)b.textContent=themeIsDark()?'☀':'☾'};
+const themeIcon=()=>{if(window._redrawDots)window._redrawDots()};
 try{const th=localStorage.getItem('pf-theme');if(th&&!localStorage.getItem('hub-theme'))document.documentElement.setAttribute('data-theme',th)}catch(e){}
 document.getElementById('thm').onclick=()=>{const t=themeIsDark()?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('pf-theme',t)}catch(e){}themeIcon();if(window._drawEnv)window._drawEnv()};
 themeIcon();
@@ -343,26 +351,27 @@ function build(){
   document.title=T(G.title);
   $('#tabs').innerHTML=Object.values(GRAPHS).map(g=>`<button data-tab="${g.key}" class="${g.key===cur?'on':''}">${T(g.tab)}</button>`).join('');
   document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
-  $('#homeTxt').textContent=lang==='ru'?'портфолио':'portfolio';$('#home').href='https://iushanau-ui.github.io/portfolio/'+(lang==='ru'?'#ru':'');
+  $('#homeTxt').textContent=lang==='ru'?'← портфолио':'← portfolio';$('#home').href=$('#homeTxt').href='https://iushanau-ui.github.io/portfolio/'+(lang==='ru'?'#ru':'');
   document.documentElement.lang=lang;
   const heroMedia=G.hero.t==='vid'?`<video src="${M+G.hero.src}" poster="${M+G.hero.poster}" controls playsinline preload="metadata" ${G.hero.tall?'loop muted autoplay':''}></video>`:'';
   const app=$('#app');
-  app.innerHTML=`<section class="hero${G.vertical?' vertical':''}"><div><div class="kicker">${T(G.kicker)}</div><h1>${T(G.title)}</h1><p class="lead">${T(G.lead)}</p>
+  app.innerHTML=`<div class="herowrap"><canvas id="dots"></canvas><section class="hero${G.vertical?' vertical':''}"><div><div class="kicker">${T(G.kicker)}</div><h1>${T(G.title)}</h1><p class="lead">${T(G.lead)}</p>
     <div class="stats">${G.stats.map(s=>`<div><b>${s[0]}</b>${T(s[1])}</div>`).join('')}</div><div class="chips">${G.chips.map(c=>`<span>${T(c)}</span>`).join('')}</div></div>
-    <div class="player">${heroMedia}</div></section>
-    <section class="block"><h2>${T(UI.graph)}</h2><p class="sub">${T(UI.graphSub)}</p>
-    <div class="gpanel"><div class="toolbar"><button class="btn primary" id="run">${T(UI.run)}</button><button class="btn" id="clear">${T(UI.clear)}</button><button class="btn" id="fit">${T(UI.fit)}</button><div class="status" id="status"></div></div>
+    <div class="player">${heroMedia}</div></section></div>
+    <section class="block"><div class="sh"><div><div class="label"><b>01</b> / ${T(L('граф','graph'))}</div><h2>${T(UI.graph)}</h2></div><p class="sub">${T(UI.graphSub)}</p></div>
+    <div class="gpanel"><div class="toolbar"><span class="d"><i></i><i></i><i></i></span><button class="btn primary" id="run">${T(UI.run)}</button><button class="btn" id="clear">${T(UI.clear)}</button><button class="btn" id="fit">${T(UI.fit)}</button><div class="status" id="status"></div></div>
     <div class="viewport" id="vp"><div class="world" id="world"><svg class="wires" id="wires"></svg></div><div class="zoom"><button id="zin">+</button><button id="zout">−</button></div><div class="hint">${T(UI.hint)}</div></div>
     <aside class="insp" id="insp"></aside></div></section>
     ${G.mixer?mixerHTML():''}
-    <section class="block"><h2>${T(UI.how)}</h2><div class="notes">${G.notes.map(n=>`<div class="note"><b>${T(n[0])}</b><p>${T(n[1])}</p></div>`).join('')}</div></section>`;
-  $('#foot').innerHTML=`<a href="${$('#home').href}" style="color:inherit">Illia Ushanau · ${lang==='ru'?'портфолио':'portfolio'}</a> · ComfyUI · ${G.chips.map(T).join(' · ')}`;
+    <section class="block"><div class="sh"><div><div class="label"><b>${G.mixer?'03':'02'}</b> / ${T(L('принципы','principles'))}</div><h2>${T(UI.how)}</h2></div></div><div class="notes">${G.notes.map(n=>`<div class="note"><b>${T(n[0])}</b><p>${T(n[1])}</p></div>`).join('')}</div></section>`;
+  $('#foot').innerHTML=`<a href="${$('#home').href}" style="color:inherit">← ${lang==='ru'?'портфолио':'portfolio'}</a><span>© 2026 Illia Ushanau</span>`;
   const world=$('#world');
   G.nodes.forEach(nd=>{const d=el('div','node');d.dataset.id=nd.id;d.style.left=nd.x+'px';d.style.top=nd.y+'px';d.innerHTML=nodeHTML(nd);world.appendChild(d);state[nd.id]=state[nd.id]||'done'});
   bindGraph();setStatus();
   requestAnimationFrame(()=>{fit();wires();});
   setTimeout(wires,400);
   if(G.mixer)initMixer();
+  initDots();
 }
 function wires(){
   const G=GRAPHS[cur],svg=$('#wires');if(!svg)return;
@@ -483,11 +492,25 @@ async function run(){
   }
   cached=true;running=false;btn.disabled=false;btn.textContent=T(UI.again);setStatus();
 }
+/* точечный фон hero, как на основном сайте */
+function initDots(){
+  const cv=$('#dots'),hero=$('.herowrap');if(!cv||!hero)return;const ctx=cv.getContext('2d');let mx=-999,my=-999,W=0,H=0,dpr=1,raf=0;
+  const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function draw(){raf=0;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);const c1=css('--line'),c2=css('--accent'),G=22;
+    for(let y=G/2;y<H;y+=G)for(let x=G/2;x<W;x+=G){const d=Math.hypot(x-mx,y-my),k=Math.max(0,1-d/150);
+      ctx.fillStyle=k>.05?c2:c1;ctx.globalAlpha=k>.05?.25+.75*k:1;ctx.beginPath();ctx.arc(x,y,1+1.3*k,0,6.283);ctx.fill()}
+    ctx.globalAlpha=1}
+  const size=()=>{dpr=Math.min(2,devicePixelRatio||1);W=hero.clientWidth;H=hero.clientHeight;cv.width=W*dpr;cv.height=H*dpr;draw()};
+  hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;if(!raf)raf=requestAnimationFrame(draw)});
+  hero.addEventListener('mouseleave',()=>{mx=my=-999;if(!raf)raf=requestAnimationFrame(draw)});
+  window._redrawDots=draw;window._sizeDots=size;size();
+}
+addEventListener('resize',()=>{if(window._sizeDots)window._sizeDots()});
 /* микшер */
 const MIX_COL={voices:'#5aa58e',music:'#c46a9c',sfx:'#9aae4a'};
 function mixerHTML(){
   const tr=[['voices',L('Голоса','Voices'),'TTS'],['music',L('Музыка','Music'),'ACE'],['sfx',L('Звуки','SFX'),'SA3']];
-  return `<section class="block"><h2>${T(UI.mixer)}</h2><p class="sub">${T(UI.mixerSub)}</p><div class="mixer">
+  return `<section class="block"><div class="sh"><div><div class="label"><b>02</b> / ${T(L('звук','sound'))}</div><h2>${T(UI.mixer)}</h2></div><p class="sub">${T(UI.mixerSub)}</p></div><div class="mixer">
    <div class="player"><video id="mv" src="${M}t2/final.mp4" poster="${M}t2/final.jpg" muted playsinline controls preload="metadata"></video></div>
    <div class="tl" id="tl">
    <div class="shots">${[['Opening',3.0167],['Mom',2.6167],['Son',3.1333],['Dad',2.8833],['Final',4.0167]].map((s,i)=>`<div style="flex:${s[1]};background-image:url(${M}t2/shot_${i+1}.jpg)"><span>${s[0]}</span></div>`).join('')}</div>
