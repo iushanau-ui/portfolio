@@ -27,6 +27,12 @@ header.bar .wrap{display:flex;align-items:center;gap:16px;height:56px}
 .tabs button.on,.lang button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
 .lang{display:flex;gap:2px;font-family:var(--mono)}
 .lang button{padding:6px 8px;font-size:12px}
+.home{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;white-space:nowrap}
+.home b{color:var(--ink);font-weight:600}.home i{font-style:normal}
+.home:hover{border-color:var(--accent2);color:var(--ink)}
+.thm{border:1px solid var(--line);background:transparent;border-radius:8px;width:32px;height:30px;cursor:pointer;color:var(--ink);font-size:14px;flex:none}
+.thm:hover{border-color:var(--accent2)}
+@media (max-width:640px){.home span{display:none}header.bar .wrap{gap:6px}.tabs button{padding:6px 7px;font-size:12.5px;white-space:nowrap}.lang button{padding:6px 5px}}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:36px;align-items:center;padding:44px 0 30px}
 .hero.vertical{grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr)}
 .kicker{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
@@ -146,9 +152,10 @@ footer{padding:30px 0 50px;color:var(--faint);font-family:var(--mono);font-size:
 </head>
 <body>
 <header class="bar"><div class="wrap">
-  <a class="brand" href="../" style="text-decoration:none"><b>Illia Ushanau</b> · case</a>
+  <a class="home" id="home" href="https://iushanau-ui.github.io/portfolio/">← <span><b>Illia Ushanau</b> · <i id="homeTxt">портфолио</i></span></a>
   <div class="tabs" id="tabs"></div>
   <div class="lang" id="lang"><button data-l="ru">RU</button><button data-l="en">EN</button></div>
+  <button class="thm" id="thm" aria-label="Theme"></button>
 </div></header>
 <main class="wrap" id="app"></main>
 <footer class="wrap" id="foot"></footer>
@@ -158,7 +165,13 @@ const M='media/';
 const VOL=.55;   // общая громкость страницы: все плееры стартуют тише
 document.addEventListener('play',e=>{const m=e.target;if(m.dataset&&!m.dataset.vol){m.dataset.vol=1;m.volume=VOL}},true);
 const L=(ru,en)=>({ru,en});
-let lang='ru';try{lang=localStorage.getItem('case-lang')||(location.hash==='#en'?'en':'ru')}catch(e){}
+let lang='ru';try{lang=localStorage.getItem('case-lang')||(location.hash==='#en'?'en':location.hash==='#ru'?'ru':localStorage.getItem('pf-lang'))||'ru'}catch(e){}
+/* тема: общая с основным сайтом (pf-theme) */
+const themeIsDark=()=>{const r=document.documentElement.getAttribute('data-theme');return r?r==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
+const themeIcon=()=>{const b=document.getElementById('thm');if(b)b.textContent=themeIsDark()?'☀':'☾'};
+try{const th=localStorage.getItem('pf-theme');if(th&&!localStorage.getItem('hub-theme'))document.documentElement.setAttribute('data-theme',th)}catch(e){}
+document.getElementById('thm').onclick=()=>{const t=themeIsDark()?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('pf-theme',t)}catch(e){}themeIcon();if(window._drawEnv)window._drawEnv()};
+themeIcon();
 const T=x=>x&&typeof x==='object'&&'ru' in x?x[lang]:x;
 
 const UI={
@@ -330,6 +343,7 @@ function build(){
   document.title=T(G.title);
   $('#tabs').innerHTML=Object.values(GRAPHS).map(g=>`<button data-tab="${g.key}" class="${g.key===cur?'on':''}">${T(g.tab)}</button>`).join('');
   document.querySelectorAll('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
+  $('#homeTxt').textContent=lang==='ru'?'портфолио':'portfolio';$('#home').href='https://iushanau-ui.github.io/portfolio/'+(lang==='ru'?'#ru':'');
   document.documentElement.lang=lang;
   const heroMedia=G.hero.t==='vid'?`<video src="${M+G.hero.src}" poster="${M+G.hero.poster}" controls playsinline preload="metadata" ${G.hero.tall?'loop muted autoplay':''}></video>`:'';
   const app=$('#app');
@@ -342,7 +356,7 @@ function build(){
     <aside class="insp" id="insp"></aside></div></section>
     ${G.mixer?mixerHTML():''}
     <section class="block"><h2>${T(UI.how)}</h2><div class="notes">${G.notes.map(n=>`<div class="note"><b>${T(n[0])}</b><p>${T(n[1])}</p></div>`).join('')}</div></section>`;
-  $('#foot').innerHTML=`Illia Ushanau · ComfyUI · ${G.chips.map(T).join(' · ')}`;
+  $('#foot').innerHTML=`<a href="${$('#home').href}" style="color:inherit">Illia Ushanau · ${lang==='ru'?'портфолио':'portfolio'}</a> · ComfyUI · ${G.chips.map(T).join(' · ')}`;
   const world=$('#world');
   G.nodes.forEach(nd=>{const d=el('div','node');d.dataset.id=nd.id;d.style.left=nd.x+'px';d.style.top=nd.y+'px';d.innerHTML=nodeHTML(nd);world.appendChild(d);state[nd.id]=state[nd.id]||'done'});
   bindGraph();setStatus();
