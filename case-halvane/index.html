@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Halvane: AI product imagery case</title>
+<meta name="description" content="One real mattress, 23 AI images for web and ads, and the system that keeps the product identical in every shot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ef;--bg2:#ebe9e3;--card:#fbfaf7;--ink:#1c1d1b;--muted:#5f645c;--faint:#a3a69d;--line:#dad9d0;--accent:#3d6b55;--accent2:#6f9a83;--accent-soft:#e2eae4;
+  --clay:#b4553c;--shadow:0 1px 2px rgba(20,30,20,.05),0 10px 30px rgba(20,40,30,.08);
+  --mono:"JetBrains Mono",Consolas,ui-monospace,monospace;--sans:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;--serif:Fraunces,Georgia,serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent2:#5f957a;--accent-soft:#1d2a22;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
+button{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.bar .wrap{display:flex;align-items:center;gap:22px;height:56px}
+.logo{font:500 14px var(--mono);color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px var(--accent-soft)}
+.navl{color:var(--muted);text-decoration:none;font:13px var(--mono);letter-spacing:.04em;white-space:nowrap}
+.navl:hover{color:var(--ink)}
+.toc{display:flex;gap:14px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.toc a{font:12px var(--mono);color:var(--muted);text-decoration:none;white-space:nowrap}
+.toc a:hover{color:var(--ink)}
+.lang{display:flex;gap:4px;flex:none}.lang button{font:12px var(--mono);letter-spacing:.06em;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:5px 9px;cursor:pointer}.lang button.on{color:var(--accent);border-color:var(--accent)}
+.thm{flex:none;font:12px var(--mono);border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:5px 9px;cursor:pointer}
+.thm:hover{color:var(--ink)}
+@media (max-width:860px){.navl,.toc{display:none}.lang{margin-left:auto}}
+.herowrap{position:relative;overflow:hidden;margin:0 calc(50% - 50vw);padding:0 calc(50vw - 50%)}
+#dots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:44px;align-items:center;padding:64px 0 56px}
+.kicker{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:50px;line-height:1.04;margin:12px 0 16px;letter-spacing:-.035em;font-weight:700}
+.lead{color:var(--muted);font-size:16.5px;margin:0 0 18px}
+.stats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 16px}
+.stats div{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.stats b{display:block;font-family:var(--sans);font-size:22px;color:var(--ink);font-weight:600;letter-spacing:-.015em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:12.5px var(--mono);border:1px solid var(--line);border-radius:5px;padding:3px 9px;color:var(--muted);background:var(--card)}
+.label{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--accent);font-weight:500}
+h2{font-size:38px;letter-spacing:-.025em;line-height:1.1;margin:8px 0 0;font-weight:650}
+h3{font-size:19px;margin:0 0 6px;letter-spacing:-.01em}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.sub{color:var(--muted);margin:0;font:12.5px var(--mono);letter-spacing:.04em;max-width:520px}
+.req{font:12.5px var(--mono);color:var(--muted);border-left:2px solid var(--accent);padding:2px 0 2px 12px;margin:0 0 22px}
+.req i{color:var(--ink);font-style:normal}
+section.block{padding:84px 0 0}
+p{margin:0 0 12px}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.shot{margin:0}
+.shot img{width:100%;border-radius:10px;border:1px solid var(--line);background:var(--bg2)}
+.shot figcaption{margin-top:8px;font-size:13.5px;line-height:1.45}
+.brief{display:block;font:11.5px/1.5 var(--mono);color:var(--accent);margin-bottom:3px}
+.why{display:block;color:var(--muted)}
+.even .shot img{aspect-ratio:1/1;object-fit:contain;background:#f5f5f4}
+.pg{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+@media (max-width:760px){.pg{grid-template-columns:1fr}}
+.tag{display:inline-block;font:11px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-left:6px}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding-top:40px}.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){h2{font-size:30px}section.block{padding-top:64px}h1{font-size:36px}.g2,.g3{grid-template-columns:1fr}}
+/* hero mock */
+.hmock{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);aspect-ratio:16/10;background:#e9e3da}
+.hmock img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:68% 55%}
+.hmock .t{position:absolute;left:6%;top:22%;max-width:44%;color:#1c1d1b}
+.hmock .t b{display:block;font:500 11px var(--mono);letter-spacing:.3em;margin-bottom:12px}
+.hmock .t span{display:block;font:400 clamp(22px,3.4vw,40px)/1.04 var(--serif);letter-spacing:-.01em}
+.hmock .t em{display:inline-block;margin-top:14px;font:600 12px var(--sans);font-style:normal;background:var(--clay);color:#fff;border-radius:99px;padding:8px 16px}
+/* fidelity strip */
+.fid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.fid figure{margin:0}
+.fid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.fid figcaption{font:11px var(--mono);color:var(--muted);margin-top:4px}
+.fid .ref img{outline:2px solid var(--clay);outline-offset:-2px}
+@media (max-width:760px){.fid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.checks span{font:12px var(--mono);background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:3px 9px}
+/* spec table */
+table.spec{width:100%;border-collapse:collapse;font-size:14px}
+table.spec td{border-bottom:1px solid var(--line);padding:7px 4px;vertical-align:top}
+table.spec td:first-child{color:var(--muted);font:12.5px var(--mono);width:34%}
+table.spec{table-layout:fixed}
+/* ads */
+.ads{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:end}
+.ads .shot img{border-radius:8px}
+@media (max-width:900px){.ads{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.ads{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* before / after */
+.ba{position:relative;overflow:hidden;border-radius:10px;border:1px solid var(--line);user-select:none;touch-action:pan-y;cursor:ew-resize;background:var(--bg2)}
+.ba img{width:100%;height:auto}
+.ba .after{position:absolute;inset:0;clip-path:inset(0 0 0 50%)}
+.ba .after img{width:100%;height:100%;object-fit:cover}
+.ba .h{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.15);pointer-events:none}
+.ba .h::after{content:"‹ ›";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#333;border-radius:99px;padding:3px 9px;font:600 13px var(--sans);box-shadow:var(--shadow)}
+.ba .lb{position:absolute;top:10px;font:11px var(--mono);background:rgba(0,0,0,.55);color:#fff;border-radius:4px;padding:2px 7px}
+.ba .lb.l{left:10px}.ba .lb.r{right:10px}
+/* system */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;counter-reset:st}
+.flow .st{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+.flow .st::before{counter-increment:st;content:counter(st);display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font:600 12px/22px var(--mono);text-align:center;margin-bottom:8px}
+.flow .st b{display:block;font-size:14.5px;margin-bottom:4px}
+.flow .st span{display:block;font-size:13px;color:var(--muted);line-height:1.45}
+.flow .st small{display:block;font:11px var(--mono);color:var(--accent);margin-top:8px}
+@media (max-width:900px){.flow{grid-template-columns:1fr 1fr}}
+pre.code{position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font:12.5px/1.6 var(--mono);white-space:pre-wrap;margin:0;color:var(--ink)}
+pre.code .v{color:var(--clay)}
+pre.code button{position:absolute;top:8px;right:8px;font:11px var(--mono);border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:5px;padding:2px 8px;cursor:pointer}
+.seeds{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.seeds img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
+@media (max-width:700px){.seeds{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* ui prototype */
+.devbar{display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.devbar button{font:12px var(--mono);border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:6px;padding:6px 12px;cursor:pointer}
+.devbar button.on{color:var(--accent);border-color:var(--accent)}
+.devbar span{font:12px var(--mono);color:var(--muted);margin-left:auto}
+.stage{background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px;border:1px solid var(--line);border-radius:12px;padding:22px 12px;display:flex;justify-content:center}
+.device{width:100%;max-width:1060px;transition:max-width .45s ease;background:#fbf9f6;color:#24201c;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;container-type:inline-size;border:1px solid #ddd6cc}
+.device.phone{max-width:390px;border-radius:28px;border:8px solid #1c1d1b}
+/* storefront (внутри устройства, адаптив через container queries) */
+.sf{font-family:var(--sans)}
+.sf .nav{display:flex;align-items:center;gap:22px;padding:14px 22px;border-bottom:1px solid #ebe4da;font-size:13px}
+.sf .nav b{font:600 14px var(--sans);letter-spacing:.32em;margin-right:auto}
+.sf .nav .lk{color:#6f675e}
+.sf .nav .cart{border:1px solid #d8cfc3;border-radius:99px;padding:4px 12px}
+.sf .hz{position:relative;aspect-ratio:21/9;overflow:hidden;background:#e9e3da}
+.sf .hz img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 58%}
+.sf .hz .tx{position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:40%}
+.sf .hz h4{font:400 clamp(26px,4.6cqi,52px)/1.03 var(--serif);margin:0 0 10px;letter-spacing:-.01em}
+.sf .hz p{margin:0 0 16px;font-size:clamp(13px,1.5cqi,16px);color:#4a433c}
+.sf .btnp{display:inline-block;background:var(--clay);color:#fff;border-radius:99px;padding:11px 22px;font-weight:600;font-size:14px;border:0;cursor:pointer}
+.sf .usp{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#ebe4da;border-bottom:1px solid #ebe4da}
+.sf .usp div{background:#fbf9f6;padding:14px 18px;font-size:13px;color:#6f675e}
+.sf .usp b{display:block;color:#24201c;font-size:14px}
+.sf .pdp{display:grid;grid-template-columns:1.25fr 1fr;gap:30px;padding:30px 22px}
+.sf .gal .main{aspect-ratio:1/1;background:#f3f1ed;border-radius:10px;overflow:hidden}
+.sf .gal .main img{width:100%;height:100%;object-fit:contain}
+.sf .gal .th{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}
+.sf .gal .th img{aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent;background:#f3f1ed}
+.sf .gal .th img.on{border-color:var(--clay)}
+.sf .info h5{font:400 32px/1.1 var(--serif);margin:0 0 6px}
+.sf .info .rt{font-size:13px;color:#6f675e;margin-bottom:14px}
+.sf .info .pr{font-size:22px;font-weight:600;margin-bottom:16px}
+.sf .info .pr s{color:#9b938a;font-weight:400;font-size:16px;margin-left:8px}
+.sf .sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0 16px}
+.sf .sizes button{border:1px solid #d8cfc3;background:#fff;border-radius:8px;padding:9px 0;font-size:13px;cursor:pointer;color:#24201c}
+.sf .sizes button.on{border-color:#24201c;box-shadow:inset 0 0 0 1px #24201c}
+.sf .info ul{padding-left:18px;margin:16px 0 0;font-size:13.5px;color:#4a433c}
+.sf .info .btnp{width:100%;text-align:center;padding:14px}
+.sf .life{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 22px 26px}
+.sf .life img{aspect-ratio:4/5;object-fit:cover;border-radius:8px}
+@container (max-width:600px){
+  .sf .nav .lk{display:none}
+  .sf .hz{aspect-ratio:auto}
+  .sf .hz img{position:static;aspect-ratio:4/5;height:auto;object-position:73% 62%}
+  .sf .hz .tx{position:static;transform:none;max-width:none;padding:18px 20px 22px}
+  .sf .usp{grid-template-columns:1fr}
+  .sf .pdp{grid-template-columns:1fr;gap:18px;padding:18px 16px}
+  .sf .life{grid-template-columns:repeat(2,1fr);padding:0 16px 20px}
+}
+/* breakpoints demo */
+.bps{display:grid;grid-template-columns:2.2fr 1.3fr .9fr;gap:14px;align-items:end}
+.bp{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#e9e3da}
+.bp img{width:100%;height:100%;object-fit:cover;object-position:var(--fx,70%) var(--fy,58%)}
+.bp .fp{position:absolute;width:18px;height:18px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 2px var(--clay);transform:translate(-50%,-50%);left:var(--px);top:var(--py)}
+.bp .tt{position:absolute;font:400 clamp(14px,2vw,24px)/1.05 var(--serif);color:#1c1d1b}
+.bpcap{font:11.5px var(--mono);color:var(--muted);margin-top:6px}
+@media (max-width:700px){.bps{grid-template-columns:1fr 1fr}}
+.thumbs{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.thumbs figure{margin:0}
+.thumbs img{border-radius:6px;border:1px solid var(--line);object-fit:cover}
+.thumbs figcaption{font:11px var(--mono);color:var(--muted);margin-top:4px}
+/* playbook */
+.sw{display:flex;gap:8px;flex-wrap:wrap}
+.sw div{width:86px;font:11px var(--mono);color:var(--muted)}
+.sw i{display:block;height:46px;border-radius:8px;border:1px solid var(--line);margin-bottom:4px}
+ul.rules{margin:0;padding-left:18px;font-size:14.5px}
+ul.rules li{margin:5px 0}
+ul.no li::marker{content:"× ";color:var(--clay)}
+/* tools */
+.tl{display:grid;grid-template-columns:110px repeat(3,minmax(0,1fr));gap:10px;align-items:start;margin-bottom:18px}
+.tl .bh{font:12px var(--mono);color:var(--muted);padding-top:4px}
+.tl .bh b{display:block;color:var(--ink);font:600 14px var(--sans);margin-bottom:2px}
+.tl figure{margin:0}
+.tl img{width:100%;border-radius:8px;border:1px solid var(--line);object-fit:cover;background:var(--bg2)}
+.tl.w img{aspect-ratio:16/9}.tl.t img{aspect-ratio:4/5}
+.tl figcaption{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.ok,.bad,.fx{font:11px var(--mono);border-radius:4px;padding:1px 6px}
+.ok{background:var(--accent-soft);color:var(--accent)}
+.bad{background:color-mix(in srgb,var(--clay) 14%,transparent);color:var(--clay)}
+.fx{border:1px solid var(--line);color:var(--muted)}
+.th3{display:grid;grid-template-columns:110px repeat(3,minmax(0,1fr));gap:10px;font:12px var(--mono);color:var(--muted);margin-bottom:8px}
+.th3 b{color:var(--ink);font-weight:500}
+.score{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:8px}
+.score .card h3{display:flex;justify-content:space-between;align-items:baseline}
+.score .card h3 span{font:12px var(--mono);color:var(--accent)}
+.score ul{margin:6px 0 0;padding-left:18px;font-size:14px}.score li{margin:3px 0}
+@media (max-width:760px){.tl,.th3{grid-template-columns:repeat(3,minmax(0,1fr))}.tl .bh{grid-column:1/-1}.th3>span:first-child{display:none}.score{grid-template-columns:1fr}}
+footer.wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:96px;padding-top:28px;padding-bottom:40px;border-top:1px solid var(--line);color:var(--muted);font:12px var(--mono)}
+</style>
+<script>/*hub-theme*/(function(){function a(t){var r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}try{a(localStorage.getItem('hub-theme'))}catch(e){}addEventListener('message',function(e){if(e.data&&typeof e.data==='object'&&'hubTheme' in e.data)a(e.data.hubTheme)})})();</script>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <a class="logo" href="https://iushanau-ui.github.io/portfolio/"><i></i><span>illia.ushanau</span></a>
+  <a class="navl" href="https://iushanau-ui.github.io/portfolio/">← portfolio</a>
+  <nav class="toc"><a href="#product">product</a><a href="#fidelity">fidelity</a><a href="#hero">hero</a><a href="#ads">ads</a><a href="#system">system</a><a href="#ui">ui</a><a href="#tools">tools</a><a href="#playbook">playbook</a></nav>
+  <div class="lang" id="lang"><button data-l="ru">RU</button><button data-l="en">EN</button></div>
+  <button class="thm" id="thm" title="theme">◐</button>
+</div></header>
+
+<main class="wrap">
+<div class="herowrap"><canvas id="dots"></canvas>
+<div class="hero">
+  <div>
+    <div class="kicker">Case study · AI product imagery</div>
+    <h1>One real mattress. Every shot, the same product.</h1>
+    <p class="lead">Concept campaign for a fictional sleep brand. One product, designed once, placed into rooms, product pages and ads.</p>
+    <div class="stats">
+      <div><b>23</b>finished images</div>
+      <div><b>7</b>scenes, one product</div>
+      <div><b>6</b>ads with briefs</div>
+      <div><b>3</b>tools compared</div>
+      
+    </div>
+    <div class="chips"><span>Krea 2</span><span>Qwen-Image-Edit 2511</span><span>ComfyUI API</span><span>PixText</span><span>Python QC</span><span>HTML/CSS layouts</span></div>
+  </div>
+  <div class="hmock"><img src="media/h1.jpg" alt="Halvane Cloud mattress in a morning bedroom">
+    <div class="t"><b>HALVANE</b><span>Sleep on something real.</span><em>Shop Halvane Cloud</em></div></div>
+</div></div>
+
+<!-- 01 product -->
+<section class="block" id="product">
+  <div class="sh"><div><div class="label"><b>01</b> / product</div><h2>The product, defined once</h2></div><p class="sub">Reference set for every later image.</p></div>
+  <div class="grid pg" style="align-items:start">
+    <figure class="shot"><img src="media/r1.jpg" alt="Halvane Cloud master packshot"></figure>
+    <div class="card"><h3>Product passport</h3>
+      <table class="spec">
+        <tr><td>size</td><td>US Queen, 60 × 80 × 12 in (152 × 203 × 30 cm)</td></tr>
+        <tr><td>top</td><td>white ribbed knit, no quilting</td></tr>
+        <tr><td>edge</td><td>one thin terracotta piping cord</td></tr>
+        <tr><td>side</td><td>warm greige knit, horizontal grooves</td></tr>
+        <tr><td>label</td><td>terracotta tab, HALVANE, foot corner</td></tr>
+        <tr><td>measured</td><td>side length / height 7.1 (target 6.8 to 7.2), top width / length 0.77 (target 0.75)</td></tr>
+      </table></div>
+  </div>
+  <div class="grid g4 even" style="margin-top:14px">
+    <figure class="shot"><img src="media/r2.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/r3.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/r4.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/r5.jpg" alt=""></figure>
+  </div>
+</section>
+
+<!-- 02 fidelity -->
+<section class="block" id="fidelity">
+  <div class="sh"><div><div class="label"><b>02</b> / fidelity</div><h2>Same mattress in every scene</h2></div><p class="sub">Crops from each final vs. the reference.</p></div>
+  <div class="fid">
+    <figure><img src="media/fid_h1.jpg" alt=""><figcaption>H1</figcaption></figure>
+    <figure><img src="media/fid_h2.jpg" alt=""><figcaption>H2</figcaption></figure>
+    <figure><img src="media/fid_h3.jpg" alt=""><figcaption>H3</figcaption></figure>
+    <figure><img src="media/fid_l1.jpg" alt=""><figcaption>L1</figcaption></figure>
+    <figure><img src="media/fid_l2.jpg" alt=""><figcaption>L2</figcaption></figure>
+    <figure><img src="media/fid_l3.jpg" alt=""><figcaption>L3</figcaption></figure>
+    <figure><img src="media/fid_l4.jpg" alt=""><figcaption>L4</figcaption></figure>
+    <figure class="ref"><img src="media/fid_ref.jpg" alt=""><figcaption>reference</figcaption></figure>
+  </div>
+  <div class="checks"><span>✓ one piping cord on the top edge</span><span>✓ label text reads HALVANE</span><span>✓ side color within the reference range</span><span>✓ queen proportions against people and pillows</span></div>
+</section>
+
+<!-- 03 hero -->
+<section class="block" id="hero">
+  <div class="sh"><div><div class="label"><b>03</b> / hero</div><h2>Homepage hero</h2></div><p class="sub">Composed for a headline.</p></div>
+  <div class="grid g3">
+    <figure class="shot"><img src="media/h1.jpg" alt=""><figcaption><span class="brief">Objective: brand entry · homepage · scroll to shop</span></figcaption></figure>
+    <figure class="shot"><img src="media/h2.jpg" alt=""><figcaption><span class="brief">Objective: evening campaign · homepage takeover · open the product</span></figcaption></figure>
+    <figure class="shot"><img src="media/h3.jpg" alt=""><figcaption><span class="brief">Objective: product launch · homepage · learn more</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- 04 lifestyle -->
+<section class="block" id="lifestyle">
+  <div class="sh"><div><div class="label"><b>04</b> / lifestyle</div><h2>Lifestyle</h2></div></div>
+  <div class="grid g4">
+    <figure class="shot"><img src="media/l1.jpg" alt=""><figcaption><span class="brief">Couples · social feed · find your feel</span></figcaption></figure>
+    <figure class="shot"><img src="media/l2.jpg" alt=""><figcaption><span class="brief">Scale · PDP / social · trust the size</span></figcaption></figure>
+    <figure class="shot"><img src="media/l3.jpg" alt=""><figcaption><span class="brief">Families · Stories · start the trial</span></figcaption></figure>
+    <figure class="shot"><img src="media/l4.jpg" alt=""><figcaption><span class="brief">Brand idea · feed · see the product</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- 05 pdp -->
+<section class="block" id="pdp">
+  <div class="sh"><div><div class="label"><b>05</b> / product page</div><h2>Product page gallery</h2></div></div>
+  <div class="grid g5 even">
+    <figure class="shot"><img src="media/p1.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/p2.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/p3.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/p4.jpg" alt=""></figure>
+    <figure class="shot"><img src="media/p5.jpg" alt=""></figure>
+  </div>
+</section>
+
+<!-- 06 ads -->
+<section class="block" id="ads">
+  <div class="sh"><div><div class="label"><b>06</b> / paid creative</div><h2>Ads, each with a job</h2></div><p class="sub">Live type over the image, easy to A/B test.</p></div>
+  <div class="ads">
+    <figure class="shot"><img src="media/a1.jpg" alt=""><figcaption><span class="brief">1:1 · cold audience</span></figcaption></figure>
+    <figure class="shot"><img src="media/a2.jpg" alt=""><figcaption><span class="brief">4:5 · couples</span></figcaption></figure>
+    <figure class="shot"><img src="media/a3.jpg" alt=""><figcaption><span class="brief">9:16 · families</span></figcaption></figure>
+    <figure class="shot"><img src="media/a4.jpg" alt=""><figcaption><span class="brief">1:1 · comparing brands</span></figcaption></figure>
+    <figure class="shot"><img src="media/a5.jpg" alt=""><figcaption><span class="brief">4:5 · brand idea</span></figcaption></figure>
+    <figure class="shot"><img src="media/a6.jpg" alt=""><figcaption><span class="brief">9:16 · cart abandoners</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- 08 system -->
+<section class="block" id="system">
+  <div class="sh"><div><div class="label"><b>07</b> / system</div><h2>Repeatable, not lucky</h2></div><p class="sub">ComfyUI API, driven from Python.</p></div>
+  <div class="flow">
+    <div class="st"><b>Product passport</b><span>Fixed text + reference set in every prompt.</span><small>ref / R1 to R5</small></div>
+    <div class="st"><b>Scene</b><span>Room generated with the product in it.</span><small>Krea 2 Turbo, 8 steps</small></div>
+    <div class="st"><b>Measure</b><span>Proportions checked in pixels.</span><small>qc.py</small></div>
+    <div class="st"><b>Correct</b><span>Masked fixes: piping, label, props.</span><small>grade.py · label.py · Qwen-Edit · PixText</small></div>
+    <div class="st"><b>Layout</b><span>Type and crops in HTML, rendered to PNG.</span><small>render.html → headless Chrome</small></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px;align-items:start">
+    <div><h3>Prompt template</h3>
+<pre class="code"><button data-copy>copy</button><span class="v">{shot_type}</span> photo of <span class="v">{room}</span> in <span class="v">{time_of_day}</span> light from <span class="v">{light_direction}</span>.
+On a <span class="v">{frame}</span> lies the mattress, its long side border facing the camera and fully visible. <span class="v">{styling}</span>.
+<span class="v">{copy_space}</span>. Camera at <span class="v">{camera_height}</span> from the <span class="v">{corner}</span>.
+The mattress: <span class="v">{PRODUCT_PASSPORT}</span>
+Editorial interior photography, natural light and soft realistic shadows, photorealistic, 35mm lens.</pre>
+      <p class="muted" style="font-size:13.5px;margin-top:10px">Only the variables change. Passport and style suffix stay fixed.</p></div>
+    <div><h3>Same brief, six seeds</h3>
+      <div class="seeds"><img src="media/seed1.jpg" alt=""><img src="media/seed2.jpg" alt=""><img src="media/seed3.jpg" alt=""><img src="media/seed4.jpg" alt=""><img src="media/seed5.jpg" alt=""><img src="media/seed6.jpg" alt=""></div>
+      <p class="muted" style="font-size:13.5px;margin-top:10px">Same composition, light and product across seeds.</p></div>
+  </div>
+</section>
+
+<!-- 09 ui -->
+<section class="block" id="ui">
+  <div class="sh"><div><div class="label"><b>08</b> / ui</div><h2>Imagery inside a live interface</h2></div><p class="sub">Working responsive prototype.</p></div>
+  <div class="devbar"><button class="on" data-dev="desk">desktop</button><button data-dev="phone">phone</button><span id="devw"></span></div>
+  <div class="stage"><div class="device" id="device"><div class="sf">
+    <div class="nav"><b>HALVANE</b><span class="lk">Mattress</span><span class="lk">Pillows</span><span class="lk">Why Halvane</span><span class="cart">Cart 0</span></div>
+    <div class="hz"><img src="media/h1.jpg" alt=""><div class="tx"><h4>Sleep on something real.</h4><p>The Halvane Cloud. 100 nights to decide.</p><button class="btnp">Shop the mattress</button></div></div>
+    <div class="usp"><div><b>100-night trial</b>Return it free if it is not right</div><div><b>Free delivery</b>Arrives rolled in a box</div><div><b>10-year warranty</b>Built to keep its shape</div></div>
+    <div class="pdp">
+      <div class="gal"><div class="main"><img id="gmain" src="media/p1.jpg" alt=""></div>
+        <div class="th"><img class="on" src="media/p1.jpg" alt=""><img src="media/p2.jpg" alt=""><img src="media/p3.jpg" alt=""><img src="media/p4.jpg" alt=""><img src="media/p5.jpg" alt=""></div></div>
+      <div class="info"><h5>Halvane Cloud</h5><div class="rt">Medium-firm · cooling gel foam</div>
+        <div class="pr" id="price">$1,195 <s>$1,395</s></div>
+        <div style="font-size:13px;color:#6f675e">Size</div>
+        <div class="sizes"><button data-p="795">Twin</button><button data-p="995">Full</button><button class="on" data-p="1195">Queen</button><button data-p="1395">King</button></div>
+        <button class="btnp">Add to cart</button>
+        <ul><li>Five layers, 12 in profile</li><li>Breathable knit cover</li><li>Made for side and back sleepers</li></ul></div>
+    </div>
+    <div class="life"><img src="media/l1.jpg" alt=""><img src="media/l2.jpg" alt=""><img src="media/l3.jpg" alt=""><img src="media/l4.jpg" alt=""></div>
+  </div></div></div>
+  <p class="muted" style="font-size:13.5px;margin-top:12px">Phone: 4:5 crop on the product, headline below the image.</p>
+
+  <h3 style="margin-top:34px">One hero, three breakpoints</h3>
+  <div class="bps">
+    <div><div class="bp" style="aspect-ratio:21/9;--fx:70%;--fy:58%"><img src="media/h1.jpg" alt=""><span class="fp" style="--px:72%;--py:66%"></span><span class="tt" style="left:6%;top:38%">Sleep on<br>something real.</span></div><div class="bpcap">desktop 21:9 · type on the wall</div></div>
+    <div><div class="bp" style="aspect-ratio:4/3;--fx:72%;--fy:60%"><img src="media/h1.jpg" alt=""><span class="fp" style="--px:60%;--py:66%"></span><span class="tt" style="left:6%;top:14%">Sleep on<br>something real.</span></div><div class="bpcap">tablet 4:3 · type moves up</div></div>
+    <div><div class="bp" style="aspect-ratio:4/5;--fx:73%;--fy:62%"><img src="media/h1.jpg" alt=""><span class="fp" style="--px:50%;--py:62%"></span></div><div class="bpcap">phone 4:5 · type below the image</div></div>
+  </div>
+  <p class="muted" style="font-size:13.5px;margin-top:10px">Ring = focal point. Every crop keeps it in frame.</p>
+
+  <h3 style="margin-top:30px">Thumbnails and placements</h3>
+  <div class="thumbs">
+    <figure><img src="media/a1.jpg" alt="" style="width:300px;height:250px"><figcaption>300 × 250</figcaption></figure>
+    <figure><img src="media/a2.jpg" alt="" style="width:160px;height:200px"><figcaption>feed 4:5 at 160 px</figcaption></figure>
+    <figure><img src="media/p1.jpg" alt="" style="width:96px;height:96px;object-fit:contain;background:#f3f1ed"><figcaption>cart 96 px</figcaption></figure>
+    <figure><img src="media/a6.jpg" alt="" style="width:90px;height:160px"><figcaption>Stories 90 px</figcaption></figure>
+  </div>
+  
+</section>
+
+<!-- 09 tools -->
+<section class="block" id="tools">
+  <div class="sh"><div><div class="label"><b>09</b> / tools</div><h2>Same brief, three tools</h2></div><p class="sub">First attempt each, no retries. Free GPT Image and Gemini.</p></div>
+  <div class="th3"><span></span><b>GPT Image</b><b>Gemini (Nano Banana)</b><b>my ComfyUI pipeline</b></div>
+  <div class="tl w"><div class="bh"><b>B1</b>hero</div><figure><img src="media/t_g1.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ piping</span><span class="ok">✓ copy space</span></figcaption></figure><figure><img src="media/t_m1.jpg" alt="" loading="lazy"><figcaption><span class="bad">✗ label</span><span class="ok">✓ piping</span><span class="ok">✓ copy space</span></figcaption></figure><figure><img src="media/t_c1.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ piping</span><span class="ok">✓ copy space</span></figcaption></figure></div>
+  <div class="tl t"><div class="bh"><b>B2</b>lifestyle</div><figure><img src="media/t_g2.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="bad">✗ extra hand</span><span class="fx">retouched</span></figcaption></figure><figure><img src="media/t_m2.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ anatomy</span><span class="fx">watermark</span></figcaption></figure><figure><img src="media/t_c2.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ anatomy</span></figcaption></figure></div>
+  <div class="tl w"><div class="bh"><b>B3</b>edit: evening</div><figure><img src="media/t_g3.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ warm light</span><span class="ok">✓ layout kept</span></figcaption></figure><figure><img src="media/t_m3.jpg" alt="" loading="lazy"><figcaption><span class="bad">✗ label</span><span class="bad">✗ light stays cold</span></figcaption></figure><figure><img src="media/t_c3.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ layout kept</span><span class="fx">label locked</span></figcaption></figure></div>
+  <div class="tl t"><div class="bh"><b>B4</b>ad with type</div><figure><img src="media/t_g4.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ type</span><span class="ok">✓ full bleed</span></figcaption></figure><figure><img src="media/t_m4.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ type</span><span class="bad">✗ white frame</span></figcaption></figure><figure><img src="media/t_c4.jpg" alt="" loading="lazy"><figcaption><span class="ok">✓ label</span><span class="ok">✓ type</span><span class="fx">type in HTML</span></figcaption></figure></div>
+  <div class="score">
+    <div class="card"><h3>GPT Image <span>label 4/4</span></h3><ul><li>Best type and layout in one shot</li><li>Edits keep the product and the room</li><li>Watch anatomy: invented a third hand</li></ul></div>
+    <div class="card"><h3>Gemini <span>label 2/4</span></h3><ul><li>Natural people and poses</li><li>Small label text breaks</li><li>Relight edits weaker; free tier adds a watermark</li></ul></div>
+    <div class="card"><h3>ComfyUI pipeline <span>label 4/4</span></h3><ul><li>Locked label, measured proportions</li><li>Same result on demand, at volume</li><li>Slower to set up, needs the reference set</li></ul></div>
+  </div>
+  <p class="muted" style="font-size:13.5px;margin-top:12px">Choice: GPT Image for ad concepts and quick edits, Gemini for people drafts, the pipeline for anything that ships.</p>
+</section>
+
+<!-- 10 playbook -->
+<section class="block" id="playbook">
+  <div class="sh"><div><div class="label"><b>10</b> / playbook</div><h2>Halvane imagery standard</h2></div></div>
+  <div class="grid g3" style="align-items:start">
+    <div class="card"><h3>Light and palette</h3>
+      <ul class="rules"><li>Natural window light, one direction, soft shadows</li><li>Evening: one warm practical lamp plus a cool window</li><li>No flash look, no colored gels</li></ul>
+      <div class="sw" style="margin-top:12px"><div><i style="background:#f7f4ef"></i>paper</div><div><i style="background:#d9cbb8"></i>greige</div><div><i style="background:#b4553c"></i>clay</div><div><i style="background:#c8a77e"></i>oak</div><div><i style="background:#24201c"></i>ink</div></div></div>
+    <div class="card"><h3>Angles and shot types</h3>
+      <ul class="rules"><li>Foot corner, three-quarter, long side to camera</li><li>Label always visible in product shots</li><li>A: product only · B: people on top of the bare mattress · C: made bed with a peeled corner</li><li>Leave copy space on purpose, not by accident</li></ul></div>
+    <div class="card"><h3>Never</h3>
+      <ul class="rules no"><li>A duvet or sleeping person on a bare mattress</li><li>A sheet tucked above the piping</li><li>Patch-recoloring part of the product</li><li>Shipping a frame that failed the proportion check</li><li>Other brands, logos or real people's likeness</li></ul></div>
+  </div>
+  <div class="grid g3" style="margin-top:14px;align-items:start">
+<pre class="code"><button data-copy>copy</button><b>Hero</b>
+Wide photo of <span class="v">{room}</span>, <span class="v">{light}</span>.
+The bed stands in the <span class="v">{right|left}</span> half;
+the other half is a calm wall for a headline.
+Long side border facing camera, label visible.
+The mattress: <span class="v">{PASSPORT}</span></pre>
+<pre class="code"><button data-copy>copy</button><b>Lifestyle, type B</b>
+Lifestyle photo, <span class="v">{room}</span>, <span class="v">{light}</span>.
+<span class="v">{people}</span> <span class="v">{action}</span> on top of the bare
+mattress, no duvet and no sheet, faces
+secondary. Side border with label in frame.
+The mattress: <span class="v">{PASSPORT}</span></pre>
+<pre class="code"><button data-copy>copy</button><b>Product page</b>
+Studio packshot on seamless white,
+<span class="v">{angle}</span>, soft large softbox, contact shadow.
+Edit of the master reference only:
+"keep the mattress exactly the same".
+Then run qc.py before export.</pre>
+  </div>
+</section>
+
+<p class="muted" style="font:12px var(--mono);margin-top:64px">Halvane is a concept brand created for this portfolio. It is not affiliated with any real company. All images are AI-generated and retouched by me.</p>
+</main>
+<footer class="wrap"><a href="https://iushanau-ui.github.io/portfolio/" style="color:inherit">← portfolio</a><span>© 2026 Illia Ushanau</span></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+/* тема: общая с основным сайтом */
+const isDark=()=>{const r=document.documentElement.getAttribute('data-theme');return r?r==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
+try{const th=localStorage.getItem('pf-theme');if(th&&!localStorage.getItem('hub-theme'))document.documentElement.setAttribute('data-theme',th)}catch(e){}
+$('#thm').onclick=()=>{const t=isDark()?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('pf-theme',t)}catch(e){}if(window._redrawDots)window._redrawDots()};
+/* точечный фон hero, как на основном сайте */
+(function(){const cv=$('#dots'),hero=$('.herowrap');const ctx=cv.getContext('2d');let mx=-999,my=-999,W=0,H=0,dpr=1,raf=0;
+  const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function draw(){raf=0;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);const c1=css('--line'),c2=css('--accent'),G=22;
+    for(let y=G/2;y<H;y+=G)for(let x=G/2;x<W;x+=G){const d=Math.hypot(x-mx,y-my),k=Math.max(0,1-d/150);
+      ctx.fillStyle=k>.05?c2:c1;ctx.globalAlpha=k>.05?.25+.75*k:1;ctx.beginPath();ctx.arc(x,y,1+1.3*k,0,6.283);ctx.fill()}ctx.globalAlpha=1}
+  const size=()=>{dpr=Math.min(2,devicePixelRatio||1);W=hero.clientWidth;H=hero.clientHeight;cv.width=W*dpr;cv.height=H*dpr;draw()};
+  hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;if(!raf)raf=requestAnimationFrame(draw)});
+  hero.addEventListener('mouseleave',()=>{mx=my=-999;if(!raf)raf=requestAnimationFrame(draw)});
+  window._redrawDots=draw;addEventListener('resize',size);size()})();
+/* шторки до/после */
+$$('.ba').forEach(b=>{const a=b.querySelector('.after'),h=b.querySelector('.h');let on=false;
+  const set=x=>{const r=b.getBoundingClientRect();const p=Math.min(100,Math.max(0,(x-r.left)/r.width*100));a.style.clipPath=`inset(0 0 0 ${p}%)`;h.style.left=p+'%'};
+  b.addEventListener('pointerdown',e=>{on=true;b.setPointerCapture(e.pointerId);set(e.clientX)});
+  b.addEventListener('pointermove',e=>{if(on)set(e.clientX)});
+  b.addEventListener('pointerup',()=>on=false)});
+/* прототип: устройство, галерея, размеры */
+const dev=$('#device'),devw=$('#devw');
+const showW=()=>devw.textContent=Math.round(dev.getBoundingClientRect().width)+' px';
+$$('[data-dev]').forEach(b=>b.onclick=()=>{$$('[data-dev]').forEach(x=>x.classList.toggle('on',x===b));dev.classList.toggle('phone',b.dataset.dev==='phone');setTimeout(showW,480)});
+addEventListener('resize',showW);showW();
+$$('.gal .th img').forEach(t=>t.onclick=()=>{$('#gmain').src=t.src;$$('.gal .th img').forEach(x=>x.classList.toggle('on',x===t))});
+$$('.sizes button').forEach(b=>b.onclick=()=>{$$('.sizes button').forEach(x=>x.classList.toggle('on',x===b));const p=+b.dataset.p;$('#price').innerHTML=`$${p.toLocaleString('en-US')} <s>$${(p+200).toLocaleString('en-US')}</s>`});
+/* RU / EN: перевод текстовых узлов по словарю; витрина и реклама остаются на английском (это материалы бренда для США) */
+const RU={"← portfolio": "← портфолио", "product": "товар", "fidelity": "точность", "ads": "реклама", "system": "система", "ui": "интерфейс", "playbook": "стандарт", "Case study · AI product imagery": "Кейс · AI-съёмка товара", "One real mattress. Every shot, the same product.": "Один матрас. В каждом кадре тот же товар.", "Concept campaign for a fictional sleep brand. One product, designed once, placed into rooms, product pages and ads.": "Концепт-кампания для вымышленного бренда товаров для сна. Товар придуман один раз и поставлен в интерьеры, карточку товара и рекламу.", "finished images": "готовых изображений", "scenes, one product": "сцен, один товар", "ads with briefs": "креативов с брифами", "/ product": "/ товар", "The product, defined once": "Товар, заданный один раз", "Reference set for every later image.": "Эталон для всех следующих кадров.", "Product passport": "Паспорт товара", "size": "размер", "top": "верх", "edge": "кант", "side": "бок", "label": "ярлык", "measured": "замер", "US Queen, 60 × 80 × 12 in (152 × 203 × 30 cm)": "US Queen, 152 × 203 × 30 см", "white ribbed knit, no quilting": "белый трикотаж в рубчик, без стёжки", "one thin terracotta piping cord": "один тонкий терракотовый кант", "warm greige knit, horizontal grooves": "тёплый серо-бежевый трикотаж, горизонтальные бороздки", "terracotta tab, HALVANE, foot corner": "терракотовая бирка HALVANE у ножного угла", "side length / height 7.1 (target 6.8 to 7.2), top width / length 0.77 (target 0.75)": "длина бока / высота 7,1 (норма 6,8-7,2), ширина / длина 0,77 (норма 0,75)", "/ fidelity": "/ точность", "Same mattress in every scene": "Один матрас во всех сценах", "Crops from each final vs. the reference.": "Кропы из каждого кадра рядом с эталоном.", "reference": "эталон", "✓ one piping cord on the top edge": "✓ один кант по верхнему краю", "✓ label text reads HALVANE": "✓ на ярлыке читается HALVANE", "✓ side color within the reference range": "✓ цвет бока в пределах эталона", "✓ queen proportions against people and pillows": "✓ пропорции Queen рядом с людьми и подушками", "Homepage hero": "Hero для главной", "Composed for a headline.": "Кадр строится под заголовок.", "Objective: brand entry · homepage · scroll to shop": "Цель: знакомство с брендом · главная · перейти в магазин", "Objective: evening campaign · homepage takeover · open the product": "Цель: вечерняя кампания · главная · открыть товар", "Objective: product launch · homepage · learn more": "Цель: запуск товара · главная · узнать больше", "Couples · social feed · find your feel": "Пары · соцсети · выбрать жёсткость", "Scale · PDP / social · trust the size": "Масштаб · карточка / соцсети · поверить в размер", "Families · Stories · start the trial": "Семьи · Stories · начать пробный период", "Brand idea · feed · see the product": "Бренд-идея · лента · увидеть товар", "/ product page": "/ карточка товара", "Product page gallery": "Галерея карточки товара", "/ paid creative": "/ реклама", "Ads, each with a job": "Реклама, у каждой своя задача", "Live type over the image, easy to A/B test.": "Живой текст поверх фото, легко A/B-тестировать.", "1:1 · cold audience": "1:1 · холодная аудитория", "4:5 · couples": "4:5 · пары", "9:16 · families": "9:16 · семьи", "1:1 · comparing brands": "1:1 · сравнивают бренды", "4:5 · brand idea": "4:5 · бренд-идея", "9:16 · cart abandoners": "9:16 · брошенная корзина", "/ system": "/ система", "Repeatable, not lucky": "Воспроизводимо, а не на удачу", "ComfyUI API, driven from Python.": "ComfyUI API, управление из Python.", "Fixed text + reference set in every prompt.": "Неизменный текст и эталон в каждом промпте.", "ref / R1 to R5": "ref / R1-R5", "Scene": "Сцена", "Room generated with the product in it.": "Комната генерируется сразу с товаром.", "Krea 2 Turbo, 8 steps": "Krea 2 Turbo, 8 шагов", "Measure": "Замер", "Proportions checked in pixels.": "Пропорции проверяются в пикселях.", "Correct": "Правка", "Masked fixes: piping, label, props.": "Правки по маске: кант, ярлык, предметы.", "Layout": "Вёрстка", "Type and crops in HTML, rendered to PNG.": "Текст и кропы в HTML, рендер в PNG.", "Prompt template": "Шаблон промпта", "Only the variables change. Passport and style suffix stay fixed.": "Меняются только переменные. Паспорт и стиль неизменны.", "Same brief, six seeds": "Один бриф, шесть seed", "Same composition, light and product across seeds.": "Композиция, свет и товар держатся на всех seed.", "/ ui": "/ интерфейс", "Imagery inside a live interface": "Картинка в живом интерфейсе", "Working responsive prototype.": "Рабочий адаптивный прототип.", "desktop": "компьютер", "phone": "телефон", "Phone: 4:5 crop on the product, headline below the image.": "Телефон: кроп 4:5 по товару, заголовок под фото.", "One hero, three breakpoints": "Один hero, три брейкпоинта", "desktop 21:9 · type on the wall": "компьютер 21:9 · текст на стене", "tablet 4:3 · type moves up": "планшет 4:3 · текст выше", "phone 4:5 · type below the image": "телефон 4:5 · текст под фото", "Ring = focal point. Every crop keeps it in frame.": "Кольцо - фокусная точка. Каждый кроп её сохраняет.", "Thumbnails and placements": "Превью и рекламные размеры", "feed 4:5 at 160 px": "лента 4:5, 160 px", "cart 96 px": "корзина 96 px", "/ playbook": "/ стандарт", "Halvane imagery standard": "Стандарт съёмки Halvane", "Light and palette": "Свет и палитра", "Natural window light, one direction, soft shadows": "Естественный свет из окна, одно направление, мягкие тени", "Evening: one warm practical lamp plus a cool window": "Вечер: одна тёплая лампа и холодное окно", "No flash look, no colored gels": "Без вспышки и цветных фильтров", "paper": "бумага", "greige": "серо-беж", "clay": "глина", "oak": "дуб", "ink": "тушь", "Angles and shot types": "Ракурсы и типы кадров", "Foot corner, three-quarter, long side to camera": "Ножной угол, 3/4, длинная сторона к камере", "Label always visible in product shots": "В товарных кадрах ярлык всегда виден", "A: product only · B: people on top of the bare mattress · C: made bed with a peeled corner": "А: только товар · Б: люди поверх голого матраса · В: застеленная кровать с отогнутым углом", "Leave copy space on purpose, not by accident": "Место под текст закладывать заранее", "Never": "Нельзя", "A duvet or sleeping person on a bare mattress": "Одеяло или спящий человек на голом матрасе", "A sheet tucked above the piping": "Простыня, заправленная над кантом", "Patch-recoloring part of the product": "Перекрашивать часть товара", "Shipping a frame that failed the proportion check": "Отдавать кадр, не прошедший замер пропорций", "Other brands, logos or real people's likeness": "Чужие бренды, логотипы и внешность реальных людей", "Halvane is a concept brand created for this portfolio. It is not affiliated with any real company. All images are AI-generated and retouched by me.": "Halvane - вымышленный бренд, созданный для портфолио, не связан ни с одной реальной компанией. Все изображения сгенерированы AI и доведены мной.", "tools": "инструменты", "/ tools": "/ инструменты", "Same brief, three tools": "Один бриф, три инструмента", "First attempt each, no retries. Free GPT Image and Gemini.": "Первая попытка, без перегенерации. Бесплатные GPT Image и Gemini.", "my ComfyUI pipeline": "мой конвейер ComfyUI", "hero": "hero", "lifestyle": "lifestyle", "edit: evening": "правка: вечер", "ad with type": "реклама с текстом", "✓ label": "✓ ярлык", "✗ label": "✗ ярлык", "✓ piping": "✓ кант", "✓ copy space": "✓ место под текст", "✗ extra hand": "✗ лишняя рука", "retouched": "после ретуши", "✓ anatomy": "✓ анатомия", "watermark": "водяной знак", "✓ warm light": "✓ тёплый свет", "✓ layout kept": "✓ комната сохранена", "✗ light stays cold": "✗ свет остался холодным", "label locked": "ярлык зафиксирован", "✓ type": "✓ текст", "✓ full bleed": "✓ во весь кадр", "✗ white frame": "✗ белая рамка", "type in HTML": "текст в HTML", "label 4/4": "ярлык 4/4", "label 2/4": "ярлык 2/4", "ComfyUI pipeline": "Конвейер ComfyUI", "Best type and layout in one shot": "Лучший текст и вёрстка с первой попытки", "Edits keep the product and the room": "При правке держит товар и комнату", "Watch anatomy: invented a third hand": "Следить за анатомией: дорисовал третью руку", "Natural people and poses": "Естественные люди и позы", "Small label text breaks": "Мелкий текст ярлыка ломается", "Relight edits weaker; free tier adds a watermark": "Слабее в смене света; бесплатный режим ставит водяной знак", "Locked label, measured proportions": "Ярлык зафиксирован, пропорции измерены", "Same result on demand, at volume": "Тот же результат по запросу и на объёме", "Slower to set up, needs the reference set": "Дольше настройка, нужен эталон", "Choice: GPT Image for ad concepts and quick edits, Gemini for people drafts, the pipeline for anything that ships.": "Вывод: GPT Image для рекламных концептов и быстрых правок, Gemini для черновиков с людьми, конвейер для всего, что идёт в продакшн.", "tools compared": "инструмента в сравнении"};
+const tnodes=[];(function walk(n){for(const c of n.childNodes){if(c.nodeType===3){const t=c.nodeValue.trim();if(RU[t])tnodes.push([c,c.nodeValue,t])}else if(c.nodeType===1&&!c.matches('pre,.sf,script,style'))walk(c)}})(document.body);
+function setLang(l){tnodes.forEach(([n,orig,t])=>n.nodeValue=l==='ru'?orig.replace(t,RU[t]):orig);document.documentElement.lang=l;
+  document.title=l==='ru'?'Halvane: кейс AI-съёмки товара':'Halvane: AI product imagery case';
+  $$('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));try{localStorage.setItem('case-lang',l)}catch(e){}}
+$$('#lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+let lang0='en';try{lang0=location.hash==='#ru'?'ru':location.hash==='#en'?'en':localStorage.getItem('case-lang')||'en'}catch(e){}
+setLang(lang0);
+/* копирование шаблонов */
+$$('[data-copy]').forEach(b=>b.onclick=()=>{const t=b.parentElement.innerText.replace(/^copy\s*/,'');navigator.clipboard&&navigator.clipboard.writeText(t);b.textContent='copied';setTimeout(()=>b.textContent='copy',1200)});
+</script>
+</body>
+</html>
