@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Quintrel: кейс Key Visual и кампании 360</title>
+<meta name="description" content="Вымышленное трейдинг-приложение: 6 Key Visual в разных стилях, баннерная сетка, лендинг, кампания 360 и ретушь.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ef;--bg2:#ebe9e3;--card:#fbfaf7;--ink:#1c1d1b;--muted:#5f645c;--faint:#a3a69d;--line:#dad9d0;--accent:#3d6b55;--accent-soft:#e2eae4;--clay:#b4553c;
+  --shadow:0 1px 2px rgba(20,30,20,.05),0 10px 30px rgba(20,40,30,.08);
+  --mono:"JetBrains Mono",Consolas,ui-monospace,monospace;--sans:Inter,"Segoe UI",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent-soft:#1d2a22;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111311;--bg2:#171a17;--card:#191c19;--ink:#e7eae4;--muted:#9ba196;--faint:#5e645b;--line:#2b302a;--accent:#8cc3a6;--accent-soft:#1d2a22;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
+button{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.bar .wrap{display:flex;align-items:center;gap:22px;height:56px}
+.logo{font:500 14px var(--mono);color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 3px var(--accent-soft)}
+.navl{color:var(--muted);text-decoration:none;font:13px var(--mono);letter-spacing:.04em;white-space:nowrap}
+.navl:hover{color:var(--ink)}
+.toc{display:flex;gap:14px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.toc a{font:12px var(--mono);color:var(--muted);text-decoration:none;white-space:nowrap}
+.toc a:hover{color:var(--ink)}
+.lang{display:flex;gap:4px;flex:none}.lang button{font:12px var(--mono);letter-spacing:.06em;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:5px 9px;cursor:pointer}.lang button.on{color:var(--accent);border-color:var(--accent)}
+.thm{flex:none;font:12px var(--mono);border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:5px 9px;cursor:pointer}
+@media (max-width:860px){.navl,.toc{display:none}.lang{margin-left:auto}}
+.herowrap{position:relative;overflow:hidden;margin:0 calc(50% - 50vw);padding:0 calc(50vw - 50%)}
+#dots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:44px;align-items:center;padding:64px 0 56px}
+.kicker{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:48px;line-height:1.04;margin:12px 0 16px;letter-spacing:-.035em;font-weight:700}
+.lead{color:var(--muted);font-size:16.5px;margin:0 0 18px}
+.stats{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 16px}
+.stats div{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.stats b{display:block;font-family:var(--sans);font-size:22px;color:var(--ink);font-weight:600;letter-spacing:-.015em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:12.5px var(--mono);border:1px solid var(--line);border-radius:5px;padding:3px 9px;color:var(--muted);background:var(--card)}
+.hshot{border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.label{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--accent);font-weight:500}
+h2{font-size:38px;letter-spacing:-.025em;line-height:1.1;margin:8px 0 0;font-weight:650}
+h3{font-size:17px;margin:0 0 6px;letter-spacing:-.01em}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.sub{color:var(--muted);margin:0;font:12.5px var(--mono);letter-spacing:.04em;max-width:520px}
+section.block{padding:84px 0 0}
+p{margin:0 0 12px}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.shot{margin:0}
+.shot img{width:100%;border-radius:10px;border:1px solid var(--line);background:var(--bg2)}
+.shot figcaption{margin-top:8px;font-size:13.5px;line-height:1.45}
+.brief{display:block;font:11.5px/1.5 var(--mono);color:var(--accent);margin-bottom:3px}
+.why{display:block;color:var(--muted)}
+/* бренд */
+.brand{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+.qlogo{display:flex;align-items:center;gap:12px;background:#0e1024;color:#fff;border-radius:10px;padding:26px 22px;font:700 32px Unbounded,sans-serif;letter-spacing:-.02em}
+.pal{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.pal div{height:54px;border-radius:8px;display:flex;align-items:flex-end;padding:4px 7px;font:10.5px var(--mono)}
+table.spec{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed}
+table.spec td{border-bottom:1px solid var(--line);padding:7px 4px;vertical-align:top}
+table.spec td:first-child{color:var(--muted);font:12.5px var(--mono);width:30%}
+/* черновик → финал */
+.df{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.df figure{margin:0}
+.df .pair{position:relative}
+.df .pair img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.df .pair img+img{margin-top:6px}
+.df .tg{position:absolute;left:6px;top:6px;font:10.5px var(--mono);background:rgba(0,0,0,.6);color:#fff;border-radius:4px;padding:1px 6px}
+.df figcaption{font-size:13px;margin-top:8px;color:var(--muted);line-height:1.45}
+.df figcaption b{color:var(--ink);display:block;font-size:13.5px}
+/* баннеры */
+.bn{display:grid;grid-template-columns:260px minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.bn figure{margin:0}.bn img{width:100%;border-radius:8px;border:1px solid var(--line)}
+.bn figcaption{font:11.5px var(--mono);color:var(--muted);margin-top:5px}
+.bn .r{grid-column:2/4;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.map{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:center;margin-top:18px}
+.map img{border-radius:10px;border:1px solid var(--line)}
+.map ul{margin:0;padding-left:18px;font-size:14.5px}.map li{margin:5px 0}
+@media (max-width:900px){.bn{grid-template-columns:1fr 1fr}.bn .r{grid-column:1/-1}.map{grid-template-columns:1fr}}
+/* лендинг */
+.devbar{display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.devbar button{font:12px var(--mono);border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:6px;padding:6px 12px;cursor:pointer}
+.devbar button.on{color:var(--accent);border-color:var(--accent)}
+.devbar a{font:12px var(--mono);margin-left:auto}
+.stage{background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px;border:1px solid var(--line);border-radius:12px;padding:22px 12px;display:flex;justify-content:center}
+.stage iframe{width:100%;max-width:1060px;height:760px;border:0;border-radius:12px;box-shadow:var(--shadow);background:#0e1024;transition:max-width .45s ease}
+.stage iframe.phone{max-width:390px;border-radius:28px;border:8px solid #1c1d1b}
+/* 360 */
+.c360{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:start}
+.c360 .s3{grid-column:span 3}.c360 .s2{grid-column:span 2}.c360 .s4{grid-column:span 4}
+.c360 .three{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:12px var(--mono);color:var(--muted);margin-top:16px}
+.flow span{border:1px solid var(--line);border-radius:5px;padding:3px 9px;background:var(--card);color:var(--ink)}
+@media (max-width:900px){.c360{grid-template-columns:1fr}.c360 .s3,.c360 .s2,.c360 .s4{grid-column:auto}}
+/* до / после */
+.ba{position:relative;overflow:hidden;border-radius:10px;border:1px solid var(--line);user-select:none;touch-action:pan-y;cursor:ew-resize;background:var(--bg2)}
+.ba img{width:100%;height:auto}
+.ba .after{position:absolute;inset:0;clip-path:inset(0 0 0 50%)}
+.ba .after img{width:100%;height:100%;object-fit:cover}
+.ba .h{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.15);pointer-events:none}
+.ba .h::after{content:"‹ ›";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#333;border-radius:99px;padding:3px 9px;font:600 13px var(--sans);box-shadow:var(--shadow)}
+.ba .lb{position:absolute;top:10px;font:11px var(--mono);background:rgba(0,0,0,.55);color:#fff;border-radius:4px;padding:2px 7px}
+.ba .lb.l{left:10px}.ba .lb.r{right:10px}
+.zm{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.zm img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
+.zm figcaption{font:10.5px var(--mono);color:var(--muted)}
+.zm figure{margin:0}
+ol.steps{margin:10px 0 0;padding-left:20px;font-size:14px}ol.steps li{margin:3px 0}
+/* процесс */
+.proc{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;counter-reset:st}
+.proc .st{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.proc .st::before{counter-increment:st;content:counter(st);display:inline-block;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font:600 12px/22px var(--mono);text-align:center;margin-bottom:8px}
+.proc .st b{display:block;font-size:14.5px;margin-bottom:4px}
+.proc .st span{display:block;font-size:13px;color:var(--muted);line-height:1.45}
+.crit{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.crit span{font:12px var(--mono);background:var(--accent-soft);color:var(--accent);border-radius:5px;padding:3px 9px}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding-top:40px}.g3,.df{grid-template-columns:repeat(2,minmax(0,1fr))}.proc{grid-template-columns:1fr 1fr}.brand{grid-template-columns:1fr}}
+@media (max-width:600px){h2{font-size:30px}section.block{padding-top:64px}h1{font-size:34px}.g2,.g3,.df{grid-template-columns:1fr}.stage iframe{height:640px}}
+footer.wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:96px;padding-top:28px;padding-bottom:40px;border-top:1px solid var(--line);color:var(--muted);font:12px var(--mono)}
+</style>
+<script>/*hub-theme*/(function(){function a(t){var r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme')}try{a(localStorage.getItem('hub-theme'))}catch(e){}addEventListener('message',function(e){if(e.data&&typeof e.data==='object'&&'hubTheme' in e.data)a(e.data.hubTheme)})})();</script>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <a class="logo" href="https://iushanau-ui.github.io/portfolio/"><i></i><span>illia.ushanau</span></a>
+  <a class="navl" href="https://iushanau-ui.github.io/portfolio/">← портфолио</a>
+  <nav class="toc"><a href="#brand">бренд</a><a href="#kv">KV</a><a href="#banners">баннеры</a><a href="#landing">лендинг</a><a href="#c360">360</a><a href="#retouch">ретушь</a><a href="#process">процесс</a></nav>
+  <div class="lang" id="lang"><button data-l="ru">RU</button><button data-l="en">EN</button></div>
+  <button class="thm" id="thm" title="theme">◐</button>
+</div></header>
+
+<main class="wrap">
+<div class="herowrap"><canvas id="dots"></canvas>
+<div class="hero">
+  <div>
+    <div class="kicker">Кейс · Key Visual и перформанс</div>
+    <h1>Одно трейдинг-приложение. Шесть KV и кампания 360.</h1>
+    <p class="lead">Концепт для вымышленной финтех-платформы. Разные стили и задачи, одна система бренда.</p>
+    <div class="stats">
+      <div><b>6</b>KV в разных стилях</div>
+      <div><b>11</b>форматов кампании</div>
+      <div><b>1</b>живой лендинг</div>
+      <div><b>2</b>языка, RU и EN</div>
+    </div>
+    <div class="chips"><span>Krea 2</span><span>ComfyUI API</span><span>инпейнт по маске</span><span>RMBG</span><span>Python</span><span>HTML/CSS вёрстка</span></div>
+  </div>
+  <a class="hshot" href="media/kv_B_ru.jpg" target="_blank"><img class="li" src="media/kv_B_ru.jpg" alt="Quintrel KV"></a>
+</div></div>
+
+<!-- 01 бренд -->
+<section class="block" id="brand">
+  <div class="sh"><div><div class="label"><b>01</b> / бренд</div><h2>Quintrel</h2></div><p class="sub">Акции, крипта и золото в одном приложении.</p></div>
+  <div class="brand">
+    <div class="card"><div class="qlogo"><svg width="44" height="44" viewBox="0 0 46 46"><circle cx="23" cy="23" r="16" fill="none" stroke="#c8ff3c" stroke-width="6.5"/><rect x="27" y="27" width="6.5" height="16" rx="3.2" transform="rotate(-45 30 35)" fill="#6b4bff"/></svg>quintrel</div>
+      <div class="pal"><div style="background:#0e1024;color:#fff">#0E1024</div><div style="background:#6b4bff;color:#fff">#6B4BFF</div><div style="background:#c8ff3c;color:#0e1024">#C8FF3C</div><div style="background:#efe6d6;color:#0e1024">#EFE6D6</div><div style="background:#d9a441;color:#0e1024">#D9A441</div></div></div>
+    <div class="card"><table class="spec">
+      <tr><td>шрифты</td><td>Unbounded в заголовках, Inter в тексте и интерфейсе</td></tr>
+      <tr><td>приём</td><td>Лаймовая линия с точкой, как курс в реальном времени. Есть в каждом KV</td></tr>
+      <tr><td>тон</td><td>Коротко и уверенно. Без обещаний прибыли</td></tr>
+      <tr><td>комплаенс</td><td>Дисклеймер о риске на каждом креативе, сноска к каждому офферу</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- 02 KV -->
+<section class="block" id="kv">
+  <div class="sh"><div><div class="label"><b>02</b> / key visual</div><h2>Шесть стилей, шесть задач</h2></div><p class="sub">Текст вёрсткой поверх кадра, поэтому версии RU и EN.</p></div>
+  <div class="grid g2">
+    <figure class="shot"><a href="media/kv_A_ru.jpg" target="_blank"><img class="li" src="media/kv_A_ru.jpg" alt=""></a><figcaption><span class="brief">3D · акция для новых клиентов · регистрации</span><span class="why">Оффер стал объектом: «0%» видно раньше, чем прочитан текст.</span></figcaption></figure>
+    <figure class="shot"><a href="media/kv_B_ru.jpg" target="_blank"><img class="li" src="media/kv_B_ru.jpg" alt=""></a><figcaption><span class="brief">персонаж · установки приложения</span><span class="why">Человек даёт доверие, карточка «Ордер исполнен» показывает продукт.</span></figcaption></figure>
+    <figure class="shot"><a href="media/kv_C_ru.jpg" target="_blank"><img class="li" src="media/kv_C_ru.jpg" alt=""></a><figcaption><span class="brief">минимализм · запуск продукта · клики</span><span class="why">«Частями» показано буквально: слиток нарезан, ценник на ломтике.</span></figcaption></figure>
+    <figure class="shot"><a href="media/kv_D_ru.jpg" target="_blank"><img class="li" src="media/kv_D_ru.jpg" alt=""></a><figcaption><span class="brief">неон · крипто-аудитория · регистрации</span><span class="why">Улица закрыта, горит только «24/7»: образ повторяет оффер.</span></figcaption></figure>
+    <figure class="shot"><a href="media/kv_E_ru.jpg" target="_blank"><img class="li" src="media/kv_E_ru.jpg" alt=""></a><figcaption><span class="brief">коллаж · обучение для новичков · заявки</span><span class="why">Реальное фото CC0, AI-фон и экран урока. Мягкий тон снимает страх.</span></figcaption></figure>
+    <figure class="shot"><a href="media/kv_F_ru.jpg" target="_blank"><img class="li" src="media/kv_F_ru.jpg" alt=""></a><figcaption><span class="brief">сюрреализм · демо-счёт · охват</span><span class="why">Волна и есть график. Призыв ведёт на демо, а не на реальный риск.</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- 03 баннеры -->
+<section class="block" id="banners">
+  <div class="sh"><div><div class="label"><b>03</b> / баннеры</div><h2>Один кадр, все форматы</h2></div><p class="sub">Кампания B. Мелкие форматы в реальном размере.</p></div>
+  <div class="bn">
+    <figure><img class="li" src="media/bn_9x16_ru.jpg" alt=""><figcaption>9:16 · Stories, Reels</figcaption></figure>
+    <figure><img class="li" src="media/bn_4x5_ru.jpg" alt=""><figcaption>4:5 · лента</figcaption></figure>
+    <figure><img class="li" src="media/bn_1x1_ru.jpg" alt=""><figcaption>1:1 · лента</figcaption></figure>
+    <div class="r"><figure style="width:440px;max-width:100%"><img class="li" src="media/bn_16x9_ru.jpg" alt=""><figcaption>16:9 · видео, сайты</figcaption></figure><figure style="width:300px"><img class="li" src="media/bn_300x250_ru.jpg" alt=""><figcaption>300×250</figcaption></figure></div>
+    <div class="r"><figure style="width:728px;max-width:100%"><img class="li" src="media/bn_728x90_ru.jpg" alt=""><figcaption>728×90</figcaption></figure></div>
+  </div>
+  <div class="map"><img src="media/crops_map.jpg" alt="">
+    <ul><li>Верх кадра достроен AI, чтобы вертикальным форматам хватило места под заголовок</li><li>Каждый формат кадрирует одну основу, лицо и телефон всегда в кадре</li><li>В 9:16 верх и низ свободны под интерфейс Stories</li><li>В 300×250 и 728×90 текст на плашке: на фото он бы не читался</li></ul></div>
+</section>
+
+<!-- 04 лендинг -->
+<section class="block" id="landing">
+  <div class="sh"><div><div class="label"><b>04</b> / лендинг</div><h2>Лендинг кампании</h2></div><p class="sub">Живая страница. Шаги «3 касания» кликаются.</p></div>
+  <div class="devbar"><button class="on" data-dev="desk">компьютер</button><button data-dev="phone">телефон</button><a href="landing/index.html" target="_blank">открыть отдельно →</a></div>
+  <div class="stage"><iframe id="lf" src="landing/index.html?lang=ru" title="Quintrel landing" loading="lazy"></iframe></div>
+</section>
+
+<!-- 05 360 -->
+<section class="block" id="c360">
+  <div class="sh"><div><div class="label"><b>05</b> / кампания 360</div><h2>Рынок в кармане, пока вы в дороге</h2></div><p class="sub">Одна мысль во всех каналах.</p></div>
+  <div class="c360">
+    <figure class="shot s3"><a href="media/ooh_bb_ru.jpg" target="_blank"><img class="li" src="media/ooh_bb_ru.jpg" alt=""></a><figcaption><span class="brief">наружка · билборд</span><span class="why">Короткий текст без кнопки, читается за 2 секунды.</span></figcaption></figure>
+    <figure class="shot s3"><a href="media/ooh_cl_ru.jpg" target="_blank"><img class="li" src="media/ooh_cl_ru.jpg" alt=""></a><figcaption><span class="brief">наружка · остановка</span><span class="why">Человек ждёт трамвай и видит героя в том же трамвае.</span></figcaption></figure>
+    <figure class="shot s3"><div class="three"><img class="li" src="media/car1_ru.jpg" alt=""><img class="li" src="media/car2_ru.jpg" alt=""><img class="li" src="media/car3_ru.jpg" alt=""></div><figcaption><span class="brief">соцсети · карусель</span><span class="why">Крючок → как это работает → оффер.</span></figcaption></figure>
+    <figure class="shot s3"><img class="li" src="media/push_ru.jpg" alt=""><figcaption><span class="brief">push по сценарию</span><span class="why">Урок → оффер в дороге → подтверждение сделки.</span></figcaption></figure>
+    <figure class="shot s2"><img class="li" src="media/email_ru.jpg" alt=""><figcaption><span class="brief">email · 600 px</span><span class="why">Таблицы и инлайн-стили, один CTA сверху.</span></figcaption></figure>
+    <div class="card s4"><h3>Как каналы связаны</h3>
+      <div class="flow"><span>билборд</span>→<span>QR или поиск</span>→<span>лендинг</span>→<span>установка</span>→<span>push и email</span>→<span>первая сделка</span></div>
+      <p class="muted" style="font-size:14px;margin-top:14px">Баннеры и Stories выше, в разделе 03. Везде один герой, одна карточка «Ордер исполнен» и одни слова, поэтому кампания узнаётся в любом канале.</p></div>
+  </div>
+</section>
+
+<!-- 06 ретушь -->
+<section class="block" id="retouch">
+  <div class="sh"><div><div class="label"><b>06</b> / ретушь</div><h2>До и после</h2></div><p class="sub">Тяните шторку.</p></div>
+  <div class="grid g2" style="align-items:start">
+    <div><div class="ba"><img src="media/ret_B_before.jpg" alt=""><div class="after"><img src="media/ret_B_after.jpg" alt=""></div><div class="h"></div><span class="lb l">AI, как есть</span><span class="lb r">после ретуши</span></div>
+      <div class="zm"><figure><img src="media/ret_z_hands_before.jpg" alt=""><figcaption>до</figcaption></figure><figure><img src="media/ret_z_hands_after.jpg" alt=""><figcaption>после</figcaption></figure><figure><img src="media/ret_z_face_before.jpg" alt=""><figcaption>до</figcaption></figure><figure><img src="media/ret_z_face_after.jpg" alt=""><figcaption>после</figcaption></figure></div>
+      <ol class="steps"><li>Руки и телефон перерисованы по маске: пальцы раздельно, нормальный модуль камеры</li><li>Кожа после апскейла была пластиковой: вернул фактуру, глаза резче</li><li>Свет от экрана на лице, тёплые света, бирюзовые тени</li><li>Ретушь протянута по всем форматам автоматически</li></ol></div>
+    <div><div class="ba"><img src="media/ret_E_before.jpg" alt=""><div class="after" style="clip-path:inset(0 0 0 72%)"><img src="media/ret_E_after.jpg" alt=""></div><div class="h" style="left:72%"></div><span class="lb l">фото CC0</span><span class="lb r">коллаж</span></div>
+      <ol class="steps"><li>Вырез фона нейросетью, чистка края волос</li><li>Ч/б с автоконтрастом и зерном под печать</li><li>Рваная бумажная обводка и тень</li><li>AI-фон из бумаги и свёрстанный экран урока</li></ol></div>
+  </div>
+</section>
+
+<!-- 07 процесс -->
+<section class="block" id="process">
+  <div class="sh"><div><div class="label"><b>07</b> / процесс</div><h2>От «красиво» к «работает»</h2></div><p class="sub">Черновики разобраны по 8 вопросам арт-директора.</p></div>
+  <div class="df">
+    <figure><div class="pair"><img src="media/draft_A.jpg" alt=""><span class="tg">черновик</span></div><div class="pair"><img src="media/final_A.jpg" alt=""><span class="tg">финал</span></div><figcaption><b>A · 3D</b>Свечи не объясняли «0%» и намекали на рост. Героем стал сам оффер.</figcaption></figure>
+    <figure><div class="pair"><img src="media/draft_C.jpg" alt=""><span class="tg">черновик</span></div><div class="pair"><img src="media/final_C.jpg" alt=""><span class="tg">финал</span></div><figcaption><b>C · минимализм</b>Слиток терялся и сливался с фоном. Крупно, на фиолетовом, с идеей «частями».</figcaption></figure>
+    <figure><div class="pair"><img src="media/draft_D.jpg" alt=""><span class="tg">черновик</span></div><div class="pair"><img src="media/final_D.jpg" alt=""><span class="tg">финал</span></div><figcaption><b>D · неон</b>Монета и иероглифы - штамп и сразу видно AI. Вывеска «24/7» вместо монеты.</figcaption></figure>
+    <figure><div class="pair"><img src="media/draft_F.jpg" alt=""><span class="tg">черновик</span></div><div class="pair"><img src="media/final_F.jpg" alt=""><span class="tg">финал</span></div><figcaption><b>F · сюрреализм</b>Линии модели убраны инпейнтом, одна чистая линия цены нарисована поверх.</figcaption></figure>
+  </div>
+  <div class="crit"><span>стоп-фактор</span><span>связь с оффером</span><span>иерархия</span><span>продукт в кадре</span><span>адаптивность</span><span>чистота</span><span>комплаенс</span><span>идея</span></div>
+  <div class="proc" style="margin-top:22px">
+    <div class="st"><b>Направления</b><span>6 стилей, по 2 пробы, разбор каждой</span></div>
+    <div class="st"><b>Генерация</b><span>Krea 2 через ComfyUI API, сразу под композицию с местом для текста</span></div>
+    <div class="st"><b>Правка</b><span>Инпейнт по маске на полном кадре, вклейка только внутри маски</span></div>
+    <div class="st"><b>Вёрстка</b><span>Текст, кнопки, интерфейс в HTML, рендер в PNG, RU и EN</span></div>
+    <div class="st"><b>Сборка</b><span>Скрипт пересобирает все форматы, если меняется основа</span></div>
+  </div>
+</section>
+
+<p class="muted" style="font:12px var(--mono);margin-top:64px">Quintrel - вымышленный бренд, созданный для портфолио, не связан ни с одной реальной компанией. Котировки и цифры в макетах условные. Изображения сгенерированы AI и доведены мной, фото в коллаже: rawpixel, CC0.</p>
+</main>
+<footer class="wrap"><a href="https://iushanau-ui.github.io/portfolio/" style="color:inherit">← портфолио</a><span>© 2026 Illia Ushanau</span></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+/* тема: общая с основным сайтом */
+const isDark=()=>{const r=document.documentElement.getAttribute('data-theme');return r?r==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
+try{const th=localStorage.getItem('pf-theme');if(th&&!localStorage.getItem('hub-theme'))document.documentElement.setAttribute('data-theme',th)}catch(e){}
+$('#thm').onclick=()=>{const t=isDark()?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('pf-theme',t)}catch(e){}if(window._redrawDots)window._redrawDots()};
+/* точечный фон hero, как на основном сайте */
+(function(){const cv=$('#dots'),hero=$('.herowrap');const ctx=cv.getContext('2d');let mx=-999,my=-999,W=0,H=0,dpr=1,raf=0;
+  const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function draw(){raf=0;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);const c1=css('--line'),c2=css('--accent'),G=22;
+    for(let y=G/2;y<H;y+=G)for(let x=G/2;x<W;x+=G){const d=Math.hypot(x-mx,y-my),k=Math.max(0,1-d/150);
+      ctx.fillStyle=k>.05?c2:c1;ctx.globalAlpha=k>.05?.25+.75*k:1;ctx.beginPath();ctx.arc(x,y,1+1.3*k,0,6.283);ctx.fill()}ctx.globalAlpha=1}
+  const size=()=>{dpr=Math.min(2,devicePixelRatio||1);W=hero.clientWidth;H=hero.clientHeight;cv.width=W*dpr;cv.height=H*dpr;draw()};
+  hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;if(!raf)raf=requestAnimationFrame(draw)});
+  hero.addEventListener('mouseleave',()=>{mx=my=-999;if(!raf)raf=requestAnimationFrame(draw)});
+  window._redrawDots=draw;addEventListener('resize',size);size()})();
+/* шторки до/после */
+$$('.ba').forEach(b=>{const a=b.querySelector('.after'),h=b.querySelector('.h');let on=false;
+  const set=x=>{const r=b.getBoundingClientRect();const p=Math.min(100,Math.max(0,(x-r.left)/r.width*100));a.style.clipPath=`inset(0 0 0 ${p}%)`;h.style.left=p+'%'};
+  b.addEventListener('pointerdown',e=>{on=true;b.setPointerCapture(e.pointerId);set(e.clientX)});
+  b.addEventListener('pointermove',e=>{if(on)set(e.clientX)});
+  b.addEventListener('pointerup',()=>on=false)});
+/* лендинг: компьютер / телефон */
+$$('[data-dev]').forEach(b=>b.onclick=()=>{$$('[data-dev]').forEach(x=>x.classList.toggle('on',x===b));$('#lf').classList.toggle('phone',b.dataset.dev==='phone')});
+/* RU / EN: текстовые узлы по словарю, картинки с текстом меняются на версии _en */
+const EN={"← портфолио":"← portfolio","бренд":"brand","баннеры":"banners","лендинг":"landing","ретушь":"retouch","процесс":"process",
+"Кейс · Key Visual и перформанс":"Case study · Key Visual and performance","Одно трейдинг-приложение. Шесть KV и кампания 360.":"One trading app. Six KVs and a 360 campaign.",
+"Концепт для вымышленной финтех-платформы. Разные стили и задачи, одна система бренда.":"A concept for a fictional fintech platform. Different styles and jobs, one brand system.",
+"KV в разных стилях":"KVs in different styles","форматов кампании":"campaign formats","живой лендинг":"live landing page","языка, RU и EN":"languages, RU and EN","инпейнт по маске":"masked inpainting","HTML/CSS вёрстка":"HTML/CSS layout",
+"/ бренд":"/ brand","Акции, крипта и золото в одном приложении.":"Stocks, crypto and gold in one app.","шрифты":"type","приём":"device","тон":"tone","комплаенс":"compliance",
+"Unbounded в заголовках, Inter в тексте и интерфейсе":"Unbounded for headlines, Inter for text and UI","Лаймовая линия с точкой, как курс в реальном времени. Есть в каждом KV":"A lime line with a dot, like a live price. In every KV",
+"Коротко и уверенно. Без обещаний прибыли":"Short and confident. No promises of profit","Дисклеймер о риске на каждом креативе, сноска к каждому офферу":"Risk disclaimer on every creative, a footnote on every offer",
+"Шесть стилей, шесть задач":"Six styles, six jobs","Текст вёрсткой поверх кадра, поэтому версии RU и EN.":"Type is laid out over the image, so there are RU and EN versions.",
+"3D · акция для новых клиентов · регистрации":"3D · new client offer · sign-ups","Оффер стал объектом: «0%» видно раньше, чем прочитан текст.":"The offer became the object: you see “0%” before you read a word.",
+"персонаж · установки приложения":"character · app installs","Человек даёт доверие, карточка «Ордер исполнен» показывает продукт.":"A person builds trust, the “Order filled” card shows the product.",
+"минимализм · запуск продукта · клики":"minimal · product launch · clicks","«Частями» показано буквально: слиток нарезан, ценник на ломтике.":"“By the slice” shown literally: a sliced bar with a price tag on one slice.",
+"неон · крипто-аудитория · регистрации":"neon · crypto audience · sign-ups","Улица закрыта, горит только «24/7»: образ повторяет оффер.":"The street is closed, only “24/7” is lit: the image repeats the offer.",
+"коллаж · обучение для новичков · заявки":"collage · beginner education · leads","Реальное фото CC0, AI-фон и экран урока. Мягкий тон снимает страх.":"A real CC0 photo, an AI background and a lesson screen. A soft tone removes the fear.",
+"сюрреализм · демо-счёт · охват":"surreal · demo account · reach","Волна и есть график. Призыв ведёт на демо, а не на реальный риск.":"The wave is the chart. The CTA leads to a demo, not to real risk.",
+"/ баннеры":"/ banners","Один кадр, все форматы":"One frame, every format","Кампания B. Мелкие форматы в реальном размере.":"Campaign B. Small formats at actual size.",
+"9:16 · Stories, Reels":"9:16 · Stories, Reels","4:5 · лента":"4:5 · feed","1:1 · лента":"1:1 · feed","16:9 · видео, сайты":"16:9 · video, web",
+"Верх кадра достроен AI, чтобы вертикальным форматам хватило места под заголовок":"The top of the frame was outpainted with AI so vertical formats have room for a headline",
+"Каждый формат кадрирует одну основу, лицо и телефон всегда в кадре":"Every format crops the same base; the face and phone always stay in frame",
+"В 9:16 верх и низ свободны под интерфейс Stories":"In 9:16 the top and bottom are kept clear for the Stories UI",
+"В 300×250 и 728×90 текст на плашке: на фото он бы не читался":"In 300×250 and 728×90 the type sits on a panel: on the photo it would not read",
+"/ лендинг":"/ landing","Лендинг кампании":"Campaign landing page","Живая страница. Шаги «3 касания» кликаются.":"A live page. The “3 taps” steps are clickable.","компьютер":"desktop","телефон":"phone","открыть отдельно →":"open separately →",
+"/ кампания 360":"/ 360 campaign","Рынок в кармане, пока вы в дороге":"The market in your pocket, on the way home","Одна мысль во всех каналах.":"One idea across every channel.",
+"наружка · билборд":"OOH · billboard","Короткий текст без кнопки, читается за 2 секунды.":"Short copy, no button, reads in 2 seconds.",
+"наружка · остановка":"OOH · tram stop","Человек ждёт трамвай и видит героя в том же трамвае.":"People waiting for a tram see the hero on the same tram.",
+"соцсети · карусель":"social · carousel","Крючок → как это работает → оффер.":"Hook → how it works → offer.",
+"push по сценарию":"triggered push","Урок → оффер в дороге → подтверждение сделки.":"Lesson → offer on the commute → trade confirmation.",
+"email · 600 px":"email · 600 px","Таблицы и инлайн-стили, один CTA сверху.":"Tables and inline styles, one CTA up top.",
+"Как каналы связаны":"How the channels connect","билборд":"billboard","QR или поиск":"QR or search","установка":"install","push и email":"push and email","первая сделка":"first trade",
+"Баннеры и Stories выше, в разделе 03. Везде один герой, одна карточка «Ордер исполнен» и одни слова, поэтому кампания узнаётся в любом канале.":"Banners and Stories are above, in section 03. The same hero, the same “Order filled” card and the same words everywhere, so the campaign is recognisable in any channel.",
+"/ ретушь":"/ retouch","До и после":"Before and after","Тяните шторку.":"Drag the slider.","AI, как есть":"AI, as generated","после ретуши":"retouched","до":"before","после":"after",
+"Руки и телефон перерисованы по маске: пальцы раздельно, нормальный модуль камеры":"Hands and phone redrawn with a mask: separate fingers, a believable camera module",
+"Кожа после апскейла была пластиковой: вернул фактуру, глаза резче":"The upscale made skin look plastic: texture restored, eyes sharpened",
+"Свет от экрана на лице, тёплые света, бирюзовые тени":"Screen light on the face, warm highlights, teal shadows","Ретушь протянута по всем форматам автоматически":"The retouch flows into every format automatically",
+"фото CC0":"CC0 photo","коллаж":"collage","Вырез фона нейросетью, чистка края волос":"Background removed with a neural net, hair edge cleaned",
+"Ч/б с автоконтрастом и зерном под печать":"B&W with auto contrast and print-like grain","Рваная бумажная обводка и тень":"Torn paper outline and shadow","AI-фон из бумаги и свёрстанный экран урока":"AI paper background and a coded lesson screen",
+"/ процесс":"/ process","От «красиво» к «работает»":"From “pretty” to “works”","Черновики разобраны по 8 вопросам арт-директора.":"Drafts reviewed against 8 art director questions.",
+"черновик":"draft","финал":"final","A · 3D":"A · 3D","Свечи не объясняли «0%» и намекали на рост. Героем стал сам оффер.":"Candles didn't explain “0%” and hinted at growth. The offer itself became the hero.",
+"C · минимализм":"C · minimal","Слиток терялся и сливался с фоном. Крупно, на фиолетовом, с идеей «частями».":"The bar got lost against the background. Now large, on violet, with a “by the slice” idea.",
+"D · неон":"D · neon","Монета и иероглифы - штамп и сразу видно AI. Вывеска «24/7» вместо монеты.":"A coin and fake glyphs: a cliché that screams AI. A “24/7” sign replaced the coin.",
+"F · сюрреализм":"F · surreal","Линии модели убраны инпейнтом, одна чистая линия цены нарисована поверх.":"The model's lines were inpainted out, one clean price line drawn on top.",
+"стоп-фактор":"stopping power","связь с оффером":"tied to the offer","иерархия":"hierarchy","продукт в кадре":"product in frame","адаптивность":"adaptability","чистота":"clean craft","идея":"idea",
+"Направления":"Directions","6 стилей, по 2 пробы, разбор каждой":"6 styles, 2 tests each, each one reviewed","Генерация":"Generation","Krea 2 через ComfyUI API, сразу под композицию с местом для текста":"Krea 2 via the ComfyUI API, composed with room for type from the start",
+"Правка":"Fixes","Инпейнт по маске на полном кадре, вклейка только внутри маски":"Masked inpainting on the full frame, pasted back only inside the mask",
+"Вёрстка":"Layout","Текст, кнопки, интерфейс в HTML, рендер в PNG, RU и EN":"Type, buttons and UI in HTML, rendered to PNG, RU and EN","Сборка":"Build","Скрипт пересобирает все форматы, если меняется основа":"A script rebuilds every format when the base image changes",
+"Quintrel - вымышленный бренд, созданный для портфолио, не связан ни с одной реальной компанией. Котировки и цифры в макетах условные. Изображения сгенерированы AI и доведены мной, фото в коллаже: rawpixel, CC0.":"Quintrel is a fictional brand created for this portfolio and is not affiliated with any real company. Quotes and figures in the mockups are placeholders. Images are AI-generated and finished by me; the collage photo is by rawpixel, CC0."};
+const tnodes=[];(function walk(n){for(const c of n.childNodes){if(c.nodeType===3){const t=c.nodeValue.trim();if(EN[t])tnodes.push([c,c.nodeValue,t])}else if(c.nodeType===1&&!c.matches('script,style,iframe'))walk(c)}})(document.body);
+function setLang(l){tnodes.forEach(([n,orig,t])=>n.nodeValue=l==='en'?orig.replace(t,EN[t]):orig);document.documentElement.lang=l;
+  document.title=l==='en'?'Quintrel: Key Visual and 360 campaign case':'Quintrel: кейс Key Visual и кампании 360';
+  $$('img.li').forEach(i=>{i.src=i.src.replace(/_(ru|en)\.jpg/,`_${l}.jpg`);const a=i.closest('a');if(a)a.href=a.href.replace(/_(ru|en)\.jpg/,`_${l}.jpg`)});
+  const lf=$('#lf');if(lf&&!lf.src.endsWith('lang='+l))lf.src='landing/index.html?lang='+l;
+  $$('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));try{localStorage.setItem('qcase-lang',l)}catch(e){}}
+$$('#lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+let lang0='ru';try{lang0=location.hash==='#en'?'en':location.hash==='#ru'?'ru':localStorage.getItem('qcase-lang')||'ru'}catch(e){}
+setLang(lang0);
+</script>
+</body>
+</html>
