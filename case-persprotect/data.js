@@ -29,10 +29,10 @@ window.CASE = {
   { id: "hero_cast", x: 296, y: 340, type: "local", status: "ok",
     title: { en: "Hero casting", ru: "Кастинг героини" },
     tool: "Krea 2 turbo + realism LoRA", script: "s01_hero.py · s01b_cast.py",
-    gens: 16, cost: 0,
+    gens: 19, cost: 0,
     thumbs: ["media/cast_A1.jpg", "media/cast_C2.jpg", "media/cast_D1.jpg"],
-    what: { en: "4 types × 2 seeds after a first round. Picked C2.",
-            ru: "4 типажа × 2 сида после первого круга. Выбрана C2." },
+    what: { en: "4 types × 2 seeds after a first round. Picked C2, details cleaned with FLUX.2 klein.",
+            ru: "4 типажа × 2 сида после первого круга. Выбрана C2, детали дочищены FLUX.2 klein." },
     prompts: [{ label: "casting template", text: "Front-camera smartphone selfie video frame, vertical. {who}, shoulder-length dark brown hair with clearly visible natural silver-gray streaks at the temples, reading glasses pushed up on top of her head, wearing a plain heather-gray zip-up hoodie, no makeup, natural skin texture with real pores, smile lines and fine wrinkles, kind warm eyes, calm neutral expression with a hint of warmth, mouth closed, looking into the camera. Her right arm extended toward the camera holding the phone (only the shoulder and upper arm visible at the frame edge), her left hand resting on the dark gray handle of a gray metal shopping cart, in an ordinary American supermarket aisle, camera slightly above eye level and slightly off-center, head a little tilted, shelves softly out of focus, flat overhead fluorescent lighting. Casual amateur phone footage look, slight wide-angle lens distortion, realistic, not studio, not glamorous." },
               { label: "{who} = C (chosen)", text: "a homey 52-year-old white American woman with fair skin, light freckles across her nose and cheeks and a kind motherly face" }],
     params: [["steps", "8"], ["size", "864×1536"]],
@@ -121,7 +121,7 @@ window.CASE = {
   { id: "pov_key", x: 592, y: 1010, type: "local", status: "ok",
     title: { en: "POV start frame", ru: "Стартовый кадр POV" },
     tool: "Krea 2 turbo + realism LoRA", script: "s04_pov_key.py",
-    gens: 1, cost: 0,
+    gens: 8, cost: 0,
     thumbs: ["media/pov_start.jpg"],
     what: { en: "Phone over the cart with a flat green screen for the UI later.",
             ru: "Телефон над тележкой, экран ровный зелёный под будущий UI." },
@@ -150,7 +150,7 @@ window.CASE = {
   { id: "pov_kling", x: 888, y: 1010, type: "paid", status: "ok",
     title: { en: "POV clip · Kling 3 Pro", ru: "POV-клип · Kling 3 Pro" },
     tool: "fal: fal-ai/kling-video/v3/pro/image-to-video", script: "s11_pov_kling.py",
-    gens: 1, cost: 0.84,
+    gens: 1, cost: 0.67,
     thumbs: ["media/pov_kling3_p.jpg"],
     what: { en: "One 6 s take for scenes 2, 3 and 5: walk, tap, hold.",
             ru: "Один дубль 6 с на сцены 2, 3 и 5: идёт, тап, держит." },
@@ -252,7 +252,7 @@ window.CASE = {
   { id: "rife", x: 2072, y: 340, type: "local", status: "ok",
     title: { en: "24 -> 48 fps", ru: "24 -> 48 к/с" },
     tool: "RIFE 4.9 ×2", script: "s20_rife.py",
-    gens: 4, cost: 0, thumbs: [],
+    gens: 5, cost: 0, thumbs: [],
     mini: { en: "selfie + POV clips\nlossless ffv1", ru: "клипы селфи и POV\nffv1 без потерь" },
     what: { en: "Source clips doubled to 48 fps before the edit.",
             ru: "Исходные клипы удвоены до 48 к/с перед монтажом." },
@@ -308,7 +308,56 @@ window.CASE = {
             ru: "Одна героиня, одна локация, вшитые субтитры." },
     prompts: [], params: [], media: [{ src: "FINAL", kind: "video", ok: true, cap: { en: "final cut, with sound", ru: "финальный ролик, со звуком" } }] },
 
+  /* ---------- tests that did not make it (paid, counted in the total) ---------- */
+  { id: "tests", x: 296, y: 1100, type: "paid", status: "rejected",
+    title: { en: "Tests and rejects", ru: "Тесты и отбраковка" },
+    tool: { en: "ElevenLabs · LTX-2.3 · OmniHuman · Kling LipSync · Kling Avatar · FLUX.2 klein", ru: "ElevenLabs · LTX-2.3 · OmniHuman · Kling LipSync · Kling Avatar · FLUX.2 klein" }, script: "",
+    gens: 32, cost: 3.08,
+    thumbs: ["media/t_omni2_p.jpg", "media/t_avatar_p.jpg", "media/t_lipsync_p.jpg"],
+    what: { en: "Paid attempts that did not go into the video: 10 fal runs, plus 22 local key-frame tries for scene 4.",
+            ru: "Платные попытки, которые не вошли в ролик: 10 запусков на fal и 22 локальные попытки кадров сцены 4." },
+    prompts: [],
+    params: [["ElevenLabs v4", "4 · $0.13"], ["LTX-2.3 talking selfie", "2 · $0.62"], ["OmniHuman sc.4", "2 · $1.36"], ["Kling LipSync", "1 · $0.14"], ["Kling AI Avatar", "1 · $0.83"], [{ en: "FLUX.2 klein, local", ru: "FLUX.2 klein, локально" }, "22 · $0"]],
+    media: [
+      { src: "media/t_omni2.mp4", kind: "video", rej: true, cap: { en: "OmniHuman, 2nd try", ru: "OmniHuman, 2-я попытка" }, why: { en: "wrong finger count", ru: "сбился счёт пальцев" } },
+      { src: "media/t_avatar.mp4", kind: "video", rej: true, cap: { en: "Kling AI Avatar", ru: "Kling AI Avatar" }, why: { en: "one - palm - one", ru: "один - ладонь - один" } },
+      { src: "media/t_lipsync.mp4", kind: "video", rej: true, wide: true, cap: { en: "left Kling LipSync, right React-1", ru: "слева Kling LipSync, справа React-1" }, why: { en: "robotic lips", ru: "губы как у робота" } }
+    ] },
+
+  /* ---------- hook variations ---------- */
+  { id: "hooks", x: 888, y: 1250, type: "paid", status: "ok",
+    title: { en: "Hook variations", ru: "Хуки вариаций" },
+    tool: "MiniMax · FLUX.2 klein · OmniHuman v2", script: "s22_hook_voice.py · s23_hook2_keys.py · s23b_hook2_omni.py",
+    gens: 15, cost: 0.43,
+    thumbs: ["media/hook2_913.jpg", "media/var1_p.jpg", "media/var2_p.jpg"],
+    what: { en: "Two new openings in the same voice. B starts on a new close-up: start frame local, face animated by OmniHuman.",
+            ru: "Два новых начала тем же голосом. B начинается с нового крупного плана: кадр локально, лицо оживил OmniHuman." },
+    prompts: [{ label: "A · voice", text: "Got this text today. Would you tap it?" },
+              { label: "B · voice", text: "This text almost emptied my checking account." },
+              { label: "B · close-up (FLUX.2 klein edit)", text: "Keep the same woman with the same face identity, gray hair streaks in dark shoulder-length hair, reading glasses pushed up on her head, gray zip hoodie, the same supermarket aisle and fluorescent lighting, realistic front-camera selfie phone photo. New framing: an extreme close-up - she has leaned in close to the phone camera, her face fills most of the frame, cropped at the shoulders, the camera slightly above eye level. Calm, serious and trustworthy expression, relaxed brow, a composed face, looking straight into the lens like a friend quietly sharing something important, lips slightly parted about to speak, no frown. No hands and no phone visible in the frame." }],
+    params: [["fal", "MiniMax ×2 · OmniHuman ×1"], [{ en: "local", ru: "локально" }, "FLUX.2 klein ×12"]],
+    media: [
+      { src: "media/hook2_913.jpg", ok: true, cap: { en: "B close-up · chosen", ru: "крупный план B · выбран" } },
+      { src: "media/hook2_911.jpg", rej: true, cap: { en: "seed 911", ru: "сид 911" }, why: { en: "too worried", ru: "слишком тревожно" } },
+      { src: "media/hook_v1.mp3", kind: "audio", ok: true, cap: { en: "hook A", ru: "хук A" } },
+      { src: "media/hook_v2.mp3", kind: "audio", ok: true, cap: { en: "hook B", ru: "хук B" } }
+    ] },
+
+  { id: "variations", x: 2664, y: 1250, type: "output", status: "ok",
+    title: { en: "2 variations", ru: "2 вариации" },
+    tool: "1080×1920 · 48 fps", script: "",
+    gens: 0, cost: 0,
+    thumbs: ["media/var1_p.jpg", "media/var2_p.jpg"],
+    what: { en: "Same edit script, a different opening: A asks the viewer, B leads with the money at stake.",
+            ru: "Тот же скрипт монтажа, другое начало: A спрашивает зрителя, B начинает со ставки - денег." },
+    prompts: [], params: [],
+    media: [
+      { src: "media/var1.mp4", kind: "video", ok: true, cap: { en: "A · «Would you tap it?»", ru: "A · «Would you tap it?»" } },
+      { src: "media/var2.mp4", kind: "video", ok: true, cap: { en: "B · «This text almost emptied my account»", ru: "B · «This text almost emptied my account»" } }
+    ] },
+
   ],
+
 
   /* wires: [from, to, kind]; kind "rej" = input of a rejected attempt (dashed) */
   edges: [
@@ -319,10 +368,11 @@ window.CASE = {
     ["selfie_keys", "s4_nb"], ["s4_nb", "s4_kling"], ["s4_kling", "s4_react"], ["s4_react", "s4_hybrid"],
     ["s4_nb", "s4_omni"], ["s4_omni", "s4_hybrid"], ["s4_hybrid", "rife"], ["omni", "rife"],
     ["rife", "edit"], ["track", "edit"], ["mix", "edit"], ["ui", "edit"],
-    ["edit", "versions"], ["edit", "final"]
+    ["edit", "versions"], ["edit", "final"],
+    ["brief", "tests", "rej"], ["selfie_keys", "hooks"], ["hooks", "variations"], ["edit", "variations"]
   ],
 
   order: ["brief", "hero_cast", "voice_qwen", "voice_mm", "sfx", "mix", "selfie_keys", "pov_key",
           "omni", "pov_kling", "s4_nb", "s4_kling", "s4_react", "s4_omni", "s4_hybrid", "track", "ui",
-          "rife", "edit", "versions", "final"]
+          "rife", "edit", "versions", "final", "hooks", "variations", "tests"]
 };

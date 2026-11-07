@@ -354,7 +354,7 @@ const NW=240,PY=17;
 const view={x:0,y:0,s:1};
 const typeVar=t=>`var(--t-${t})`;
 /* dead ends: nodes with no path to the final video */
-const DEAD=(()=>{const ok=new Set(['final']);let ch=true;while(ch){ch=false;C.edges.forEach(([a,b])=>{if(ok.has(b)&&!ok.has(a)){ok.add(a);ch=true}})}return new Set(C.nodes.filter(n=>!ok.has(n.id)&&!n.history).map(n=>n.id))})();
+const DEAD=(()=>{const ok=new Set(['final','variations']);let ch=true;while(ch){ch=false;C.edges.forEach(([a,b])=>{if(ok.has(b)&&!ok.has(a)){ok.add(a);ch=true}})}return new Set(C.nodes.filter(n=>!ok.has(n.id)&&!n.history).map(n=>n.id))})();
 let selId=null;
 const wt={on:false,i:-1,auto:null};
 
