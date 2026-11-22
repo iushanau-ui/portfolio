@@ -1,0 +1,5000 @@
+{
+ "last_node_id": 92,
+ "last_link_id": 146,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    0,
+    34
+   ],
+   "size": [
+    340,
+    98
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "qwen_image_edit_2511_fp8_e4m3fn_scaled_lightning_comfyui_4steps_v1.0.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [
+    0,
+    226
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      5,
+      9
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+    "qwen_image",
+    "default"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "VAELoader",
+   "pos": [
+    0,
+    444
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      6,
+      10,
+      20
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    580,
+    34
+   ],
+   "size": [
+    340,
+    98
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      2
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "widgets_values": [
+    3.1,
+    "flow"
+   ]
+  },
+  {
+   "id": 5,
+   "type": "CFGNorm",
+   "pos": [
+    1040,
+    68.0
+   ],
+   "size": [
+    340,
+    98
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "patched_model",
+     "type": "MODEL",
+     "links": [
+      15
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGNorm"
+   },
+   "widgets_values": [
+    1.0,
+    false
+   ]
+  },
+  {
+   "id": 6,
+   "type": "LoadImage",
+   "pos": [
+    0,
+    1160
+   ],
+   "size": [
+    340,
+    380
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "stark_grandpa_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 7,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    226
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      7,
+      11,
+      31
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 8,
+   "type": "LoadImage",
+   "pos": [
+    0,
+    1634
+   ],
+   "size": [
+    340,
+    380
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "stark_ctrl_silhouette_fill.png",
+    "image"
+   ]
+  },
+  {
+   "id": 9,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    444
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 4
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      8,
+      12
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 10,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [
+    1040,
+    289.5
+   ],
+   "size": [
+    340,
+    270
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 5
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 6
+    },
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 7
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 8
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      13
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextEncodeQwenImageEditPlus"
+   },
+   "widgets_values": [
+    "Image 1 is the style reference: a pirate grandpa in hand-painted 2D casual mobile game art. Image 2 is a dark gray silhouette. Draw a new character exactly in the shape of the silhouette in image 2, same position, size and outline: a cute green cartoon turtle sitting on the ground and happily molding a clay jug with its hands. Its head is turned in three-quarter view to the left: the bump on the left side of the head is its snout and smiling mouth, NOT a cheek; the head is not wide, both cheeks are small and equal. Its two eyes sit in the two bumps on top of the head. The rounded shell forms the bulge on the right, one leg stretched forward at the lower left, the clay jug between its legs, held by both hands. Paint it in the same 2D casual style as image 1. Plain flat gray background like image 2, nothing else in the picture."
+   ]
+  },
+  {
+   "id": 11,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [
+    1040,
+    653.5
+   ],
+   "size": [
+    340,
+    270
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 9
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 10
+    },
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 11
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 12
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      14
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextEncodeQwenImageEditPlus"
+   },
+   "widgets_values": [
+    ""
+   ]
+  },
+  {
+   "id": 12,
+   "type": "FluxKontextMultiReferenceLatentMethod",
+   "pos": [
+    1500,
+    422.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      16
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FluxKontextMultiReferenceLatentMethod"
+   },
+   "widgets_values": [
+    "index_timestep_zero"
+   ]
+  },
+  {
+   "id": 13,
+   "type": "FluxKontextMultiReferenceLatentMethod",
+   "pos": [
+    1500,
+    786.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 14
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      17
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FluxKontextMultiReferenceLatentMethod"
+   },
+   "widgets_values": [
+    "index_timestep_zero"
+   ]
+  },
+  {
+   "id": 14,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1500,
+    34
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      18
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    1024,
+    1024,
+    1
+   ]
+  },
+  {
+   "id": 15,
+   "type": "KSampler",
+   "pos": [
+    1960,
+    273.5
+   ],
+   "size": [
+    340,
+    268
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 15
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 16
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 17
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 18
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      19
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    207,
+    "fixed",
+    4,
+    1.0,
+    "euler",
+    "simple",
+    1.0
+   ]
+  },
+  {
+   "id": 16,
+   "type": "VAEDecode",
+   "pos": [
+    2420,
+    443.75
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 19
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 20
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      21,
+      24
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 17,
+   "type": "SaveImage",
+   "pos": [
+    2880,
+    475.75
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 21
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2_turtle_02_step1"
+   ]
+  },
+  {
+   "id": 18,
+   "type": "UnetLoaderGGUF",
+   "pos": [
+    0,
+    610
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      37,
+      64,
+      88,
+      112,
+      136
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UnetLoaderGGUF"
+   },
+   "widgets_values": [
+    "flux-2-klein-9b-Q8_0.gguf"
+   ]
+  },
+  {
+   "id": 19,
+   "type": "CLIPLoader",
+   "pos": [
+    0,
+    776
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      22,
+      48,
+      75,
+      99,
+      123
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen_3_8b_fp8mixed.safetensors",
+    "flux2",
+    "default"
+   ]
+  },
+  {
+   "id": 20,
+   "type": "VAELoader",
+   "pos": [
+    0,
+    994
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      26,
+      32,
+      46,
+      52,
+      59,
+      73,
+      79,
+      97,
+      103,
+      121,
+      127,
+      145
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "flux2-vae.safetensors"
+   ]
+  },
+  {
+   "id": 21,
+   "type": "CLIPTextEncode",
+   "pos": [
+    580,
+    1475.5
+   ],
+   "size": [
+    340,
+    182
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 22
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      23,
+      27
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Repaint the turtle from image 1 in the hand-painted 2D casual mobile game art style of the pirate in image 2: soft painterly shading, subtle texture, gentle warm highlights, thin warm-brown outlines, vivid saturated clean colors exactly as bright as the pirate's purple vest: fresh bright green skin, rich warm terracotta jug, golden-brown shell, warm cream belly, no gray tint, no desaturation, smaller natural eyes like the pirate's, head turned to the left in three-quarter view, small cheeks. Keep exactly the same pose, body shape, outline, size and position, the same clay jug in its hands, the same plain gray background."
+   ]
+  },
+  {
+   "id": 22,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    1040,
+    1577.5
+   ],
+   "size": [
+    340,
+    46
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 23
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      29
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 23,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    1257.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 24
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      25
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 24,
+   "type": "VAEEncode",
+   "pos": [
+    1040,
+    1257.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 25
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 26
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      28,
+      30
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 25,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    1429.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 27
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 28
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      33
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 26,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    1591.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 29
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 30
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      35
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 27,
+   "type": "VAEEncode",
+   "pos": [
+    1500,
+    1257.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 31
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 32
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      34,
+      36
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 28,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    1377.25
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 33
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 34
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      38
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 29,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    1539.25
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 35
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 36
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      39
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 30,
+   "type": "CFGGuider",
+   "pos": [
+    2420,
+    2025.5
+   ],
+   "size": [
+    340,
+    116
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 37
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 38
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 39
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      41
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGGuider"
+   },
+   "widgets_values": [
+    1.0
+   ]
+  },
+  {
+   "id": 31,
+   "type": "Flux2Scheduler",
+   "pos": [
+    2420,
+    1257.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SIGMAS",
+     "type": "SIGMAS",
+     "links": [
+      43,
+      70,
+      94,
+      118,
+      142
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Flux2Scheduler"
+   },
+   "widgets_values": [
+    4,
+    1024,
+    1024
+   ]
+  },
+  {
+   "id": 32,
+   "type": "KSamplerSelect",
+   "pos": [
+    2420,
+    1475.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SAMPLER",
+     "type": "SAMPLER",
+     "links": [
+      42,
+      69,
+      93,
+      117,
+      141
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSamplerSelect"
+   },
+   "widgets_values": [
+    "euler"
+   ]
+  },
+  {
+   "id": 33,
+   "type": "RandomNoise",
+   "pos": [
+    2420,
+    1641.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      40
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    1107,
+    "fixed"
+   ]
+  },
+  {
+   "id": 34,
+   "type": "EmptyFlux2LatentImage",
+   "pos": [
+    2420,
+    1807.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      44,
+      71,
+      95,
+      119,
+      143
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptyFlux2LatentImage"
+   },
+   "widgets_values": [
+    1024,
+    1024,
+    1
+   ]
+  },
+  {
+   "id": 35,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    2880,
+    1659.3
+   ],
+   "size": [
+    340,
+    134
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 40
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 41
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 42
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 43
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 44
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      45
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 36,
+   "type": "VAEDecode",
+   "pos": [
+    3340,
+    1378.15
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 45
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 46
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      47,
+      50
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 37,
+   "type": "SaveImage",
+   "pos": [
+    3800,
+    1410.15
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 47
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2_turtle_02_step2"
+   ]
+  },
+  {
+   "id": 38,
+   "type": "CLIPTextEncode",
+   "pos": [
+    580,
+    2475.5
+   ],
+   "size": [
+    340,
+    182
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 48
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      49,
+      53
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Repaint the turtle from image 1 in exactly the same rendering technique as the pirate in image 2, a polished mobile game character illustration: no dark outlines at all, edges defined only by color and light, soft volumetric gradient shading, smooth airbrushed surfaces, glossy specular highlights on the head, shell and jug, only a very faint thin rim light, no glow, no halo, no light outline around the character, warm key light from the upper left. Eyes smaller and more natural with a bright highlight, like the pirate's eyes. Vivid saturated clean colors. Keep exactly the same pose, body shape, silhouette outline, size and position, the same clay jug in its hands, the same plain gray background."
+   ]
+  },
+  {
+   "id": 39,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    1040,
+    2799.5
+   ],
+   "size": [
+    340,
+    46
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 49
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      55
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 40,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    2751.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 50
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      51
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 41,
+   "type": "VAEEncode",
+   "pos": [
+    1040,
+    2475.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 51
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 52
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      54,
+      56
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 42,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    2538.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 53
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 54
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      60
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 43,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    2700.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 55
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 56
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      62
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 44,
+   "type": "LoadImage",
+   "pos": [
+    0,
+    2108
+   ],
+   "size": [
+    340,
+    380
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      57
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "stark_grandpa_face_style.png",
+    "image"
+   ]
+  },
+  {
+   "id": 45,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    2969.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 57
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      58
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 46,
+   "type": "VAEEncode",
+   "pos": [
+    1040,
+    2637.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 58
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 59
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      61,
+      63,
+      85,
+      87,
+      109,
+      111,
+      133,
+      135
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 47,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    2621.75
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 60
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 61
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      65
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 48,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    2783.75
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 62
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 63
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      66
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 49,
+   "type": "CFGGuider",
+   "pos": [
+    2420,
+    2641.5
+   ],
+   "size": [
+    340,
+    116
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 64
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 65
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 66
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      68
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGGuider"
+   },
+   "widgets_values": [
+    1.0
+   ]
+  },
+  {
+   "id": 50,
+   "type": "RandomNoise",
+   "pos": [
+    2420,
+    2475.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      67
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    607,
+    "fixed"
+   ]
+  },
+  {
+   "id": 51,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    2880,
+    2475.5
+   ],
+   "size": [
+    340,
+    134
+   ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 67
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 68
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 69
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 70
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 71
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      72
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 52,
+   "type": "VAEDecode",
+   "pos": [
+    3340,
+    2475.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 72
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 73
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      74,
+      77
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 53,
+   "type": "SaveImage",
+   "pos": [
+    3800,
+    2507.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 20,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 74
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2_turtle_02_step3"
+   ]
+  },
+  {
+   "id": 54,
+   "type": "CLIPTextEncode",
+   "pos": [
+    580,
+    3427.5
+   ],
+   "size": [
+    340,
+    182
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 75
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      76,
+      80
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Keep the turtle from image 1 exactly: same pose, body shape, silhouette outline, size, position, face and colors. Change only the jug: it is a jug being hand-molded right now from soft matte terracotta clay, not glossy and not glazed: the rim is slightly uneven and still being shaped between the turtle's fingers, a few soft finger marks on the side. The hands stay clean, only a tiny bit of clay on two fingertips. No clay on the face, no crumbs or drips on the ground, nothing outside the turtle. Painted in the 2D casual mobile game style of the pirate in image 2: soft painterly gradient shading, gentle highlights, no dark outlines, no glow. Same plain gray background."
+   ]
+  },
+  {
+   "id": 55,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    1040,
+    3589.5
+   ],
+   "size": [
+    340,
+    46
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 76
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      82
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 56,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    3703.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 20,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 77
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      78
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 57,
+   "type": "VAEEncode",
+   "pos": [
+    1040,
+    3427.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 21,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 78
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 79
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      81,
+      83
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 58,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    3490.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 22,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 80
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 81
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      84
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 59,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    3652.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 22,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 82
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 83
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      86
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 60,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    3427.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 23,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 84
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 85
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      89
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 61,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    3589.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 23,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 86
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 87
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      90
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 62,
+   "type": "CFGGuider",
+   "pos": [
+    2420,
+    3593.5
+   ],
+   "size": [
+    340,
+    116
+   ],
+   "flags": {},
+   "order": 24,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 88
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 89
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 90
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      92
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGGuider"
+   },
+   "widgets_values": [
+    1.0
+   ]
+  },
+  {
+   "id": 63,
+   "type": "RandomNoise",
+   "pos": [
+    2420,
+    3427.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      91
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    502,
+    "fixed"
+   ]
+  },
+  {
+   "id": 64,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    2880,
+    3427.5
+   ],
+   "size": [
+    340,
+    134
+   ],
+   "flags": {},
+   "order": 25,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 91
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 92
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 93
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 94
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 95
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      96
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 65,
+   "type": "VAEDecode",
+   "pos": [
+    3340,
+    3427.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 26,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 96
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 97
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      98,
+      101
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 66,
+   "type": "SaveImage",
+   "pos": [
+    3800,
+    3459.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 27,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 98
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2_turtle_02_step4"
+   ]
+  },
+  {
+   "id": 67,
+   "type": "CLIPTextEncode",
+   "pos": [
+    580,
+    4161.5
+   ],
+   "size": [
+    340,
+    182
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 99
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      100,
+      104
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Keep the turtle from image 1 exactly: same pose, body shape, silhouette outline, size, position, face, eyes, smile, shell and the hand-molded terracotta clay jug with its uneven rim. Fix only these details: the belly is a real turtle plastron - pale yellow-cream bony plates divided into neat segments by thin grooves, part of the turtle's body, not clothing, not a shirt, not a tank top; the arms and shoulders are green turtle skin with soft darker green spots. Each hand is a chubby cartoon turtle hand with exactly four short rounded fingers, clean green, no clay on the fingers, gently shaping the rim of the jug. Painted in the 2D casual mobile game style of the pirate in image 2: soft painterly gradient shading, gentle highlights, no dark outlines, no glow. Same plain gray background."
+   ]
+  },
+  {
+   "id": 68,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    1040,
+    4323.5
+   ],
+   "size": [
+    340,
+    46
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 100
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      106
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 69,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    4437.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 27,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 101
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      102
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 70,
+   "type": "VAEEncode",
+   "pos": [
+    1040,
+    4161.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 28,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 102
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 103
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      105,
+      107
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 71,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    4224.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 29,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 104
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 105
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      108
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 72,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    4386.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 29,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 106
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 107
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      110
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 73,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    4161.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 30,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 108
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 109
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      113
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 74,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    4323.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 30,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 110
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 111
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      114
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 75,
+   "type": "CFGGuider",
+   "pos": [
+    2420,
+    4327.5
+   ],
+   "size": [
+    340,
+    116
+   ],
+   "flags": {},
+   "order": 31,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 112
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 113
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 114
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      116
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGGuider"
+   },
+   "widgets_values": [
+    1.0
+   ]
+  },
+  {
+   "id": 76,
+   "type": "RandomNoise",
+   "pos": [
+    2420,
+    4161.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      115
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    602,
+    "fixed"
+   ]
+  },
+  {
+   "id": 77,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    2880,
+    4161.5
+   ],
+   "size": [
+    340,
+    134
+   ],
+   "flags": {},
+   "order": 32,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 115
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 116
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 117
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 118
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 119
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      120
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 78,
+   "type": "VAEDecode",
+   "pos": [
+    3340,
+    4161.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 33,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 120
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 121
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      122,
+      125
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 79,
+   "type": "SaveImage",
+   "pos": [
+    3800,
+    4193.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 34,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 122
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2_turtle_02_step5"
+   ]
+  },
+  {
+   "id": 80,
+   "type": "CLIPTextEncode",
+   "pos": [
+    580,
+    4895.5
+   ],
+   "size": [
+    340,
+    182
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 123
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      124,
+      128
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Keep the turtle from image 1 exactly: same pose, silhouette outline, size, position, face, eyes, smile, hands with four fingers, shell and the hand-molded terracotta clay jug. Fix only: the green skin has just a few small subtle darker green spots on the arms and legs, not many big spots. The neck and throat are green skin all the way down to the chest; the pale yellow plastron with segment grooves starts only at the chest and covers the belly, no neckline, no collar, nothing that looks like clothing. Painted in the 2D casual mobile game style of the pirate in image 2: soft painterly gradient shading, gentle highlights, no dark outlines, no glow. Same plain gray background."
+   ]
+  },
+  {
+   "id": 81,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    1040,
+    5057.5
+   ],
+   "size": [
+    340,
+    46
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 124
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      130
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 82,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    5171.5
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 34,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 125
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      126
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 83,
+   "type": "VAEEncode",
+   "pos": [
+    1040,
+    4895.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 35,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 126
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 127
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      129,
+      131
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 84,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    4958.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 36,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 128
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 129
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      132
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 85,
+   "type": "ReferenceLatent",
+   "pos": [
+    1500,
+    5120.0
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 36,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 130
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 131
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      134
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 86,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    4895.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 37,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 132
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 133
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      137
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 87,
+   "type": "ReferenceLatent",
+   "pos": [
+    1960,
+    5057.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 37,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 134
+    },
+    {
+     "name": "latent",
+     "type": "LATENT",
+     "link": 135
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      138
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ReferenceLatent"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 88,
+   "type": "CFGGuider",
+   "pos": [
+    2420,
+    5061.5
+   ],
+   "size": [
+    340,
+    116
+   ],
+   "flags": {},
+   "order": 38,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 136
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 137
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 138
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      140
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGGuider"
+   },
+   "widgets_values": [
+    1.0
+   ]
+  },
+  {
+   "id": 89,
+   "type": "RandomNoise",
+   "pos": [
+    2420,
+    4895.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      139
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    701,
+    "fixed"
+   ]
+  },
+  {
+   "id": 90,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    2880,
+    4895.5
+   ],
+   "size": [
+    340,
+    134
+   ],
+   "flags": {},
+   "order": 39,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 139
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 140
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 141
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 142
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 143
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      144
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 91,
+   "type": "VAEDecode",
+   "pos": [
+    3340,
+    4895.5
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 40,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 144
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 145
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      146
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 92,
+   "type": "SaveImage",
+   "pos": [
+    3800,
+    4927.5
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 41,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 146
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "2_turtle_02_step6"
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   4,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   4,
+   0,
+   5,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   6,
+   0,
+   7,
+   0,
+   "IMAGE"
+  ],
+  [
+   4,
+   8,
+   0,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   5,
+   2,
+   0,
+   10,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   3,
+   0,
+   10,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   7,
+   0,
+   10,
+   2,
+   "IMAGE"
+  ],
+  [
+   8,
+   9,
+   0,
+   10,
+   3,
+   "IMAGE"
+  ],
+  [
+   9,
+   2,
+   0,
+   11,
+   0,
+   "CLIP"
+  ],
+  [
+   10,
+   3,
+   0,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   11,
+   7,
+   0,
+   11,
+   2,
+   "IMAGE"
+  ],
+  [
+   12,
+   9,
+   0,
+   11,
+   3,
+   "IMAGE"
+  ],
+  [
+   13,
+   10,
+   0,
+   12,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   14,
+   11,
+   0,
+   13,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   15,
+   5,
+   0,
+   15,
+   0,
+   "MODEL"
+  ],
+  [
+   16,
+   12,
+   0,
+   15,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   17,
+   13,
+   0,
+   15,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   18,
+   14,
+   0,
+   15,
+   3,
+   "LATENT"
+  ],
+  [
+   19,
+   15,
+   0,
+   16,
+   0,
+   "LATENT"
+  ],
+  [
+   20,
+   3,
+   0,
+   16,
+   1,
+   "VAE"
+  ],
+  [
+   21,
+   16,
+   0,
+   17,
+   0,
+   "IMAGE"
+  ],
+  [
+   22,
+   19,
+   0,
+   21,
+   0,
+   "CLIP"
+  ],
+  [
+   23,
+   21,
+   0,
+   22,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   24,
+   16,
+   0,
+   23,
+   0,
+   "IMAGE"
+  ],
+  [
+   25,
+   23,
+   0,
+   24,
+   0,
+   "IMAGE"
+  ],
+  [
+   26,
+   20,
+   0,
+   24,
+   1,
+   "VAE"
+  ],
+  [
+   27,
+   21,
+   0,
+   25,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   28,
+   24,
+   0,
+   25,
+   1,
+   "LATENT"
+  ],
+  [
+   29,
+   22,
+   0,
+   26,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   30,
+   24,
+   0,
+   26,
+   1,
+   "LATENT"
+  ],
+  [
+   31,
+   7,
+   0,
+   27,
+   0,
+   "IMAGE"
+  ],
+  [
+   32,
+   20,
+   0,
+   27,
+   1,
+   "VAE"
+  ],
+  [
+   33,
+   25,
+   0,
+   28,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   34,
+   27,
+   0,
+   28,
+   1,
+   "LATENT"
+  ],
+  [
+   35,
+   26,
+   0,
+   29,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   36,
+   27,
+   0,
+   29,
+   1,
+   "LATENT"
+  ],
+  [
+   37,
+   18,
+   0,
+   30,
+   0,
+   "MODEL"
+  ],
+  [
+   38,
+   28,
+   0,
+   30,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   39,
+   29,
+   0,
+   30,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   40,
+   33,
+   0,
+   35,
+   0,
+   "NOISE"
+  ],
+  [
+   41,
+   30,
+   0,
+   35,
+   1,
+   "GUIDER"
+  ],
+  [
+   42,
+   32,
+   0,
+   35,
+   2,
+   "SAMPLER"
+  ],
+  [
+   43,
+   31,
+   0,
+   35,
+   3,
+   "SIGMAS"
+  ],
+  [
+   44,
+   34,
+   0,
+   35,
+   4,
+   "LATENT"
+  ],
+  [
+   45,
+   35,
+   0,
+   36,
+   0,
+   "LATENT"
+  ],
+  [
+   46,
+   20,
+   0,
+   36,
+   1,
+   "VAE"
+  ],
+  [
+   47,
+   36,
+   0,
+   37,
+   0,
+   "IMAGE"
+  ],
+  [
+   48,
+   19,
+   0,
+   38,
+   0,
+   "CLIP"
+  ],
+  [
+   49,
+   38,
+   0,
+   39,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   50,
+   36,
+   0,
+   40,
+   0,
+   "IMAGE"
+  ],
+  [
+   51,
+   40,
+   0,
+   41,
+   0,
+   "IMAGE"
+  ],
+  [
+   52,
+   20,
+   0,
+   41,
+   1,
+   "VAE"
+  ],
+  [
+   53,
+   38,
+   0,
+   42,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   54,
+   41,
+   0,
+   42,
+   1,
+   "LATENT"
+  ],
+  [
+   55,
+   39,
+   0,
+   43,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   56,
+   41,
+   0,
+   43,
+   1,
+   "LATENT"
+  ],
+  [
+   57,
+   44,
+   0,
+   45,
+   0,
+   "IMAGE"
+  ],
+  [
+   58,
+   45,
+   0,
+   46,
+   0,
+   "IMAGE"
+  ],
+  [
+   59,
+   20,
+   0,
+   46,
+   1,
+   "VAE"
+  ],
+  [
+   60,
+   42,
+   0,
+   47,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   61,
+   46,
+   0,
+   47,
+   1,
+   "LATENT"
+  ],
+  [
+   62,
+   43,
+   0,
+   48,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   63,
+   46,
+   0,
+   48,
+   1,
+   "LATENT"
+  ],
+  [
+   64,
+   18,
+   0,
+   49,
+   0,
+   "MODEL"
+  ],
+  [
+   65,
+   47,
+   0,
+   49,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   66,
+   48,
+   0,
+   49,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   67,
+   50,
+   0,
+   51,
+   0,
+   "NOISE"
+  ],
+  [
+   68,
+   49,
+   0,
+   51,
+   1,
+   "GUIDER"
+  ],
+  [
+   69,
+   32,
+   0,
+   51,
+   2,
+   "SAMPLER"
+  ],
+  [
+   70,
+   31,
+   0,
+   51,
+   3,
+   "SIGMAS"
+  ],
+  [
+   71,
+   34,
+   0,
+   51,
+   4,
+   "LATENT"
+  ],
+  [
+   72,
+   51,
+   0,
+   52,
+   0,
+   "LATENT"
+  ],
+  [
+   73,
+   20,
+   0,
+   52,
+   1,
+   "VAE"
+  ],
+  [
+   74,
+   52,
+   0,
+   53,
+   0,
+   "IMAGE"
+  ],
+  [
+   75,
+   19,
+   0,
+   54,
+   0,
+   "CLIP"
+  ],
+  [
+   76,
+   54,
+   0,
+   55,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   77,
+   52,
+   0,
+   56,
+   0,
+   "IMAGE"
+  ],
+  [
+   78,
+   56,
+   0,
+   57,
+   0,
+   "IMAGE"
+  ],
+  [
+   79,
+   20,
+   0,
+   57,
+   1,
+   "VAE"
+  ],
+  [
+   80,
+   54,
+   0,
+   58,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   81,
+   57,
+   0,
+   58,
+   1,
+   "LATENT"
+  ],
+  [
+   82,
+   55,
+   0,
+   59,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   83,
+   57,
+   0,
+   59,
+   1,
+   "LATENT"
+  ],
+  [
+   84,
+   58,
+   0,
+   60,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   85,
+   46,
+   0,
+   60,
+   1,
+   "LATENT"
+  ],
+  [
+   86,
+   59,
+   0,
+   61,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   87,
+   46,
+   0,
+   61,
+   1,
+   "LATENT"
+  ],
+  [
+   88,
+   18,
+   0,
+   62,
+   0,
+   "MODEL"
+  ],
+  [
+   89,
+   60,
+   0,
+   62,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   90,
+   61,
+   0,
+   62,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   91,
+   63,
+   0,
+   64,
+   0,
+   "NOISE"
+  ],
+  [
+   92,
+   62,
+   0,
+   64,
+   1,
+   "GUIDER"
+  ],
+  [
+   93,
+   32,
+   0,
+   64,
+   2,
+   "SAMPLER"
+  ],
+  [
+   94,
+   31,
+   0,
+   64,
+   3,
+   "SIGMAS"
+  ],
+  [
+   95,
+   34,
+   0,
+   64,
+   4,
+   "LATENT"
+  ],
+  [
+   96,
+   64,
+   0,
+   65,
+   0,
+   "LATENT"
+  ],
+  [
+   97,
+   20,
+   0,
+   65,
+   1,
+   "VAE"
+  ],
+  [
+   98,
+   65,
+   0,
+   66,
+   0,
+   "IMAGE"
+  ],
+  [
+   99,
+   19,
+   0,
+   67,
+   0,
+   "CLIP"
+  ],
+  [
+   100,
+   67,
+   0,
+   68,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   101,
+   65,
+   0,
+   69,
+   0,
+   "IMAGE"
+  ],
+  [
+   102,
+   69,
+   0,
+   70,
+   0,
+   "IMAGE"
+  ],
+  [
+   103,
+   20,
+   0,
+   70,
+   1,
+   "VAE"
+  ],
+  [
+   104,
+   67,
+   0,
+   71,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   105,
+   70,
+   0,
+   71,
+   1,
+   "LATENT"
+  ],
+  [
+   106,
+   68,
+   0,
+   72,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   107,
+   70,
+   0,
+   72,
+   1,
+   "LATENT"
+  ],
+  [
+   108,
+   71,
+   0,
+   73,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   109,
+   46,
+   0,
+   73,
+   1,
+   "LATENT"
+  ],
+  [
+   110,
+   72,
+   0,
+   74,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   111,
+   46,
+   0,
+   74,
+   1,
+   "LATENT"
+  ],
+  [
+   112,
+   18,
+   0,
+   75,
+   0,
+   "MODEL"
+  ],
+  [
+   113,
+   73,
+   0,
+   75,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   114,
+   74,
+   0,
+   75,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   115,
+   76,
+   0,
+   77,
+   0,
+   "NOISE"
+  ],
+  [
+   116,
+   75,
+   0,
+   77,
+   1,
+   "GUIDER"
+  ],
+  [
+   117,
+   32,
+   0,
+   77,
+   2,
+   "SAMPLER"
+  ],
+  [
+   118,
+   31,
+   0,
+   77,
+   3,
+   "SIGMAS"
+  ],
+  [
+   119,
+   34,
+   0,
+   77,
+   4,
+   "LATENT"
+  ],
+  [
+   120,
+   77,
+   0,
+   78,
+   0,
+   "LATENT"
+  ],
+  [
+   121,
+   20,
+   0,
+   78,
+   1,
+   "VAE"
+  ],
+  [
+   122,
+   78,
+   0,
+   79,
+   0,
+   "IMAGE"
+  ],
+  [
+   123,
+   19,
+   0,
+   80,
+   0,
+   "CLIP"
+  ],
+  [
+   124,
+   80,
+   0,
+   81,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   125,
+   78,
+   0,
+   82,
+   0,
+   "IMAGE"
+  ],
+  [
+   126,
+   82,
+   0,
+   83,
+   0,
+   "IMAGE"
+  ],
+  [
+   127,
+   20,
+   0,
+   83,
+   1,
+   "VAE"
+  ],
+  [
+   128,
+   80,
+   0,
+   84,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   129,
+   83,
+   0,
+   84,
+   1,
+   "LATENT"
+  ],
+  [
+   130,
+   81,
+   0,
+   85,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   131,
+   83,
+   0,
+   85,
+   1,
+   "LATENT"
+  ],
+  [
+   132,
+   84,
+   0,
+   86,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   133,
+   46,
+   0,
+   86,
+   1,
+   "LATENT"
+  ],
+  [
+   134,
+   85,
+   0,
+   87,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   135,
+   46,
+   0,
+   87,
+   1,
+   "LATENT"
+  ],
+  [
+   136,
+   18,
+   0,
+   88,
+   0,
+   "MODEL"
+  ],
+  [
+   137,
+   86,
+   0,
+   88,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   138,
+   87,
+   0,
+   88,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   139,
+   89,
+   0,
+   90,
+   0,
+   "NOISE"
+  ],
+  [
+   140,
+   88,
+   0,
+   90,
+   1,
+   "GUIDER"
+  ],
+  [
+   141,
+   32,
+   0,
+   90,
+   2,
+   "SAMPLER"
+  ],
+  [
+   142,
+   31,
+   0,
+   90,
+   3,
+   "SIGMAS"
+  ],
+  [
+   143,
+   34,
+   0,
+   90,
+   4,
+   "LATENT"
+  ],
+  [
+   144,
+   90,
+   0,
+   91,
+   0,
+   "LATENT"
+  ],
+  [
+   145,
+   20,
+   0,
+   91,
+   1,
+   "VAE"
+  ],
+  [
+   146,
+   91,
+   0,
+   92,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.6,
+   "offset": [
+    40,
+    460
+   ]
+  },
+  "title": "2_turtle_02"
+ },
+ "version": 0.4,
+ "groups": []
+}

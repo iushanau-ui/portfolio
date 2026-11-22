@@ -1,0 +1,975 @@
+{
+ "s1_unet": {
+  "class_type": "UnetLoaderGGUF",
+  "inputs": {
+   "unet_name": "flux-2-klein-9b-Q8_0.gguf"
+  }
+ },
+ "s1_clip": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+   "type": "flux2",
+   "device": "default"
+  }
+ },
+ "s1_vae": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "flux2-vae.safetensors"
+  }
+ },
+ "s1_pos": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "s1_clip",
+    0
+   ],
+   "text": "Vertical 9:16 frame in exactly the same 3D animated style as image 1 (Royal Match mobile game cinematic): stylized cartoon 3D characters, soft low-contrast lighting, clean saturated colors, smooth appealing shapes, Pixar-like render quality. a cute child-sized cyclops creature with chibi proportions: a big round head with ONE single large expressive eye in the center of the face (only one eye, no second eye), soft pastel mint-green skin, a small curved horn on top of the head, a messy tuft of dark hair, small pointy ears, rosy cheeks, a round little belly, short stubby legs, wearing a simple fantasy villager outfit - a beige linen tunic with a brown leather belt, olive green trousers, small brown boots, a little cloth satchel. He stands on a sunny flowery meadow in the lower third of the frame, looking up at the sky with surprised wonder, mouth open in a small 'oh'. High in the blue sky in the upper right a colorful striped hot-air balloon with a wicker basket floats. Background: cozy fantasy wooded foothills, rolling green hills with round fluffy trees, a winding path, distant soft mountains, a few small fluffy clouds. Full body of the cyclops visible, gentle morning sunlight, no text, no logos."
+  }
+ },
+ "s1_zero": {
+  "class_type": "ConditioningZeroOut",
+  "inputs": {
+   "conditioning": [
+    "s1_pos",
+    0
+   ]
+  }
+ },
+ "s1_ref1": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "stark_pdf_p3_2.png"
+  }
+ },
+ "s1_rs1": {
+  "class_type": "ImageScaleToTotalPixels",
+  "inputs": {
+   "image": [
+    "s1_ref1",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "megapixels": 1.0,
+   "resolution_steps": 1
+  }
+ },
+ "s1_enc1": {
+  "class_type": "VAEEncode",
+  "inputs": {
+   "pixels": [
+    "s1_rs1",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s1_rp1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s1_pos",
+    0
+   ],
+   "latent": [
+    "s1_enc1",
+    0
+   ]
+  }
+ },
+ "s1_rn1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s1_zero",
+    0
+   ],
+   "latent": [
+    "s1_enc1",
+    0
+   ]
+  }
+ },
+ "s1_guider": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "model": [
+    "s1_unet",
+    0
+   ],
+   "positive": [
+    "s1_rp1",
+    0
+   ],
+   "negative": [
+    "s1_rn1",
+    0
+   ],
+   "cfg": 1.0
+  }
+ },
+ "s1_sched": {
+  "class_type": "Flux2Scheduler",
+  "inputs": {
+   "steps": 4,
+   "width": 720,
+   "height": 1280
+  }
+ },
+ "s1_smp": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "euler"
+  }
+ },
+ "s1_noise": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 1012
+  }
+ },
+ "s1_lat": {
+  "class_type": "EmptyFlux2LatentImage",
+  "inputs": {
+   "width": 720,
+   "height": 1280,
+   "batch_size": 1
+  }
+ },
+ "s1_run": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "s1_noise",
+    0
+   ],
+   "guider": [
+    "s1_guider",
+    0
+   ],
+   "sampler": [
+    "s1_smp",
+    0
+   ],
+   "sigmas": [
+    "s1_sched",
+    0
+   ],
+   "latent_image": [
+    "s1_lat",
+    0
+   ]
+  }
+ },
+ "s1_dec": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "s1_run",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s1_save": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "s1_dec",
+    0
+   ],
+   "filename_prefix": "3_video_step1"
+  }
+ },
+ "s2_pos": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "s1_clip",
+    0
+   ],
+   "text": "Wide shot, camera slightly behind and to the left side of the character at his eye level. A sunny flowery meadow with a dirt path leading away into cozy fantasy wooded foothills, round fluffy trees, distant soft mountains. Ahead, in the upper right of the sky, fairly low above the trees, the striped hot-air balloon with its wicker basket floats - it is in front of the character, in the direction he is walking. The cyclops is just entering the frame at the lower left edge, seen from behind in three-quarter back view, walking away from the camera toward the balloon along the path, mid-step; we see his messy dark hair, small horn, pointy ear and a bit of his cheek. Same cyclops design as image 1 (mint-green skin, beige linen tunic, brown belt and satchel, olive trousers, brown boots), same balloon, same landscape and the same stylized 3D cartoon look (Royal Match / Pixar style, soft low-contrast light, clean saturated colors). Vertical 9:16 frame, no text."
+  }
+ },
+ "s2_zero": {
+  "class_type": "ConditioningZeroOut",
+  "inputs": {
+   "conditioning": [
+    "s2_pos",
+    0
+   ]
+  }
+ },
+ "s2_rs1": {
+  "class_type": "ImageScaleToTotalPixels",
+  "inputs": {
+   "image": [
+    "s1_dec",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "megapixels": 1.0,
+   "resolution_steps": 1
+  }
+ },
+ "s2_enc1": {
+  "class_type": "VAEEncode",
+  "inputs": {
+   "pixels": [
+    "s2_rs1",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s2_rp1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s2_pos",
+    0
+   ],
+   "latent": [
+    "s2_enc1",
+    0
+   ]
+  }
+ },
+ "s2_rn1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s2_zero",
+    0
+   ],
+   "latent": [
+    "s2_enc1",
+    0
+   ]
+  }
+ },
+ "s2_guider": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "model": [
+    "s1_unet",
+    0
+   ],
+   "positive": [
+    "s2_rp1",
+    0
+   ],
+   "negative": [
+    "s2_rn1",
+    0
+   ],
+   "cfg": 1.0
+  }
+ },
+ "s2_noise": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 6001
+  }
+ },
+ "s2_run": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "s2_noise",
+    0
+   ],
+   "guider": [
+    "s2_guider",
+    0
+   ],
+   "sampler": [
+    "s1_smp",
+    0
+   ],
+   "sigmas": [
+    "s1_sched",
+    0
+   ],
+   "latent_image": [
+    "s1_lat",
+    0
+   ]
+  }
+ },
+ "s2_dec": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "s2_run",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s2_save": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "s2_dec",
+    0
+   ],
+   "filename_prefix": "3_video_step2"
+  }
+ },
+ "s3_pos": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "s1_clip",
+    0
+   ],
+   "text": "Same scene, same camera, same landscape and the same hot-air balloon in the upper right as image 1. The cyclops has walked a few steps forward along the path and now stands in the lower middle of the frame. Next to him on the grass to the right lies a small plain wooden crate tied with rope, about knee-high to him, with a small white parachute collapsed beside it. He has turned half toward us: his face is in three-quarter view looking up at the balloon, his ONE single big eye (cyclops, only one eye, like image 2) visible and happy, a big smile; he raises his right arm high toward the balloon giving a clear thumbs-up, the thumb pointing up against the sky. Same character design as image 2. Same stylized 3D cartoon look. Vertical 9:16, no text."
+  }
+ },
+ "s3_zero": {
+  "class_type": "ConditioningZeroOut",
+  "inputs": {
+   "conditioning": [
+    "s3_pos",
+    0
+   ]
+  }
+ },
+ "s3_rs1": {
+  "class_type": "ImageScaleToTotalPixels",
+  "inputs": {
+   "image": [
+    "s2_dec",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "megapixels": 1.0,
+   "resolution_steps": 1
+  }
+ },
+ "s3_enc1": {
+  "class_type": "VAEEncode",
+  "inputs": {
+   "pixels": [
+    "s3_rs1",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s3_rp1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s3_pos",
+    0
+   ],
+   "latent": [
+    "s3_enc1",
+    0
+   ]
+  }
+ },
+ "s3_rn1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s3_zero",
+    0
+   ],
+   "latent": [
+    "s3_enc1",
+    0
+   ]
+  }
+ },
+ "s3_rp2": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s3_rp1",
+    0
+   ],
+   "latent": [
+    "s2_enc1",
+    0
+   ]
+  }
+ },
+ "s3_rn2": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s3_rn1",
+    0
+   ],
+   "latent": [
+    "s2_enc1",
+    0
+   ]
+  }
+ },
+ "s3_guider": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "model": [
+    "s1_unet",
+    0
+   ],
+   "positive": [
+    "s3_rp2",
+    0
+   ],
+   "negative": [
+    "s3_rn2",
+    0
+   ],
+   "cfg": 1.0
+  }
+ },
+ "s3_noise": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 6101
+  }
+ },
+ "s3_run": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "s3_noise",
+    0
+   ],
+   "guider": [
+    "s3_guider",
+    0
+   ],
+   "sampler": [
+    "s1_smp",
+    0
+   ],
+   "sigmas": [
+    "s1_sched",
+    0
+   ],
+   "latent_image": [
+    "s1_lat",
+    0
+   ]
+  }
+ },
+ "s3_dec": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "s3_run",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s3_save": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "s3_dec",
+    0
+   ],
+   "filename_prefix": "3_video_step3"
+  }
+ },
+ "s4_pos": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "s1_clip",
+    0
+   ],
+   "text": "Move the striped hot-air balloon much closer to the camera and much lower: the balloon is now large, floating low above the meadow just a little behind and above the cyclops, its wicker basket only a few meters above the ground near the wooden crate, the balloon envelope fills the upper part of the frame and is partly cropped by the top edge. Keep the cyclops exactly the same (same pose, thumbs-up toward the balloon, same face with one eye, same clothes and satchel), keep the wooden crate and white parachute on the grass next to him, keep the path, trees, mountains, sky and the 3D cartoon style, soft daylight. The thumbs-up and his gaze point up at the balloon basket."
+  }
+ },
+ "s4_zero": {
+  "class_type": "ConditioningZeroOut",
+  "inputs": {
+   "conditioning": [
+    "s4_pos",
+    0
+   ]
+  }
+ },
+ "s4_rs1": {
+  "class_type": "ImageScaleToTotalPixels",
+  "inputs": {
+   "image": [
+    "s3_dec",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "megapixels": 1.0,
+   "resolution_steps": 1
+  }
+ },
+ "s4_enc1": {
+  "class_type": "VAEEncode",
+  "inputs": {
+   "pixels": [
+    "s4_rs1",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s4_rp1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s4_pos",
+    0
+   ],
+   "latent": [
+    "s4_enc1",
+    0
+   ]
+  }
+ },
+ "s4_rn1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s4_zero",
+    0
+   ],
+   "latent": [
+    "s4_enc1",
+    0
+   ]
+  }
+ },
+ "s4_guider": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "model": [
+    "s1_unet",
+    0
+   ],
+   "positive": [
+    "s4_rp1",
+    0
+   ],
+   "negative": [
+    "s4_rn1",
+    0
+   ],
+   "cfg": 1.0
+  }
+ },
+ "s4_noise": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 14
+  }
+ },
+ "s4_run": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "s4_noise",
+    0
+   ],
+   "guider": [
+    "s4_guider",
+    0
+   ],
+   "sampler": [
+    "s1_smp",
+    0
+   ],
+   "sigmas": [
+    "s1_sched",
+    0
+   ],
+   "latent_image": [
+    "s1_lat",
+    0
+   ]
+  }
+ },
+ "s4_dec": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "s4_run",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s4_save": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "s4_dec",
+    0
+   ],
+   "filename_prefix": "3_video_step4"
+  }
+ },
+ "s5_pos": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "s1_clip",
+    0
+   ],
+   "text": "Remove the green cyclops character, the wooden crate and the white parachute completely. Keep everything else exactly the same: the large striped hot-air balloon in the same place and size, the meadow, dirt path, grass, flowers, trees, mountains, clouds and sky, same 3D cartoon style and lighting. Empty scene, nobody on the path, nothing on the grass."
+  }
+ },
+ "s5_zero": {
+  "class_type": "ConditioningZeroOut",
+  "inputs": {
+   "conditioning": [
+    "s5_pos",
+    0
+   ]
+  }
+ },
+ "s5_rs1": {
+  "class_type": "ImageScaleToTotalPixels",
+  "inputs": {
+   "image": [
+    "s4_dec",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "megapixels": 1.0,
+   "resolution_steps": 1
+  }
+ },
+ "s5_enc1": {
+  "class_type": "VAEEncode",
+  "inputs": {
+   "pixels": [
+    "s5_rs1",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s5_rp1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s5_pos",
+    0
+   ],
+   "latent": [
+    "s5_enc1",
+    0
+   ]
+  }
+ },
+ "s5_rn1": {
+  "class_type": "ReferenceLatent",
+  "inputs": {
+   "conditioning": [
+    "s5_zero",
+    0
+   ],
+   "latent": [
+    "s5_enc1",
+    0
+   ]
+  }
+ },
+ "s5_guider": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "model": [
+    "s1_unet",
+    0
+   ],
+   "positive": [
+    "s5_rp1",
+    0
+   ],
+   "negative": [
+    "s5_rn1",
+    0
+   ],
+   "cfg": 1.0
+  }
+ },
+ "s5_noise": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 2
+  }
+ },
+ "s5_run": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "s5_noise",
+    0
+   ],
+   "guider": [
+    "s5_guider",
+    0
+   ],
+   "sampler": [
+    "s1_smp",
+    0
+   ],
+   "sigmas": [
+    "s1_sched",
+    0
+   ],
+   "latent_image": [
+    "s1_lat",
+    0
+   ]
+  }
+ },
+ "s5_dec": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "s5_run",
+    0
+   ],
+   "vae": [
+    "s1_vae",
+    0
+   ]
+  }
+ },
+ "s5_save": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "s5_dec",
+    0
+   ],
+   "filename_prefix": "3_video_step5"
+  }
+ },
+ "s6_unet": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "s6_clip": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+   "type": "minimax",
+   "device": "default"
+  }
+ },
+ "s6_vae": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "minimax_h3_video_vae_int8_convrot.safetensors"
+  }
+ },
+ "s6_avae": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+  }
+ },
+ "s6_fs": {
+  "class_type": "ImageScale",
+  "inputs": {
+   "image": [
+    "s5_dec",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "width": 704,
+   "height": 1248,
+   "crop": "center"
+  }
+ },
+ "s6_i2v": {
+  "class_type": "MiniMaxH3ImageToVideo",
+  "inputs": {
+   "clip": [
+    "s6_clip",
+    0
+   ],
+   "vae": [
+    "s6_vae",
+    0
+   ],
+   "prompt": "Stylized 3D cartoon animation in the style of the Royal Match mobile game cinematic, Pixar-like, soft low-contrast daylight, clean saturated colors, cozy fantasy wooded foothills. One continuous shot, Important: no scene change, no cuts. The character is a cute chibi child-sized cyclops: mint-green skin, a single large central eye (cyclops, only one eye), small horn, messy dark hair, pointy ears, beige linen tunic, brown satchel.\n\nTimeline:\n[0s-3s] The cyclops walks into the frame from the lower left edge and keeps walking forward several clear steps along the dirt path toward the hot-air balloon, with small bouncy steps, seen from behind; the camera slowly follows him.\n[3s-5s] He stops, notices the big striped hot-air balloon hovering low and close, right above the meadow in front of him, tilts his head up and turns half toward us: his single big eye opens wide in surprise, mouth in a small 'oh'.\n[5s-9s] A small wooden crate drops out of the low balloon's basket just a few meters above the meadow, a small plain white parachute pops open above it, and the crate floats gently down, swaying. The balloon keeps the same size and position, close to the camera.\n[9s-11s] The crate lands softly on the grass right next to him with a little puff of dust, the parachute collapses beside it; he watches it, amazed.\n[11s-12s] He looks up at the balloon with a big happy closed-mouth smile and raises his arm giving a clear thumbs-up toward the balloon, holding the pose; his mouth stays still in the smile, he does not talk, shout or cheer.\n\nSound: only natural sound effects - soft footsteps on grass, light breeze and distant birds, the whoosh of the balloon burner, the pop of the parachute opening, a soft wooden thud when the crate lands. No music, no voice, no speech, no exclamations: the character is silent the whole time, his mouth never moves as if talking.",
+   "width": 704,
+   "height": 1248,
+   "length": 294,
+   "first_frame": [
+    "s6_fs",
+    0
+   ],
+   "last_frame": [
+    "s6_ls",
+    0
+   ]
+  }
+ },
+ "s6_noise": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 9002
+  }
+ },
+ "s6_smp": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "res_multistep"
+  }
+ },
+ "s6_sch": {
+  "class_type": "BasicScheduler",
+  "inputs": {
+   "model": [
+    "s6_unet",
+    0
+   ],
+   "scheduler": "simple",
+   "steps": 20,
+   "denoise": 1.0
+  }
+ },
+ "s6_guide": {
+  "class_type": "BasicGuider",
+  "inputs": {
+   "model": [
+    "s6_unet",
+    0
+   ],
+   "conditioning": [
+    "s6_i2v",
+    0
+   ]
+  }
+ },
+ "s6_run": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "s6_noise",
+    0
+   ],
+   "guider": [
+    "s6_guide",
+    0
+   ],
+   "sampler": [
+    "s6_smp",
+    0
+   ],
+   "sigmas": [
+    "s6_sch",
+    0
+   ],
+   "latent_image": [
+    "s6_i2v",
+    1
+   ]
+  }
+ },
+ "s6_dec": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "s6_run",
+    0
+   ],
+   "vae": [
+    "s6_vae",
+    0
+   ]
+  }
+ },
+ "s6_adec": {
+  "class_type": "VAEDecodeAudio",
+  "inputs": {
+   "samples": [
+    "s6_run",
+    0
+   ],
+   "vae": [
+    "s6_avae",
+    0
+   ]
+  }
+ },
+ "s6_save": {
+  "class_type": "VHS_VideoCombine",
+  "inputs": {
+   "images": [
+    "s6_dec",
+    0
+   ],
+   "audio": [
+    "s6_adec",
+    0
+   ],
+   "frame_rate": 24,
+   "loop_count": 0,
+   "filename_prefix": "3_video_step6",
+   "format": "video/h264-mp4",
+   "pix_fmt": "yuv420p",
+   "crf": 16,
+   "save_metadata": false,
+   "pingpong": false,
+   "save_output": true,
+   "trim_to_audio": false
+  }
+ },
+ "s6_ls": {
+  "class_type": "ImageScale",
+  "inputs": {
+   "image": [
+    "s4_dec",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "width": 704,
+   "height": 1248,
+   "crop": "center"
+  }
+ }
+}

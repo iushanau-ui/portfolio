@@ -1,0 +1,787 @@
+{
+ "last_node_id": 15,
+ "last_link_id": 18,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    0,
+    34
+   ],
+   "size": [
+    340,
+    98
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "qwen_image_edit_2511_fp8_e4m3fn_scaled_lightning_comfyui_4steps_v1.0.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [
+    0,
+    226
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      4,
+      7
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+    "qwen_image",
+    "default"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "VAELoader",
+   "pos": [
+    0,
+    444
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      5,
+      8,
+      17
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    580,
+    34
+   ],
+   "size": [
+    340,
+    98
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      2
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow"
+   },
+   "widgets_values": [
+    3.1,
+    "flow"
+   ]
+  },
+  {
+   "id": 5,
+   "type": "CFGNorm",
+   "pos": [
+    1040,
+    68.0
+   ],
+   "size": [
+    340,
+    98
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "patched_model",
+     "type": "MODEL",
+     "links": [
+      12
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGNorm"
+   },
+   "widgets_values": [
+    1.0,
+    false
+   ]
+  },
+  {
+   "id": 6,
+   "type": "LoadImage",
+   "pos": [
+    0,
+    610
+   ],
+   "size": [
+    340,
+    380
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "stark_grandpa_ref.png",
+    "image"
+   ]
+  },
+  {
+   "id": 7,
+   "type": "ImageScaleToTotalPixels",
+   "pos": [
+    580,
+    226
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      6,
+      9
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToTotalPixels"
+   },
+   "widgets_values": [
+    "lanczos",
+    1.0,
+    1
+   ]
+  },
+  {
+   "id": 8,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [
+    1040,
+    260.0
+   ],
+   "size": [
+    340,
+    270
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 5
+    },
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 6
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      10
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextEncodeQwenImageEditPlus"
+   },
+   "widgets_values": [
+    "Convert this 2D illustration into a stylized 3D cartoon render in the style of the Royal Match mobile game: soft Pixar-like 3D, smooth rounded forms, glossy materials, soft studio lighting, subtle rim light, clean saturated colors. Keep the same character, face, white curly beard and moustache, white ponytail, gold earring, purple tricorn hat with red X mark, white-lavender striped shirt, purple vest with orange trim, brown crossbody strap with gold buckle, red sash, brown trousers, light brown boots, blue wristband, red cuff, the same waving pose and framing, plain gray background."
+   ]
+  },
+  {
+   "id": 9,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [
+    1040,
+    624.0
+   ],
+   "size": [
+    340,
+    270
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 7
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 8
+    },
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 9
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      11
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextEncodeQwenImageEditPlus"
+   },
+   "widgets_values": [
+    ""
+   ]
+  },
+  {
+   "id": 10,
+   "type": "FluxKontextMultiReferenceLatentMethod",
+   "pos": [
+    1500,
+    393.0
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      13
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FluxKontextMultiReferenceLatentMethod"
+   },
+   "widgets_values": [
+    "index_timestep_zero"
+   ]
+  },
+  {
+   "id": 11,
+   "type": "FluxKontextMultiReferenceLatentMethod",
+   "pos": [
+    1500,
+    757.0
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      14
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "FluxKontextMultiReferenceLatentMethod"
+   },
+   "widgets_values": [
+    "index_timestep_zero"
+   ]
+  },
+  {
+   "id": 12,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1500,
+    34
+   ],
+   "size": [
+    340,
+    124
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      15
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage"
+   },
+   "widgets_values": [
+    784,
+    1312,
+    1
+   ]
+  },
+  {
+   "id": 13,
+   "type": "KSampler",
+   "pos": [
+    1960,
+    258.75
+   ],
+   "size": [
+    340,
+    268
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 12
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 13
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 14
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      16
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler"
+   },
+   "widgets_values": [
+    11,
+    "fixed",
+    4,
+    1.0,
+    "euler",
+    "simple",
+    1.0
+   ]
+  },
+  {
+   "id": 14,
+   "type": "VAEDecode",
+   "pos": [
+    2420,
+    436.375
+   ],
+   "size": [
+    340,
+    68
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 16
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      18
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 15,
+   "type": "SaveImage",
+   "pos": [
+    2880,
+    468.375
+   ],
+   "size": [
+    340,
+    72
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 18
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "stark/qwen"
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   4,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   4,
+   0,
+   5,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   6,
+   0,
+   7,
+   0,
+   "IMAGE"
+  ],
+  [
+   4,
+   2,
+   0,
+   8,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   3,
+   0,
+   8,
+   1,
+   "VAE"
+  ],
+  [
+   6,
+   7,
+   0,
+   8,
+   2,
+   "IMAGE"
+  ],
+  [
+   7,
+   2,
+   0,
+   9,
+   0,
+   "CLIP"
+  ],
+  [
+   8,
+   3,
+   0,
+   9,
+   1,
+   "VAE"
+  ],
+  [
+   9,
+   7,
+   0,
+   9,
+   2,
+   "IMAGE"
+  ],
+  [
+   10,
+   8,
+   0,
+   10,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   9,
+   0,
+   11,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   12,
+   5,
+   0,
+   13,
+   0,
+   "MODEL"
+  ],
+  [
+   13,
+   10,
+   0,
+   13,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   14,
+   11,
+   0,
+   13,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   15,
+   12,
+   0,
+   13,
+   3,
+   "LATENT"
+  ],
+  [
+   16,
+   13,
+   0,
+   14,
+   0,
+   "LATENT"
+  ],
+  [
+   17,
+   3,
+   0,
+   14,
+   1,
+   "VAE"
+  ],
+  [
+   18,
+   14,
+   0,
+   15,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.6,
+   "offset": [
+    40,
+    460
+   ]
+  },
+  "title": "1a_royalmatch3d_02_qwenedit"
+ },
+ "version": 0.4,
+ "groups": []
+}
